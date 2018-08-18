@@ -7,6 +7,7 @@ project(p4)
 
 ##### Include
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/model)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/view)
 
@@ -14,6 +15,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/view)
 
 set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/game_p4.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/model/cell.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/model/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/view/view_ascii.cpp

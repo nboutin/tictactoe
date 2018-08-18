@@ -1,26 +1,32 @@
 
-#include "board.h"
+#include <iostream>
+
+#include "game_p4.h"
 #include "view_ascii.h"
 
 using namespace p4;
 using namespace view;
+using namespace std;
 
 // https://gist.github.com/application2000/73fd6f4bf1be6600a2cf9f56315a2d91
 
 int main(int argc, char* argv[])
 {
-    Board board;
-
-    View_ASCII view(board);
-
+    Game_P4 game;
+    View_ASCII view(game.get_board());
     view.display();
 
-    auto piece = std::make_unique<Token>(Token::color_e::red);
+    while(game.is_finished() == false)
+    {
+        auto current_player = game.get_current_player();
 
-    board.play(0, std::move(piece));
-    view.display();
+        cout << "Enter column:";
+        int y = 0;
+        cin >> y;
 
-    piece = std::make_unique<Token>(Token::color_e::yellow);
-    board.play(0, std::move(piece));
-    view.display();
+        auto token = std::make_unique<Token>(current_player.get_color());
+        game.play(y, move(token));
+
+        view.display();
+    }
 }
