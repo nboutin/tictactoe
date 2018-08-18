@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "board.h"
 
 namespace view
@@ -8,14 +11,16 @@ namespace view
 class View_ASCII
 {
 public:
-	View_ASCII(const p4::Board& board);
+    View_ASCII(const p4::Board& board);
 
-	void display();
+    void display();
+
+    void message(const std::string& msg);
 
 private:
+    std::string cell_to_print(const p4::Cell& cell) const;
 
-	std::string cell_to_print(const p4::Cell& cell);
-
-	const p4::Board& board;
+    const p4::Board& board;
+    std::vector<std::string> msgs;
 };
 }

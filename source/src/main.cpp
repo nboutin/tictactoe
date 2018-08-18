@@ -14,24 +14,24 @@ int main(int argc, char* argv[])
 {
     Game_P4 game;
     View_ASCII view(game.get_board());
+
+    view.message(game.get_current_player().get_name() + ":");
     view.display();
 
     while(game.is_finished() == false)
     {
-        auto current_player = game.get_current_player();
-
-        cout << current_player.get_name() << ":";
         int y = 0;
         cin >> y;
 
-        auto token = std::make_unique<Token>(current_player.get_color());
+        auto token = std::make_unique<Token>(game.get_current_player().get_color());
         auto r     = game.play(y, move(token));
 
-        view.display();
         if(r == false)
-        {
-            cout << "invalid" << endl;
-        }
+            view.message("Input is invalid");
+
+        view.message(game.get_current_player().get_name() + ":");
+        view.display();
     }
-    cout << "Game is finished" << endl;
+    view.message("Game is finished");
+    view.display();
 }

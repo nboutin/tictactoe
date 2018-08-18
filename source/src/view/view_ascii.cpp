@@ -23,10 +23,18 @@ void View_ASCII::display()
         }
         cout << '\n';
     }
-    cout << endl;
+    cout << '\n';
+
+    for(const auto& msg : msgs)
+        cout << msg << '\n';
+
+    cout << flush;
+    msgs.clear();
 }
 
-string View_ASCII::cell_to_print(const Cell& cell)
+void View_ASCII::message(const std::string& msg) { msgs.push_back(msg); }
+
+string View_ASCII::cell_to_print(const Cell& cell) const
 {
     if(cell.is_empty())
         return "\033[4;44m \033[0m";
@@ -37,7 +45,7 @@ string View_ASCII::cell_to_print(const Cell& cell)
         if(piece.get_color() == Token::color_e::red)
             return "\033[1;31;44mO\033[0m";
         else
-        	return "\033[1;33;44mO\033[0m";
+            return "\033[1;33;44mO\033[0m";
     }
     return "E";
 }
