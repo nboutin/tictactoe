@@ -29,5 +29,6 @@ private:
     Player current_player;
 
     Board board;
+    mutable bool finished = false;
 };
 }

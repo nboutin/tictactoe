@@ -12,6 +12,9 @@ Game_P4::Game_P4()
 
 bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
 {
+    if(finished)
+        return false;
+
     if(!board.play(x, move(token)))
         return false;
 
@@ -37,7 +40,8 @@ bool Game_P4::is_finished() const
 
     auto is_winner = is_winner_vertically(b) || is_winner_horizontally(b);
 
-    return !space_available || is_winner;
+    finished = !space_available || is_winner;
+    return finished;
 }
 
 void Game_P4::compute_next_player()
@@ -50,7 +54,6 @@ void Game_P4::compute_next_player()
 
 bool Game_P4::is_winner_vertically(const Board::board_t& b) const
 {
-    // Vertically
     for(int x = 0; x < Board::N_COLUMN; ++x)
     {
         int red    = 0;
@@ -83,4 +86,36 @@ bool Game_P4::is_winner_vertically(const Board::board_t& b) const
     return false;
 }
 
-bool Game_P4::is_winner_horizontally(const Board::board_t& b) const { return false; }
+bool Game_P4::is_winner_horizontally(const Board::board_t& b) const
+{
+    for(int y = 0; y < Board::N_ROW; ++y)
+    {
+        int red    = 0;
+        int yellow = 0;
+        for(int x = 0; x < Board::N_COLUMN; ++x)
+        {
+            const auto& cell = b[x][y];
+            if(cell.is_empty())
+            {
+                red    = 0;
+                yellow = 0;
+                continue;
+            }
+
+            if(cell.get_token().get_color() == Token::color_e::red)
+            {
+                red++;
+                yellow = 0;
+            }
+            else
+            {
+                yellow++;
+                red = 0;
+            }
+
+            if(red >= 4 || yellow >= 4)
+                return true;
+        }
+    }
+    return false;
+}
