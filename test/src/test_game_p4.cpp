@@ -8,8 +8,8 @@ using namespace p4;
 TEST_CASE("current player", "[game_p4]")
 {
     Game_P4 game;
-    Player p1("p1", Token::color_e::red);
-    Player p2("p2", Token::color_e::yellow);
+    Player p1("Player 1", Token::color_e::red);
+    Player p2("Player 2", Token::color_e::yellow);
 
     auto current_player = game.get_current_player();
     REQUIRE(current_player == p1);
@@ -61,7 +61,6 @@ TEST_CASE("no more free cell", "[game_p4]")
     REQUIRE(game.is_finished());
 }
 
-#include "view_ascii.h"
 TEST_CASE("is winner vertically", "[game_p4]")
 {
     Game_P4 game;
@@ -151,9 +150,6 @@ TEST_CASE("is winner vertically", "[game_p4]")
 
         token = std::make_unique<Token>(game.get_current_player().get_color());
         game.play(2, move(token));
-
-        view::View_ASCII v(game.get_board());
-        v.display();
 
         REQUIRE(game.is_finished());
     }

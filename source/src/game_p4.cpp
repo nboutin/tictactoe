@@ -5,7 +5,9 @@ using namespace p4;
 using namespace std;
 
 Game_P4::Game_P4()
-    : p1("p1", Token::color_e::red), p2("p2", Token::color_e::yellow), current_player(p1)
+    : p1("Player 1", Token::color_e::red)
+    , p2("Player 2", Token::color_e::yellow)
+    , current_player(p1)
 {}
 
 bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
