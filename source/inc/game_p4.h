@@ -21,6 +21,9 @@ public:
 private:
     void compute_next_player();
 
+    bool is_winner_vertically(const Board::board_t& b) const;
+    bool is_winner_horizontally(const Board::board_t& b) const;
+
     Player p1;
     Player p2;
     Player current_player;

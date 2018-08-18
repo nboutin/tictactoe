@@ -33,4 +33,5 @@ int main(int argc, char* argv[])
             cout << "invalid" << endl;
         }
     }
+    cout << "Game is finished" << endl;
 }

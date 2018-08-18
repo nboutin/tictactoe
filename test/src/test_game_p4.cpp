@@ -23,8 +23,6 @@ TEST_CASE("current player", "[game_p4]")
     REQUIRE(game.get_current_player() == p1);
 }
 
-#include "view_ascii.h"
-using namespace view;
 TEST_CASE("no more free cell", "[game_p4]")
 {
     Game_P4 game;
@@ -60,7 +58,103 @@ TEST_CASE("no more free cell", "[game_p4]")
     auto token = std::make_unique<Token>(game.get_current_player().get_color());
     game.play(0, move(token));
 
-    View_ASCII view(game.get_board());
-    view.display();
     REQUIRE(game.is_finished());
+}
+
+#include "view_ascii.h"
+TEST_CASE("is winner vertically", "[game_p4]")
+{
+    Game_P4 game;
+
+    SECTION("red y=0")
+    {
+        auto token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        REQUIRE(game.is_finished());
+    }
+
+    SECTION("yellow y=1")
+    {
+        auto token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(0, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        REQUIRE_FALSE(game.is_finished());
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        REQUIRE(game.is_finished());
+    }
+
+    SECTION("red y=2 x=3")
+    {
+        auto token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(1, move(token));
+
+        token = std::make_unique<Token>(game.get_current_player().get_color());
+        game.play(2, move(token));
+
+        view::View_ASCII v(game.get_board());
+        v.display();
+
+        REQUIRE(game.is_finished());
+    }
 }
