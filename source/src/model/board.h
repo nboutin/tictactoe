@@ -19,7 +19,7 @@ public:
 
     const board_t& get_board() const { return board; }
 
-    bool play(uint8_t column, std::unique_ptr<p4::Token> token);
+    bool play(uint8_t x, std::unique_ptr<p4::Token> token);
 
 private:
     std::optional<uint8_t> find_free_row(uint8_t x);

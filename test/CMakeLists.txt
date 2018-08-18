@@ -13,8 +13,8 @@ target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 ##### Includes
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/source/model
-	${CMAKE_SOURCE_DIR}/source/view
+	${CMAKE_SOURCE_DIR}/source/src/model
+	${CMAKE_SOURCE_DIR}/source/src/view
 	${CMAKE_CURRENT_SOURCE_DIR}/inc
 )
 
@@ -23,7 +23,14 @@ include_directories(
 set(SOURCE 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_board.cpp
+	
+	${CMAKE_SOURCE_DIR}/source/src/model/board.cpp
+	${CMAKE_SOURCE_DIR}/source/src/model/cell.cpp
 )
+
+##### Compilation
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=gnu++17")
 
 ##### Target
 

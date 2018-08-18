@@ -21,7 +21,7 @@ bool Board::play(uint8_t x, std::unique_ptr<p4::Token> token)
 
 optional<uint8_t> Board::find_free_row(uint8_t x)
 {
-    for(int8_t y = N_ROW - 1; y >= 0; y--)
+    for(int8_t y = N_ROW - 1; y >= 0; --y)
     {
         if(board[x][y].is_empty())
             return y;

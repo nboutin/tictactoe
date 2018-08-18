@@ -15,6 +15,7 @@ public:
     void add_token(std::unique_ptr<Token> token);
     void remove_token();
 
+    // TODO use optional ?
     Token get_token() const { return *token; }
 
 private:
