@@ -11,13 +11,14 @@ View_ASCII::View_ASCII(const Board& board) : board(board) {}
 
 void View_ASCII::display()
 {
-    for(const auto& row : board.get_board())
-    {
-        for(const auto& cell : row)
-        {
-            cout << cell_to_char(cell);
-        }
+    const auto& b = board.get_board();
 
+    for(int y = 0; y < Board::N_ROW; ++y)
+    {
+        for(int x = 0; x < Board::N_COLUMN; ++x)
+        {
+            cout << cell_to_char(b[x][y]);
+        }
         cout << '\n';
     }
     cout << endl;

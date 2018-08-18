@@ -1,5 +1,6 @@
 ##### Coniguration
 
+cmake_minimum_required(VERSION 3.0.0)
 project(p4_test)
 
 ##### 3rd party

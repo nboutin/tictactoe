@@ -4,27 +4,27 @@
 using namespace p4;
 using namespace std;
 
-bool Board::play(uint8_t column, std::unique_ptr<p4::Token> token)
+bool Board::play(uint8_t x, std::unique_ptr<p4::Token> token)
 {
-    if(column >= N_COLUMN)
+    if(x >= N_COLUMN)
         return false;
 
-    auto row = find_free_row(column);
+    auto y = find_free_row(x);
 
-    if(!row)
-    	return false;
+    if(!y)
+        return false;
 
-    board[row.value()][column].add_token(std::move(token));
+    board[x][y.value()].add_token(std::move(token));
 
     return true;
 }
 
-optional<uint8_t> Board::find_free_row(uint8_t column)
+optional<uint8_t> Board::find_free_row(uint8_t x)
 {
-    for(int8_t r = N_ROW - 1; r >= 0; r--)
+    for(int8_t y = N_ROW - 1; y >= 0; y--)
     {
-        if(board[r][column].is_empty())
-            return r;
+        if(board[x][y].is_empty())
+            return y;
     }
     return {};
 }

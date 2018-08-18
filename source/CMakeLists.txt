@@ -25,13 +25,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=gnu++17")
 
 ##### Target
 
-# 1-executable
 add_executable(${PROJECT_NAME} ${SOURCE})
-
-target_link_libraries (
-    ${PROJECT_NAME}
-    ${MODULE_EXT_LDFLAGS}
-)
 
 ##### Install
 
