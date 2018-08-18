@@ -13,16 +13,19 @@ class Player
 
 public:
     Player(const std::string& name, Token::color_e color);
+    Player(const Player& p);
+    Player& operator=(const Player& p);
+
     Token::color_e get_color() const { return color; }
+    std::string get_name() const { return name; }
 
 private:
     std::string name;
-    bool is_human = true;
     Token::color_e color;
 };
 
 inline bool operator==(const Player& lhs, const Player& rhs)
 {
-    return (lhs.name == rhs.name && lhs.color == rhs.color);
+    return ((lhs.name == rhs.name) && (lhs.color == rhs.color));
 }
 }

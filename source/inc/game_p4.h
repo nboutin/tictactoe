@@ -11,9 +11,9 @@ class Game_P4
 public:
     Game_P4();
 
-    bool play(uint8_t y, std::unique_ptr<Token> token);
+    bool play(uint8_t x, std::unique_ptr<Token> token);
 
-    bool is_finished() const { return false; }
+    bool is_finished() const;
 
     const Board& get_board() const { return board; }
     const Player& get_current_player() const { return current_player; }
@@ -23,7 +23,7 @@ private:
 
     Player p1;
     Player p2;
-    Player& current_player;
+    Player current_player;
 
     Board board;
 };

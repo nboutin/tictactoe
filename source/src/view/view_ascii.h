@@ -14,7 +14,7 @@ public:
 
 private:
 
-	char cell_to_char(const p4::Cell& cell);
+	std::string cell_to_print(const p4::Cell& cell);
 
 	const p4::Board& board;
 };

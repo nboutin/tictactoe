@@ -13,6 +13,7 @@ target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 ##### Includes
 
 include_directories(
+	${CMAKE_SOURCE_DIR}/source/inc
 	${CMAKE_SOURCE_DIR}/source/src/model
 	${CMAKE_SOURCE_DIR}/source/src/view
 	${CMAKE_CURRENT_SOURCE_DIR}/inc
@@ -23,9 +24,13 @@ include_directories(
 set(SOURCE 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_board.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_game_p4.cpp
 	
 	${CMAKE_SOURCE_DIR}/source/src/model/board.cpp
 	${CMAKE_SOURCE_DIR}/source/src/model/cell.cpp
+	${CMAKE_SOURCE_DIR}/source/src/view/view_ascii.cpp
+	${CMAKE_SOURCE_DIR}/source/src/game_p4.cpp
+	${CMAKE_SOURCE_DIR}/source/src/player.cpp
 )
 
 ##### Compilation

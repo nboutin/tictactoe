@@ -20,13 +20,17 @@ int main(int argc, char* argv[])
     {
         auto current_player = game.get_current_player();
 
-        cout << "Enter column:";
+        cout << current_player.get_name() << ":";
         int y = 0;
         cin >> y;
 
         auto token = std::make_unique<Token>(current_player.get_color());
-        game.play(y, move(token));
+        auto r     = game.play(y, move(token));
 
         view.display();
+        if(r == false)
+        {
+            cout << "invalid" << endl;
+        }
     }
 }
