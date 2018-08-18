@@ -15,6 +15,7 @@ int main(int argc, char* argv[])
     Game_P4 game;
     View_ASCII view(game.get_board());
 
+    view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");
     view.display();
 
@@ -29,6 +30,7 @@ int main(int argc, char* argv[])
         if(r == false)
             view.message("Input is invalid");
 
+        view.set_current_player(game.get_current_player());
         view.message(game.get_current_player().get_name() + ":");
         view.display();
     }

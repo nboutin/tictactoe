@@ -18,7 +18,8 @@ bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
     if(!board.play(x, move(token)))
         return false;
 
-    compute_next_player();
+    if(!compute_ending())
+        compute_next_player();
 
     return true;
 }
@@ -27,7 +28,7 @@ bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
 /// \return true if finished otherwise false
 ///
 /// A game is finished, if someone win, if no more token can be added to the board (draw)
-bool Game_P4::is_finished() const
+bool Game_P4::compute_ending()
 {
     const auto& b        = board.get_board();
     auto space_available = false;
@@ -38,7 +39,7 @@ bool Game_P4::is_finished() const
         space_available |= b[x][0].is_empty();
     }
 
-    auto is_winner = is_winner_vertically(b) || is_winner_horizontally(b);
+    auto is_winner = is_winner_vertically(b) || is_winner_horizontally(b) || is_winner_diagonal(b);
 
     finished = !space_available || is_winner;
     return finished;
@@ -115,6 +116,80 @@ bool Game_P4::is_winner_horizontally(const Board::board_t& b) const
 
             if(red >= 4 || yellow >= 4)
                 return true;
+        }
+    }
+    return false;
+}
+
+bool Game_P4::is_winner_diagonal(const Board::board_t& b) const
+{
+    // Diag '\'
+    for(int y = 0; y <= 2; ++y)
+    {
+        for(int x = 0; x <= 3; ++x)
+        {
+            int red    = 0;
+            int yellow = 0;
+            for(int i = 0; i < 4; ++i)
+            {
+                const auto& cell = b[x + i][y + i];
+
+                if(cell.is_empty())
+                {
+                    red    = 0;
+                    yellow = 0;
+                    continue;
+                }
+
+                if(cell.get_token().get_color() == Token::color_e::red)
+                {
+                    red++;
+                    yellow = 0;
+                }
+                else
+                {
+                    yellow++;
+                    red = 0;
+                }
+
+                if(red >= 4 || yellow >= 4)
+                    return true;
+            }
+        }
+    }
+
+    // Diag '/'
+    for(int y = 0; y <= 2; ++y)
+    {
+        for(int x = 3; x < Board::N_ROW; ++x)
+        {
+            int red    = 0;
+            int yellow = 0;
+            for(int i = 0; i < 4; ++i)
+            {
+                const auto& cell = b[x - i][y + i];
+
+                if(cell.is_empty())
+                {
+                    red    = 0;
+                    yellow = 0;
+                    continue;
+                }
+
+                if(cell.get_token().get_color() == Token::color_e::red)
+                {
+                    red++;
+                    yellow = 0;
+                }
+                else
+                {
+                    yellow++;
+                    red = 0;
+                }
+
+                if(red >= 4 || yellow >= 4)
+                    return true;
+            }
         }
     }
     return false;

@@ -7,7 +7,8 @@ using namespace view;
 using namespace p4;
 using namespace std;
 
-View_ASCII::View_ASCII(const Board& board) : board(board) {}
+View_ASCII::View_ASCII(const Board& board) : board(board), current_player("", Token::color_e::red)
+{}
 
 void View_ASCII::display()
 {
@@ -25,10 +26,15 @@ void View_ASCII::display()
     }
     cout << '\n';
 
+    if(current_player.get_color() == Token::color_e::red)
+        cout << "\033[1;31;44m";
+    else
+        cout << "\033[1;33;44m";
+
     for(const auto& msg : msgs)
         cout << msg << '\n';
 
-    cout << flush;
+    cout << "\033[0m" << flush;
     msgs.clear();
 }
 
