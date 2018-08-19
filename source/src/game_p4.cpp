@@ -10,7 +10,7 @@ Game_P4::Game_P4()
     , current_player(p1)
 {}
 
-//Game_P4::Game_P4(const Game_P4& g)
+// Game_P4::Game_P4(const Game_P4& g)
 //    : p1(g.p1), p2(g.p2), current_player(g.current_player), board(g.board), finished(g.finished)
 //{}
 
@@ -32,6 +32,18 @@ void Game_P4::unplay(uint8_t x)
 {
     board.unplay(x);
     compute_next_player();
+}
+
+// TODO add check
+const Player& Game_P4::get_player(uint8_t i) { return (i == 1) ? p1 : p2; }
+
+// TODO add check
+void Game_P4::set_ai(uint8_t i)
+{
+    if(i == 1)
+        p1.set_ai();
+    else
+        p2.set_ai();
 }
 
 /// \brief Decide if a game is finished

@@ -20,6 +20,9 @@ public:
     const Board& get_board() const { return board; }
     const Player& get_current_player() const { return current_player; }
 
+    const Player& get_player(uint8_t i);
+    void set_ai(uint8_t i);
+
 private:
     void compute_next_player();
     bool compute_ending();

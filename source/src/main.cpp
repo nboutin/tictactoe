@@ -15,14 +15,16 @@ using namespace ai;
 int main(int argc, char* argv[])
 {
     Game_P4 game;
-    Minmax minmax;
     View_ASCII view(game.get_board());
+
+    game.set_ai(1);
+    Minmax minmax(game.get_player(1), 4);
 
     view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");
     view.display();
 
-    minmax.compute(game, 4);
+    minmax.compute(game);
 
     while(game.is_finished() == false)
     {
