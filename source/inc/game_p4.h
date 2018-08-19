@@ -10,8 +10,10 @@ class Game_P4
 {
 public:
     Game_P4();
+    //    Game_P4(const Game_P4& g);
 
     bool play(uint8_t x, std::unique_ptr<Token> token);
+    void unplay(uint8_t x);
 
     bool is_finished() const { return finished; };
 

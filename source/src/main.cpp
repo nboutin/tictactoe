@@ -2,22 +2,27 @@
 #include <iostream>
 
 #include "game_p4.h"
+#include "minmax.h"
 #include "view_ascii.h"
 
 using namespace p4;
 using namespace view;
 using namespace std;
+using namespace ai;
 
 // https://gist.github.com/application2000/73fd6f4bf1be6600a2cf9f56315a2d91
 
 int main(int argc, char* argv[])
 {
     Game_P4 game;
+    Minmax minmax;
     View_ASCII view(game.get_board());
 
     view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");
     view.display();
+
+    minmax.compute(game, 4);
 
     while(game.is_finished() == false)
     {

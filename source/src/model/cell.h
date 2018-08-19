@@ -10,6 +10,8 @@ namespace p4
 class Cell
 {
 public:
+//	Cell(const Cell& c);
+
     bool is_empty() const { return empty; }
 
     void add_token(std::unique_ptr<Token> token);

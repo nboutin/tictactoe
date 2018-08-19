@@ -10,6 +10,10 @@ Game_P4::Game_P4()
     , current_player(p1)
 {}
 
+//Game_P4::Game_P4(const Game_P4& g)
+//    : p1(g.p1), p2(g.p2), current_player(g.current_player), board(g.board), finished(g.finished)
+//{}
+
 bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
 {
     if(finished)
@@ -22,6 +26,12 @@ bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
         compute_next_player();
 
     return true;
+}
+
+void Game_P4::unplay(uint8_t x)
+{
+    board.unplay(x);
+    compute_next_player();
 }
 
 /// \brief Decide if a game is finished

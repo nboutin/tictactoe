@@ -10,6 +10,7 @@ project(p4)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/model)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/view)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ai)
 
 ##### Source
 
@@ -20,6 +21,7 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/model/cell.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/model/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/view/view_ascii.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/ai/minmax.cpp
 )
 
 ##### Compilation
