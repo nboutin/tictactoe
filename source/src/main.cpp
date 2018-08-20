@@ -31,8 +31,7 @@ int main(int argc, char* argv[])
         int y = 0;
         cin >> y;
 
-        auto token = std::make_unique<Token>(game.get_current_player().get_color());
-        auto r     = game.play(y, move(token));
+        auto r = game.play(y);
 
         if(r == false)
             view.message("Input is invalid");

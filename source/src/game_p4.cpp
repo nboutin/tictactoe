@@ -5,21 +5,15 @@ using namespace p4;
 using namespace std;
 
 Game_P4::Game_P4()
-    : p1("Player 1", Token::color_e::red)
-    , p2("Player 2", Token::color_e::yellow)
-    , current_player(p1)
+    : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(p1)
 {}
 
-// Game_P4::Game_P4(const Game_P4& g)
-//    : p1(g.p1), p2(g.p2), current_player(g.current_player), board(g.board), finished(g.finished)
-//{}
-
-bool Game_P4::play(uint8_t x, std::unique_ptr<Token> token)
+bool Game_P4::play(uint8_t x)
 {
     if(finished)
         return false;
 
-    if(!board.play(x, move(token)))
+    if(!board.play(x, current_player.get_color()))
         return false;
 
     if(!compute_ending())
@@ -91,7 +85,7 @@ bool Game_P4::is_winner_vertically(const Board::board_t& b) const
                 continue;
             }
 
-            if(cell.get_token().get_color() == Token::color_e::red)
+            if(cell.get_color() == color_e::red)
             {
                 red++;
                 yellow = 0;
@@ -125,7 +119,7 @@ bool Game_P4::is_winner_horizontally(const Board::board_t& b) const
                 continue;
             }
 
-            if(cell.get_token().get_color() == Token::color_e::red)
+            if(cell.get_color() == color_e::red)
             {
                 red++;
                 yellow = 0;
@@ -163,7 +157,7 @@ bool Game_P4::is_winner_diagonal(const Board::board_t& b) const
                     continue;
                 }
 
-                if(cell.get_token().get_color() == Token::color_e::red)
+                if(cell.get_color() == color_e::red)
                 {
                     red++;
                     yellow = 0;
@@ -198,7 +192,7 @@ bool Game_P4::is_winner_diagonal(const Board::board_t& b) const
                     continue;
                 }
 
-                if(cell.get_token().get_color() == Token::color_e::red)
+                if(cell.get_color() == color_e::red)
                 {
                     red++;
                     yellow = 0;

@@ -4,9 +4,9 @@
 using namespace p4;
 using namespace std;
 
-//Board::Board(const Board& b) : board(b.board) {}
+// Board::Board(const Board& b) : board(b.board) {}
 
-bool Board::play(uint8_t x, std::unique_ptr<p4::Token> token)
+bool Board::play(uint8_t x, color_e color)
 {
     if(x >= N_COLUMN)
         return false;
@@ -16,7 +16,7 @@ bool Board::play(uint8_t x, std::unique_ptr<p4::Token> token)
     if(!y)
         return false;
 
-    board[x][y.value()].add_token(std::move(token));
+    board[x][y.value()].add_token(color);
 
     return true;
 }

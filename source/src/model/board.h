@@ -1,11 +1,11 @@
 #pragma once
 
 #include <array>
-#include <memory>
+//#include <memory>
 #include <optional>
 
 #include "cell.h"
-#include "token.h"
+//#include "token.h"
 
 namespace p4
 {
@@ -17,12 +17,12 @@ public:
 
     typedef std::array<std::array<Cell, N_ROW>, N_COLUMN> board_t;
 
-//    Board() = default;
-//    Board(const Board& b);
+    //    Board() = default;
+    //    Board(const Board& b);
 
     const board_t& get_board() const { return board; }
 
-    bool play(uint8_t x, std::unique_ptr<p4::Token> token);
+    bool play(uint8_t x, color_e color);
     void unplay(uint8_t x);
 
 private:

@@ -6,25 +6,23 @@
 using namespace p4;
 using namespace std;
 
-Cell::Cell(unique_ptr<Token> token) { add_token(move(token)); }
+Cell::Cell(color_e color) { add_token(color); }
 
-Cell::Cell(const Cell& c) : empty(c.empty), token(new Token(*c.token)) {}
+// Cell::Cell(unique_ptr<Token> token) { add_token(move(token)); }
 
-Cell& Cell::operator=(const Cell& c)
-{
-    empty = c.empty;
-    token = move(c.token);
-    return *this;
-}
+// Cell::Cell(const Cell& c) : empty(c.empty), token(new Token(*c.token)) {}
 
-void Cell::add_token(unique_ptr<Token> _token)
+// Cell& Cell::operator=(const Cell& c)
+//{
+//    empty = c.empty;
+//    token = move(c.token);
+//    return *this;
+//}
+
+void Cell::add_token(color_e _color)
 {
     empty = false;
-    token = move(_token);
+    color = _color;
 }
 
-void Cell::remove_token()
-{
-    empty = true;
-    token.reset();
-}
+void Cell::remove_token() { empty = true; }
