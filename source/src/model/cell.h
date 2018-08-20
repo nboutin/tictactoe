@@ -24,7 +24,7 @@ public:
     color_e get_color() const { return color; }
 
 private:
-    // TODO use optionnal for empty & color
+    // TODO use optional for empty & color
     bool empty    = true;
     color_e color = color_e::red;
 };
@@ -37,7 +37,7 @@ inline bool operator==(const Cell& lhs, const Cell& rhs)
 inline std::ostream& operator<<(std::ostream& oss, const Cell& c)
 {
     if(c.empty)
-        oss << '-';
+        oss << '_';
     else if(c.color == color_e::red)
         oss << 'r';
     else
