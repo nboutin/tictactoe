@@ -79,20 +79,28 @@ int16_t Minmax::max(p4::Game_P4& game, uint8_t _depth)
 
 int16_t Minmax::evaluate(const p4::Game_P4& game)
 {
-    int16_t score    = 0;
-    color_e ai_color = player.get_color();
-    const auto& b    = game.get_board().get_board();
+    int16_t score          = 0;
+    const color_e ai_color = player.get_color();
+    const auto& b          = game.get_board().get_board();
 
     for(auto c : vector<color_e>{color_e::red, color_e::yellow})
     {
-        array<Cell, 4> v3{Cell(), {c}, {c}, {c}};
+        const array<Cell, 4> v3{Cell(), {c}, {c}, {c}};
+        const array<Cell, 4> v2{Cell(), Cell(), {c}, {c}};
 
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
-            for(int y = 0; y < Board::N_ROW - 3; ++y)
+            // Start from bottom
+            // for(int y = 0; y < Board::N_ROW - 3; ++y)
+            for(int y = Board::N_ROW - 4; y <= 0; --y)
             {
                 array<Cell, 4> test;
                 std::copy(b[x].begin() + y, b[x].begin() + y + 4, test.begin());
+
+                cout << "test:";
+                for(auto i : test)
+                	cout << i;
+                cout << endl;
 
                 if(v3 == test)
                 {
@@ -100,6 +108,15 @@ int16_t Minmax::evaluate(const p4::Game_P4& game)
                         score += ALIGN3;
                     else
                         score -= ALIGN3;
+                    break;
+                }
+                else if(v2 == test)
+                {
+                    if(c == ai_color)
+                        score += ALIGN2;
+                    else
+                        score -= ALIGN2;
+                    break;
                 }
             }
         }

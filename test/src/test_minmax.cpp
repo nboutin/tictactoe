@@ -13,7 +13,7 @@ using namespace p4;
 using namespace ai;
 using namespace std;
 
-TEST_CASE("evaluate", "[minmax]")
+TEST_CASE("evaluate horizontal", "[minmax]")
 {
     Game_P4 game;
     game.set_ai(1);
@@ -26,6 +26,9 @@ TEST_CASE("evaluate", "[minmax]")
 
     SECTION("x0 r3")
     {
+        //r
+        //r
+        //ry y
         Minmax minmax(game.get_player(1), 0);
 
         for(auto m : vector<int>{0, 1, 0, 3, 0})
@@ -52,6 +55,16 @@ TEST_CASE("evaluate", "[minmax]")
             game.play(m);
 
         REQUIRE(minmax.evaluate(game) == ALIGN3);
+    }
+
+    SECTION("x2y4 r3")
+    {
+        Minmax minmax(game.get_player(1), 0);
+
+        for(auto m : vector<int>{0, 1, 2, 1, 4, 1})
+            game.play(m);
+
+        REQUIRE(minmax.evaluate(game) == -ALIGN3);
     }
 }
 
