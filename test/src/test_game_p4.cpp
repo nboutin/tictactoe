@@ -50,38 +50,18 @@ TEST_CASE("is winner vertically", "[game_p4]")
 
     SECTION("red y=0")
     {
-        game.play(0);
-
-        game.play(1);
-
-        game.play(0);
-
-        game.play(1);
-
-        game.play(0);
-
-        game.play(1);
-
-        game.play(0);
+        std::vector<int> moves{0, 1, 0, 1, 0, 1, 0};
+        for(auto m : moves)
+            game.play(m);
 
         REQUIRE(game.is_finished());
     }
 
     SECTION("yellow y=1")
     {
-        game.play(0);
-
-        game.play(1);
-
-        game.play(0);
-
-        game.play(1);
-
-        game.play(0);
-
-        game.play(1);
-
-        game.play(2);
+        std::vector<int> moves{0, 1, 0, 1, 0, 1, 2};
+        for(auto m : moves)
+            game.play(m);
 
         REQUIRE_FALSE(game.is_finished());
 
@@ -92,23 +72,9 @@ TEST_CASE("is winner vertically", "[game_p4]")
 
     SECTION("red y=2 x=3")
     {
-        game.play(2);
-
-        game.play(2);
-
-        game.play(2);
-
-        game.play(1);
-
-        game.play(2);
-
-        game.play(1);
-
-        game.play(2);
-
-        game.play(1);
-
-        game.play(2);
+        std::vector<int> moves{2, 2, 2, 1, 2, 1, 2, 1, 2};
+        for(auto m : moves)
+            game.play(m);
 
         REQUIRE(game.is_finished());
     }
@@ -120,19 +86,9 @@ TEST_CASE("is winner horizontally", "[game_p4]")
 
     SECTION("red x=0")
     {
-        game.play(0);
-
-        game.play(0);
-
-        game.play(1);
-
-        game.play(1);
-
-        game.play(2);
-
-        game.play(2);
-
-        game.play(3);
+        std::vector<int> moves{0, 0, 1, 1, 2, 2, 3};
+        for(auto m : moves)
+            game.play(m);
 
         REQUIRE(game.is_finished());
     }
@@ -141,21 +97,11 @@ TEST_CASE("is winner horizontally", "[game_p4]")
     {
         for(int x = 2; x < 5; ++x)
             for(int y = 0; y < 4; ++y)
-            {
                 game.play(x);
-            }
 
-        game.play(0);
-
-        game.play(5);
-
-        game.play(5);
-
-        game.play(5);
-
-        game.play(0);
-
-        game.play(5);
+        std::vector<int> moves{0, 5, 5, 5, 0, 5};
+        for(auto m : moves)
+            game.play(m);
 
         REQUIRE(game.is_finished());
     }
