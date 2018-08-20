@@ -16,6 +16,8 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/source/inc
 	${CMAKE_SOURCE_DIR}/source/src/model
 	${CMAKE_SOURCE_DIR}/source/src/view
+	${CMAKE_SOURCE_DIR}/source/src/ai
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/inc
 )
 
@@ -25,12 +27,15 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_game_p4.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_minmax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_cell.cpp
 	
 	${CMAKE_SOURCE_DIR}/source/src/model/board.cpp
 	${CMAKE_SOURCE_DIR}/source/src/model/cell.cpp
 	${CMAKE_SOURCE_DIR}/source/src/view/view_ascii.cpp
 	${CMAKE_SOURCE_DIR}/source/src/game_p4.cpp
 	${CMAKE_SOURCE_DIR}/source/src/player.cpp
+	${CMAKE_SOURCE_DIR}/source/src/ai/minmax.cpp
 )
 
 ##### Compilation

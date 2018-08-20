@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <memory>
+#include <iostream>
 
 #include "color.h"
 
@@ -10,13 +10,11 @@ namespace p4
 class Cell
 {
     friend bool operator==(const Cell& lhs, const Cell& rhs);
+    friend std::ostream& operator<<(std::ostream& oss, const Cell& c);
 
 public:
     Cell() = default;
     Cell(color_e color);
-    //    Cell(std::unique_ptr<Token> token);
-    //    Cell(const Cell& c);
-    //    Cell& operator=(const Cell& c);
 
     bool is_empty() const { return empty; }
 
@@ -25,18 +23,25 @@ public:
 
     color_e get_color() const { return color; }
 
-    // TODO use optional ?
-    //    Token get_token() const { return *token; }
-
 private:
     // TODO use optionnal for empty & color
     bool empty    = true;
     color_e color = color_e::red;
-    //    std::unique_ptr<Token> token;
 };
 
 inline bool operator==(const Cell& lhs, const Cell& rhs)
 {
-    return ((lhs.empty == rhs.empty) && (!lhs.empty) ? (lhs.color == rhs.color) : true);
+    return ((lhs.empty == rhs.empty) && (lhs.color == rhs.color));
 }
-}    // namespace p4
+
+inline std::ostream& operator<<(std::ostream& oss, const Cell& c)
+{
+    if(c.empty)
+        oss << '-';
+    else if(c.color == color_e::red)
+        oss << 'r';
+    else
+        oss << 'y';
+    return oss;
+}
+}

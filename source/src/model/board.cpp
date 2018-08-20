@@ -4,8 +4,6 @@
 using namespace p4;
 using namespace std;
 
-// Board::Board(const Board& b) : board(b.board) {}
-
 bool Board::play(uint8_t x, color_e color)
 {
     if(x >= N_COLUMN)

@@ -7,6 +7,9 @@ using namespace ai;
 using namespace p4;
 using namespace std;
 
+#include <iostream>
+#include <view_ascii.h>
+
 Minmax::Minmax(const p4::Player& p, uint8_t depth) : depth(depth), player(p) {}
 
 uint8_t Minmax::compute(p4::Game_P4& game)
@@ -17,8 +20,11 @@ uint8_t Minmax::compute(p4::Game_P4& game)
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
         game.play(m);
+        //        view::View_ASCII v(game.get_board());
+        //        v.display(false);
 
         int16_t val = min(game, depth);
+
         if(val > max)
         {
             max       = val;
@@ -74,23 +80,20 @@ int16_t Minmax::max(p4::Game_P4& game, uint8_t _depth)
 int16_t Minmax::evaluate(const p4::Game_P4& game)
 {
     int16_t score    = 0;
-//    color_e ai_color = player.get_color();
-//    const auto& b    = game.get_board().get_board();
-
-//    array<Cell, 4> v3{Cell(), {ai_color}, {ai_color}, {ai_color}};
+    color_e ai_color = player.get_color();
+    const auto& b    = game.get_board().get_board();
+    array<Cell, 4> v3{Cell(), {ai_color}, {ai_color}, {ai_color}};
 
     for(int x = 0; x < Board::N_COLUMN; ++x)
     {
-        int ai = 0;
-        //        int op = 0;    // opponent
-        for(int y = 0; y < Board::N_ROW; ++y)
+        for(int y = 0; y < Board::N_ROW - 3; ++y)
         {
-            //            array<Cell, 4> test;
-            //            std::copy(b[x].begin() + y, b[x].begin() + y + 4, test);
-            //            if(v3 == test)
-            //                ai += 3;
+            array<Cell, 4> test;
+            std::copy(b[x].begin() + y, b[x].begin() + y + 4, test.begin());
+
+            if(v3 == test)
+                score += 3;
         }
-        score += ai;
     }
 
     return score;

@@ -1,11 +1,9 @@
 #pragma once
 
 #include <array>
-//#include <memory>
 #include <optional>
 
 #include "cell.h"
-//#include "token.h"
 
 namespace p4
 {
@@ -16,9 +14,6 @@ public:
     static const auto N_ROW    = 6;    // Y
 
     typedef std::array<std::array<Cell, N_ROW>, N_COLUMN> board_t;
-
-    //    Board() = default;
-    //    Board(const Board& b);
 
     const board_t& get_board() const { return board; }
 

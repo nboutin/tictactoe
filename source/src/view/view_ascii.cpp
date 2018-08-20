@@ -9,9 +9,10 @@ using namespace std;
 
 View_ASCII::View_ASCII(const Board& board) : board(board), current_player("", color_e::red) {}
 
-void View_ASCII::display()
+void View_ASCII::display(bool clear)
 {
-    std::system("clear");
+    if(clear)
+        std::system("clear");
 
     const auto& b = board.get_board();
 

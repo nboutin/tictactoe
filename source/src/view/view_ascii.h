@@ -14,7 +14,7 @@ class View_ASCII
 public:
     View_ASCII(const p4::Board& board);
 
-    void display();
+    void display(bool clear = true);
     void message(const std::string& msg);
 
     void set_current_player(const p4::Player& p) { current_player = p; }
