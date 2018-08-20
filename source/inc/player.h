@@ -13,17 +13,19 @@ class Player
 
 public:
     Player(const std::string& name, color_e color);
-    //    Player(const Player& p);
-    //    Player& operator=(const Player& p);
 
     color_e get_color() const { return color; }
+
+    void set_name(const std::string& _name) { name = _name; }
     std::string get_name() const { return name; }
-    void set_ai() { is_ai = true; }
+
+    void set_ai() { ai = true; }
+    bool is_ai() const { return ai; }
 
 private:
     std::string name;
     color_e color;
-    bool is_ai = false;
+    bool ai = false;
 };
 
 inline bool operator==(const Player& lhs, const Player& rhs)

@@ -10,7 +10,7 @@ using namespace std;
 
 Minmax::Minmax(const p4::Player& p, uint8_t depth) : depth(depth), player(p) {}
 
-uint8_t Minmax::compute(p4::Game_P4& game)
+uint8_t Minmax::compute(p4::Game_P4 game)
 {
     int16_t max       = std::numeric_limits<int16_t>::min();
     uint8_t best_move = 0;

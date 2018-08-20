@@ -18,18 +18,20 @@ int main(int argc, char* argv[])
     View_ASCII view(game.get_board());
 
     game.set_ai(1);
-    Minmax minmax(game.get_player(1), 4);
+    game.set_name(1, "AI_1");
+    Minmax minmax(game.get_player(1), 6);
 
     view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");
     view.display();
 
-    minmax.compute(game);
-
     while(game.is_finished() == false)
     {
         int y = 0;
-        cin >> y;
+        if(game.get_current_player().is_ai())
+            y = minmax.compute(game);
+        else
+            cin >> y;
 
         auto r = game.play(y);
 

@@ -5,7 +5,7 @@ using namespace p4;
 using namespace std;
 
 Game_P4::Game_P4()
-    : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(p1)
+    : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(&p1)
 {}
 
 bool Game_P4::play(uint8_t x)
@@ -13,11 +13,13 @@ bool Game_P4::play(uint8_t x)
     if(finished)
         return false;
 
-    if(!board.play(x, current_player.get_color()))
+    if(!board.play(x, current_player->get_color()))
         return false;
 
     if(!compute_ending())
         compute_next_player();
+
+    moves_history.push_back(x);
 
     return true;
 }
@@ -25,6 +27,7 @@ bool Game_P4::play(uint8_t x)
 void Game_P4::unplay(uint8_t x)
 {
     board.unplay(x);
+    finished = false;
     compute_next_player();
 }
 
@@ -38,6 +41,14 @@ void Game_P4::set_ai(uint8_t i)
         p1.set_ai();
     else
         p2.set_ai();
+}
+
+void Game_P4::set_name(uint8_t i, const std::string& name)
+{
+    if(i == 1)
+        p1.set_name(name);
+    else
+        p2.set_name(name);
 }
 
 /// \brief Decide if a game is finished
@@ -63,10 +74,10 @@ bool Game_P4::compute_ending()
 
 void Game_P4::compute_next_player()
 {
-    if(current_player == p1)
-        current_player = p2;
+    if(*current_player == p1)
+        current_player = &p2;
     else
-        current_player = p1;
+        current_player = &p1;
 }
 
 bool Game_P4::is_winner_vertically(const Board::board_t& b) const
