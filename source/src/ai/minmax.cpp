@@ -82,19 +82,27 @@ int16_t Minmax::evaluate(const p4::Game_P4& game)
     int16_t score    = 0;
     color_e ai_color = player.get_color();
     const auto& b    = game.get_board().get_board();
-    array<Cell, 4> v3{Cell(), {ai_color}, {ai_color}, {ai_color}};
 
-    for(int x = 0; x < Board::N_COLUMN; ++x)
+    for(auto c : vector<color_e>{color_e::red, color_e::yellow})
     {
-        for(int y = 0; y < Board::N_ROW - 3; ++y)
-        {
-            array<Cell, 4> test;
-            std::copy(b[x].begin() + y, b[x].begin() + y + 4, test.begin());
+        array<Cell, 4> v3{Cell(), {c}, {c}, {c}};
 
-            if(v3 == test)
-                score += 3;
+        for(int x = 0; x < Board::N_COLUMN; ++x)
+        {
+            for(int y = 0; y < Board::N_ROW - 3; ++y)
+            {
+                array<Cell, 4> test;
+                std::copy(b[x].begin() + y, b[x].begin() + y + 4, test.begin());
+
+                if(v3 == test)
+                {
+                    if(c == ai_color)
+                        score += ALIGN3;
+                    else
+                        score -= ALIGN3;
+                }
+            }
         }
     }
-
     return score;
 }

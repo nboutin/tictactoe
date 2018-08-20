@@ -40,6 +40,7 @@ set(SOURCE
 
 ##### Compilation
 
+#add_definitions(-Dprivate=public)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=gnu++17")
 
 ##### Target

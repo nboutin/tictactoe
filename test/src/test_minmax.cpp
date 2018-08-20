@@ -3,6 +3,10 @@
 #include <vector>
 
 #include "game_p4.h"
+
+/// \warning Nasty trick to access private methods when testing
+#define private public
+
 #include "minmax.h"
 
 using namespace p4;
@@ -14,29 +18,51 @@ TEST_CASE("evaluate", "[minmax]")
     Game_P4 game;
     game.set_ai(1);
 
-    SECTION("no token p=0")
+    SECTION("no token")
     {
         Minmax minmax(game.get_player(1), 0);
-        REQUIRE(minmax.compute(game) == 0);
+        REQUIRE(minmax.evaluate(game) == 0);
     }
 
-    SECTION("vertical 3 token, x0")
+    SECTION("x0 r3")
     {
         Minmax minmax(game.get_player(1), 0);
 
-        for(auto m : vector<int>{0, 1, 0, 3})
+        for(auto m : vector<int>{0, 1, 0, 3, 0})
             game.play(m);
 
-        REQUIRE(minmax.compute(game) == 0);
+        REQUIRE(minmax.evaluate(game) == ALIGN3);
     }
 
-    SECTION("vertical 3 token, x2")
+    SECTION("x2 r3")
     {
         Minmax minmax(game.get_player(1), 0);
 
-        for(auto m : vector<int>{2, 1, 2, 3})
+        for(auto m : vector<int>{2, 1, 2, 3, 2})
             game.play(m);
 
-        REQUIRE(minmax.compute(game) == 2);
+        REQUIRE(minmax.evaluate(game) == ALIGN3);
+    }
+
+    SECTION("x2y4 r3")
+    {
+        Minmax minmax(game.get_player(1), 0);
+
+        for(auto m : vector<int>{0, 2, 2, 4, 2, 6, 2})
+            game.play(m);
+
+        REQUIRE(minmax.evaluate(game) == ALIGN3);
     }
 }
+
+// TEST_CASE("debug")
+//{
+//    Game_P4 game;
+//    game.set_ai(1);
+//    Minmax minmax(game.get_player(1), 0);
+//
+//    for(auto m : vector<int>{0, 1, 0, 3, 0})
+//        game.play(m);
+//
+//    REQUIRE(minmax.evaluate(game) == 3);
+//}

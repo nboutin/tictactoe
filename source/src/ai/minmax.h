@@ -5,6 +5,10 @@
 
 namespace ai
 {
+static const auto ALIGN3 = 3;    // -xxx
+static const auto ALIGN2 = 2;    // --xx
+static const auto ALIGN1 = 1;    // ---x
+
 class Minmax
 {
 public:
