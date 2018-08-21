@@ -12,6 +12,8 @@ Minmax::Minmax(const p4::Player& p, uint8_t depth) : depth(depth), player(p) {}
 
 uint8_t Minmax::compute(p4::Game_P4 game)
 {
+    cout << __PRETTY_FUNCTION__ << endl;
+
     int16_t max       = std::numeric_limits<int16_t>::min();
     uint8_t best_move = 0;
 
@@ -26,8 +28,9 @@ uint8_t Minmax::compute(p4::Game_P4 game)
             max       = val;
             best_move = m;
         }
-
         game.unplay(m);
+
+        cout << "compute:: m:" << m << ", val:" << val << ", max:" << max << endl;
     }
 
     return best_move;
@@ -49,6 +52,7 @@ int16_t Minmax::min(p4::Game_P4& game, uint8_t _depth)
             min = val;
 
         game.unplay(m);
+        cout << "min:: m:" << m << ", val:" << val << ", min:" << min << endl;
     }
     return min;
 }
@@ -137,6 +141,7 @@ int16_t Minmax::evaluate_horizontal(const p4::Game_P4& game)
     {
         const array<Cell, 4> v4{c, c, c, c};
 
+        // Start from bottom
         for(int y = Board::N_ROW - 1; y >= 0; --y)
         {
             for(int x = 0; x <= Board::N_COLUMN - 4; ++x)

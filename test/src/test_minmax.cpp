@@ -126,15 +126,40 @@ TEST_CASE("evaluate horizontal", "[minmax][eval_h]")
     }
 }
 
-//TEST_CASE("debug", "")
+TEST_CASE("compute", "[minmax]")
+{
+    Game_P4 game;
+    game.set_ai(1);
+
+    //    y---
+    //    r-y-
+    //    r-y-
+    //    rry-
+    for(auto m : vector<int>{0, 3, 0, 3, 0, 0, 1, 3})
+        game.play(m);
+
+    SECTION("depth 0")
+    {
+        Minmax minmax(game.get_player(1), 0);
+        REQUIRE(minmax.compute(game) == 3);
+    }
+
+    SECTION("depth 1")
+    {
+        Minmax minmax(game.get_player(1), 1);
+        REQUIRE(minmax.compute(game) == 3);
+    }
+}
+
+// TEST_CASE("debug", "")
 //{
 //    Game_P4 game;
 //    game.set_ai(1);
 //    Minmax minmax(game.get_player(1), 0);
 //
 //    for(auto m :
-//        vector<int>{2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 6, 5, 5, 5, 5, 5, 0, 5})
-//        game.play(m);
+//        vector<int>{2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 6,
+//        5, 5, 5, 5, 5, 0, 5}) game.play(m);
 //
 //    view::View_ASCII v(game.get_board());
 //    v.display(false);
