@@ -4,6 +4,8 @@
 #include <iostream>
 #include <limits>
 
+#include "view_ascii.h"
+
 using namespace ai;
 using namespace p4;
 using namespace std;
@@ -12,14 +14,17 @@ Minmax::Minmax(const p4::Player& p, uint8_t depth) : depth(depth), player(p) {}
 
 uint8_t Minmax::compute(p4::Game_P4 game)
 {
-    cout << __PRETTY_FUNCTION__ << endl;
-
     int16_t max       = std::numeric_limits<int16_t>::min();
     uint8_t best_move = 0;
 
-    for(int m = 0; m < Board::N_COLUMN; ++m)
+    //    for(int m = 0; m < Board::N_COLUMN; ++m)
+    for(int m = 0; m < 1; ++m)
     {
         game.play(m);
+
+        view::View_ASCII v(game.get_board());
+        v.display(false);
+        cout << __PRETTY_FUNCTION__ << endl;
 
         int16_t val = min(game, depth);
 
@@ -39,7 +44,10 @@ uint8_t Minmax::compute(p4::Game_P4 game)
 int16_t Minmax::min(p4::Game_P4& game, uint8_t _depth)
 {
     if(_depth == 0 || game.is_finished())
+    {
+        cout << "min out" << endl;
         return evaluate(game);
+    }
 
     int16_t min = std::numeric_limits<int16_t>::max();
 
@@ -51,8 +59,11 @@ int16_t Minmax::min(p4::Game_P4& game, uint8_t _depth)
         if(val < min)
             min = val;
 
-        game.unplay(m);
+        view::View_ASCII v(game.get_board());
+        v.display(false);
+
         cout << "min:: m:" << m << ", val:" << val << ", min:" << min << endl;
+        game.unplay(m);
     }
     return min;
 }
@@ -79,7 +90,13 @@ int16_t Minmax::max(p4::Game_P4& game, uint8_t _depth)
 
 int16_t Minmax::evaluate(const p4::Game_P4& game)
 {
-    return evaluate_vertical(game) + evaluate_horizontal(game);
+    auto v = evaluate_vertical(game);
+    auto h = evaluate_horizontal(game);
+
+    cout << "eval v+h:" << v << "+" << h << endl;
+
+    return v + h;
+    //    return evaluate_vertical(game) + evaluate_horizontal(game);
 }
 
 int16_t Minmax::evaluate_vertical(const p4::Game_P4& game)
@@ -91,8 +108,8 @@ int16_t Minmax::evaluate_vertical(const p4::Game_P4& game)
     for(const auto c : array<color_e, 2>{color_e::red, color_e::yellow})
     {
         const array<Cell, 4> v4{c, c, c, c};
-        const array<Cell, 4> v3{Cell(), {c}, {c}, {c}};
-        const array<Cell, 4> v2{Cell(), Cell(), {c}, {c}};
+//        const array<Cell, 4> v3{Cell(), {c}, {c}, {c}};
+//        const array<Cell, 4> v2{Cell(), Cell(), {c}, {c}};
 
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
@@ -109,22 +126,22 @@ int16_t Minmax::evaluate_vertical(const p4::Game_P4& game)
                     else
                         return MIN;
                 }
-                else if(v3 == test)
-                {
-                    if(c == ai_color)
-                        score += ALIGN3;
-                    else
-                        score -= ALIGN3;
-                    break;
-                }
-                else if(v2 == test)
-                {
-                    if(c == ai_color)
-                        score += ALIGN2;
-                    else
-                        score -= ALIGN2;
-                    break;
-                }
+//                else if(v3 == test)
+//                {
+//                    if(c == ai_color)
+//                        score += ALIGN3;
+//                    else
+//                        score -= ALIGN3;
+//                    break;
+//                }
+//                else if(v2 == test)
+//                {
+//                    if(c == ai_color)
+//                        score += ALIGN2;
+//                    else
+//                        score -= ALIGN2;
+//                    break;
+//                }
             }
         }
     }

@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 
     game.set_ai(1);
     game.set_name(1, "AI_1");
-    Minmax minmax(game.get_player(1), 6);
+    Minmax minmax(game.get_player(1), 5);
 
     view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");
