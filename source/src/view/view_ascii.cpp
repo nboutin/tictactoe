@@ -24,7 +24,7 @@ void View_ASCII::display(bool clear)
         }
         cout << '\n';
     }
-    cout << '\n';
+    cout << "0123456\n";
 
     if(current_player.get_color() == color_e::red)
         cout << "\033[1;31;44m";
