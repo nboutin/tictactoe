@@ -9,15 +9,78 @@ using namespace p4;
 using namespace ai;
 using namespace std;
 
-//   0 1 2 3 4 5 6
-// 0
-// 1
-// 2
-// 3
-// 4
-// 5
+TEST_CASE("eval_h", "[evaluate]")
+{
+    SECTION("first row")
+    {
+        const array<color_e, 2> c{color_e::red, color_e::yellow};
+        const array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][5] = c[i];
+            grid[1][5] = c[i];
+            grid[2][5] = c[i];
+            grid[3][5] = c[i];
 
-TEST_CASE("eval_v", "[minmax]")
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    SECTION("first row at the top")
+    {
+        const array<color_e, 2> c{color_e::red, color_e::yellow};
+        const array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][0] = c[i];
+            grid[1][0] = c[i];
+            grid[2][0] = c[i];
+            grid[3][0] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    SECTION("left row")
+    {
+        const array<color_e, 2> c{color_e::red, color_e::yellow};
+        const array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[3][1] = c[i];
+            grid[4][1] = c[i];
+            grid[5][1] = c[i];
+            grid[6][1] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    SECTION("middle")
+    {
+        const array<color_e, 2> c{color_e::red, color_e::yellow};
+        const array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[2][3] = c[i];
+            grid[3][3] = c[i];
+            grid[4][3] = c[i];
+            grid[5][3] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+}
+
+TEST_CASE("eval_v", "[evaluate]")
 {
     SECTION("empty board")
     {
@@ -27,110 +90,66 @@ TEST_CASE("eval_v", "[minmax]")
 
     SECTION("first column")
     {
-        Board::grid_t grid;
-        for(int y = 2; y < Board::N_ROW; ++y)
-            grid[0][y] = color_e::red;
+        array<color_e, 2> c{color_e::red, color_e::yellow};
+        array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][2] = c[i];
+            grid[0][3] = c[i];
+            grid[0][4] = c[i];
+            grid[0][5] = c[i];
 
-        REQUIRE(evaluate(grid, color_e::red) == MAX);
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
     }
 
-    //    SECTION("y4")
-    //    {
-    //        Minmax minmax(game.get_player(1), 0);
-    //
-    //        for(auto m : vector<int>{1, 0, 1, 0, 3, 1, 0, 1, 0, 1, 3, 1})
-    //            game.play(m);
-    //
-    //        REQUIRE(minmax.evaluate(game) == MIN);
-    //    }
-    //
-    //    SECTION("zero")
-    //    {
-    //        Minmax minmax(game.get_player(1), 0);
-    //
-    //        for(auto m : vector<int>{0, 3, 0, 3, 0, 0, 1, 3, 3})
-    //            game.play(m);
-    //
-    //        REQUIRE(minmax.evaluate(game) == 0);
-    //    }
+    SECTION("first column at the top")
+    {
+        array<color_e, 2> c{color_e::red, color_e::yellow};
+        array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][0] = c[i];
+            grid[0][1] = c[i];
+            grid[0][2] = c[i];
+            grid[0][3] = c[i];
 
-    //    SECTION("x0 r3")
-    //    {
-    //        // r
-    //        // r
-    //        // ry y
-    //        Minmax minmax(game.get_player(1), 0);
-    //
-    //        for(auto m : vector<int>{0, 1, 0, 3, 0})
-    //            game.play(m);
-    //
-    //        REQUIRE(minmax.evaluate(game) == ALIGN3);
-    //    }
-    //
-    //    SECTION("x2 r3")
-    //    {
-    //        Minmax minmax(game.get_player(1), 0);
-    //
-    //        for(auto m : vector<int>{2, 1, 2, 3, 2})
-    //            game.play(m);
-    //
-    //        REQUIRE(minmax.evaluate(game) == ALIGN3);
-    //    }
-    //
-    //    SECTION("x2y4 r3")
-    //    {
-    //        Minmax minmax(game.get_player(1), 0);
-    //
-    //        for(auto m : vector<int>{0, 2, 2, 4, 2, 6, 2})
-    //            game.play(m);
-    //
-    //        REQUIRE(minmax.evaluate(game) == ALIGN3);
-    //    }
-    //
-    //    SECTION("x2y4 r3")
-    //    {
-    //        Minmax minmax(game.get_player(1), 0);
-    //
-    //        for(auto m : vector<int>{0, 1, 2, 1, 4, 1})
-    //            game.play(m);
-    //
-    //        REQUIRE(minmax.evaluate(game) == -ALIGN3);
-    //    }
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    SECTION("last column")
+    {
+        array<color_e, 2> c{color_e::red, color_e::yellow};
+        array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[6][0] = c[i];
+            grid[6][1] = c[i];
+            grid[6][2] = c[i];
+            grid[6][3] = c[i];
+
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    SECTION("in the middle")
+    {
+        array<color_e, 2> c{color_e::red, color_e::yellow};
+        array<int16_t, 2> r{MAX, MIN};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[3][1] = c[i];
+            grid[3][2] = c[i];
+            grid[3][3] = c[i];
+            grid[3][4] = c[i];
+
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
 }
-
-// TEST_CASE("evaluate horizontal", "[minmax][eval_h]")
-//{
-//    Game_P4 game;
-//    game.set_ai(1);
-//
-//    SECTION("r4 x0y5")
-//    {
-//        Minmax minmax(game.get_player(1), 0);
-//
-//        for(auto m : vector<int>{0, 0, 1, 1, 2, 2, 3})
-//            game.play(m);
-//
-//        REQUIRE(minmax.evaluate(game) == MAX);
-//    }
-//
-//    SECTION("r4 x3y5")
-//    {
-//        Minmax minmax(game.get_player(1), 0);
-//
-//        for(auto m : vector<int>{3, 3, 4, 4, 5, 5, 6})
-//            game.play(m);
-//
-//        REQUIRE(minmax.evaluate(game) == MAX);
-//    }
-//
-//    SECTION("y4 x2y0")
-//    {
-//        Minmax minmax(game.get_player(1), 0);
-//
-//        for(auto m : vector<int>{2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4,
-//                                 4, 4, 4, 4, 4, 6, 5, 5, 5, 5, 5, 0, 5})
-//            game.play(m);
-//
-//        REQUIRE(minmax.evaluate(game) == MIN);
-//    }
-//}

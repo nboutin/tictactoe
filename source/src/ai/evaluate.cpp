@@ -6,10 +6,10 @@ using namespace std;
 
 namespace ai
 {
-int16_t evaluate(const p4::Board::grid_t& grid, color_e win_color)
+int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
 {
-    auto v = evaluate_vertical(grid, win_color);
-    auto h = evaluate_horizontal(grid, win_color);
+    const auto v = evaluate_vertical(grid, win_color);
+    const auto h = evaluate_horizontal(grid, win_color);
 
     cout << "eval v+h:" << v << "+" << h << endl;
 
@@ -17,7 +17,7 @@ int16_t evaluate(const p4::Board::grid_t& grid, color_e win_color)
     //    return evaluate_vertical(game) + evaluate_horizontal(game);
 }
 
-int16_t evaluate_vertical(const p4::Board::grid_t& grid, color_e win_color)
+int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color)
 {
     int16_t score = 0;
 
@@ -36,35 +36,20 @@ int16_t evaluate_vertical(const p4::Board::grid_t& grid, color_e win_color)
                 std::copy(grid[x].begin() + y, grid[x].begin() + y + 4, test.begin());
 
                 if(v4 == test)
-                {
-                    if(c == win_color)
-                        return MAX;
-                    else
-                        return MIN;
-                }
+                    return (c == win_color) ? MAX : MIN;
+
+                // TODO use break;
                 //                else if(v3 == test)
-                //                {
-                //                    if(c == ai_color)
-                //                        score += ALIGN3;
-                //                    else
-                //                        score -= ALIGN3;
-                //                    break;
-                //                }
+                //                    score += (c == win_color) ? ALIGN3 : -ALIGN3;
                 //                else if(v2 == test)
-                //                {
-                //                    if(c == ai_color)
-                //                        score += ALIGN2;
-                //                    else
-                //                        score -= ALIGN2;
-                //                    break;
-                //                }
+                //                    score += (c == win_color) ? ALIGN2 : -ALIGN2;
             }
         }
     }
     return score;
 }
 
-int16_t evaluate_horizontal(const p4::Board::grid_t& grid, color_e win_color)
+int16_t evaluate_horizontal(const p4::Board::grid_t& grid, const color_e win_color)
 {
     int16_t score = 0;
 
@@ -81,18 +66,8 @@ int16_t evaluate_horizontal(const p4::Board::grid_t& grid, color_e win_color)
                 for(int xp = 0; xp < 4; ++xp)
                     test[xp] = grid[xp + x][y];
 
-                //                cout << "xy:" << x << y << endl;
-                //                for(auto i : test)
-                //                    cout << i;
-                //                cout << endl;
-
                 if(test == v4)
-                {
-                    if(c == win_color)
-                        return MAX;
-                    else
-                        return MIN;
-                }
+                    return (c == win_color) ? MAX : MIN;
             }
         }
     }
