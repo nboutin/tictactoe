@@ -13,9 +13,9 @@ public:
     static const auto N_COLUMN = 7;    // X
     static const auto N_ROW    = 6;    // Y
 
-    typedef std::array<std::array<Cell, N_ROW>, N_COLUMN> board_t;
+    typedef std::array<std::array<Cell, N_ROW>, N_COLUMN> grid_t;
 
-    const board_t& get_board() const { return board; }
+    const grid_t& get_grid() const { return grid; }
 
     bool play(uint8_t x, color_e color);
     void unplay(uint8_t x);
@@ -30,6 +30,6 @@ private:
     // 3 - - - - - - -
     // 4 - - - - - - -
     // 5 - - - - - - -
-    board_t board;
+    grid_t grid;
 };
 }

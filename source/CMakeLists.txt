@@ -22,6 +22,7 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/model/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/view/view_ascii.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/ai/minmax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/ai/evaluate.cpp
 )
 
 ##### Compilation

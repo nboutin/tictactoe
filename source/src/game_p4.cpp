@@ -57,7 +57,7 @@ void Game_P4::set_name(uint8_t i, const std::string& name)
 /// A game is finished, if someone win, if no more token can be added to the board (draw)
 bool Game_P4::compute_ending()
 {
-    const auto& b        = board.get_board();
+    const auto& b        = board.get_grid();
     auto space_available = false;
 
     // Look for free cell in the highest row
@@ -80,7 +80,7 @@ void Game_P4::compute_next_player()
         current_player = &p1;
 }
 
-bool Game_P4::is_winner_vertically(const Board::board_t& b) const
+bool Game_P4::is_winner_vertically(const Board::grid_t& b) const
 {
     for(int x = 0; x < Board::N_COLUMN; ++x)
     {
@@ -114,7 +114,7 @@ bool Game_P4::is_winner_vertically(const Board::board_t& b) const
     return false;
 }
 
-bool Game_P4::is_winner_horizontally(const Board::board_t& b) const
+bool Game_P4::is_winner_horizontally(const Board::grid_t& b) const
 {
     for(int y = 0; y < Board::N_ROW; ++y)
     {
@@ -148,7 +148,7 @@ bool Game_P4::is_winner_horizontally(const Board::board_t& b) const
     return false;
 }
 
-bool Game_P4::is_winner_diagonal(const Board::board_t& b) const
+bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
 {
     // Diag '\'
     for(int y = 0; y <= 2; ++y)

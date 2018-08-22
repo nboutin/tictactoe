@@ -14,7 +14,7 @@ void View_ASCII::display(bool clear)
     if(clear)
         std::system("clear");
 
-    const auto& b = board.get_board();
+    const auto& b = board.get_grid();
 
     for(int y = 0; y < Board::N_ROW; ++y)
     {
