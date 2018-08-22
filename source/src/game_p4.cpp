@@ -8,8 +8,10 @@ Game_P4::Game_P4()
     : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(&p1)
 {}
 
-bool Game_P4::play(uint8_t x)
+bool Game_P4::play(const uint8_t x)
 {
+    last_move.reset();
+
     if(finished)
         return false;
 
@@ -20,13 +22,15 @@ bool Game_P4::play(uint8_t x)
         compute_next_player();
 
     moves_history.push_back(x);
+    last_move = x;
 
     return true;
 }
 
-void Game_P4::unplay(uint8_t x)
+void Game_P4::undo()
 {
-    board.unplay(x);
+    if(last_move)
+        board.unplay(last_move.value());
     finished = false;
     compute_next_player();
 }

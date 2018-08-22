@@ -11,7 +11,7 @@ int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
     const auto v = evaluate_vertical(grid, win_color);
     const auto h = evaluate_horizontal(grid, win_color);
 
-    cout << "eval v+h:" << v << "+" << h << endl;
+    //    cout << "eval v+h:" << v << "+" << h << endl;
 
     return v + h;
     //    return evaluate_vertical(game) + evaluate_horizontal(game);

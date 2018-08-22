@@ -5,7 +5,7 @@
 #include <limits>
 
 #include "evaluate.h"
-#include "view_ascii.h"
+//#include "view_ascii.h"
 
 using namespace ai;
 using namespace p4;
@@ -18,14 +18,13 @@ uint8_t Minmax::compute(p4::Game_P4 game)
     int16_t max       = std::numeric_limits<int16_t>::min();
     uint8_t best_move = 0;
 
-    //    for(int m = 0; m < Board::N_COLUMN; ++m)
-    for(int m = 0; m < 1; ++m)
+    for(int m = 0; m < Board::N_COLUMN; ++m)
     {
         game.play(m);
 
-        view::View_ASCII v(game.get_board());
-        v.display(false);
-        cout << __PRETTY_FUNCTION__ << endl;
+        //        view::View_ASCII v(game.get_board());
+        //        v.display(false);
+        //        cout << __PRETTY_FUNCTION__ << endl;
 
         int16_t val = min(game, depth);
 
@@ -34,9 +33,9 @@ uint8_t Minmax::compute(p4::Game_P4 game)
             max       = val;
             best_move = m;
         }
-        game.unplay(m);
+        game.undo();
 
-        cout << "compute:: m:" << m << ", val:" << val << ", max:" << max << endl;
+        //        cout << "compute:: m:" << m << ", val:" << val << ", max:" << max << endl;
     }
 
     return best_move;
@@ -46,8 +45,9 @@ int16_t Minmax::min(p4::Game_P4& game, uint8_t _depth)
 {
     if(_depth == 0 || game.is_finished())
     {
-        cout << "min out" << endl;
-        return evaluate(game.get_board().get_grid(), player.get_color());
+        const auto score = evaluate(game.get_board().get_grid(), player.get_color());
+        //        cout << "min out:" << score << endl;
+        return score;
     }
 
     int16_t min = std::numeric_limits<int16_t>::max();
@@ -60,11 +60,11 @@ int16_t Minmax::min(p4::Game_P4& game, uint8_t _depth)
         if(val < min)
             min = val;
 
-        view::View_ASCII v(game.get_board());
-        v.display(false);
+//        view::View_ASCII v(game.get_board());
+//        v.display(false);
 
-        cout << "min:: m:" << m << ", val:" << val << ", min:" << min << endl;
-        game.unplay(m);
+        //        cout << "min:: m:" << m << ", val:" << val << ", min:" << min << endl;
+        game.undo();
     }
     return min;
 }
@@ -84,7 +84,7 @@ int16_t Minmax::max(p4::Game_P4& game, uint8_t _depth)
         if(val > max)
             max = val;
 
-        game.unplay(m);
+        game.undo();
     }
     return max;
 }

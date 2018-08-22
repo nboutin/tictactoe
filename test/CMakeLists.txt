@@ -28,7 +28,7 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_cell.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_evaluate.cpp
-#	${CMAKE_CURRENT_SOURCE_DIR}/src/test_minmax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_minmax.cpp
 #	${CMAKE_CURRENT_SOURCE_DIR}/src/test_game_p4.cpp
 	
 	${CMAKE_SOURCE_DIR}/source/src/model/board.cpp

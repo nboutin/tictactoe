@@ -14,7 +14,7 @@ public:
     Game_P4();
 
     bool play(uint8_t x);
-    void unplay(uint8_t x);
+    void undo();
 
     bool is_finished() const { return finished; };
 
@@ -42,5 +42,6 @@ private:
     Board board;
     bool finished = false;
     std::vector<uint8_t> moves_history;
+    std::optional<uint8_t> last_move;
 };
 }
