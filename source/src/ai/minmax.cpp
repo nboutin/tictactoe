@@ -20,21 +20,21 @@ uint8_t Minmax::compute(p4::Game_P4 game)
 
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
-        game.play(m);
-
-        //        view::View_ASCII v(game.get_board());
-        //        v.display(false);
-        //        cout << __PRETTY_FUNCTION__ << endl;
-
-        int16_t val = min(game, depth);
-
-        if(val > max)
+        if(game.play(m))
         {
-            max       = val;
-            best_move = m;
-        }
-        game.undo();
+            //        view::View_ASCII v(game.get_board());
+            //        v.display(false);
+            //        cout << __PRETTY_FUNCTION__ << endl;
 
+            int16_t val = min(game, depth);
+
+            if(val > max)
+            {
+                max       = val;
+                best_move = m;
+            }
+            game.undo();
+        }
         //        cout << "compute:: m:" << m << ", val:" << val << ", max:" << max << endl;
     }
 
@@ -54,17 +54,18 @@ int16_t Minmax::min(p4::Game_P4& game, uint8_t _depth)
 
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
-        game.play(m);
+        if(game.play(m))
+        {
+            int16_t val = max(game, _depth - 1);
+            if(val < min)
+                min = val;
 
-        int16_t val = max(game, _depth - 1);
-        if(val < min)
-            min = val;
+            //        view::View_ASCII v(game.get_board());
+            //        v.display(false);
 
-//        view::View_ASCII v(game.get_board());
-//        v.display(false);
-
-        //        cout << "min:: m:" << m << ", val:" << val << ", min:" << min << endl;
-        game.undo();
+            //        cout << "min:: m:" << m << ", val:" << val << ", min:" << min << endl;
+            game.undo();
+        }
     }
     return min;
 }
@@ -78,13 +79,14 @@ int16_t Minmax::max(p4::Game_P4& game, uint8_t _depth)
 
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
-        game.play(m);
+        if(game.play(m))
+        {
+            int16_t val = min(game, _depth - 1);
+            if(val > max)
+                max = val;
 
-        int16_t val = min(game, _depth - 1);
-        if(val > max)
-            max = val;
-
-        game.undo();
+            game.undo();
+        }
     }
     return max;
 }
