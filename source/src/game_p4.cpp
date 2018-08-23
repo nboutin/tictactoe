@@ -30,9 +30,11 @@ bool Game_P4::play(const uint8_t x)
 void Game_P4::undo()
 {
     if(last_move)
+    {
         board.unplay(last_move.value());
+        compute_next_player();
+    }
     finished = false;
-    compute_next_player();
 }
 
 // TODO add check

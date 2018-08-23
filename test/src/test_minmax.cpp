@@ -63,14 +63,15 @@ using namespace std;
 
 TEST_CASE("min", "[minmax]")
 {
-    //    r---
-    //    r-y-
-    //    r-y-
-    //    r-y-
+    // ----
+    // ----
+    // r-Y-
+    // r-y-
+    // r-y-
     SECTION("depth 0")
     {
-        const vector<int> moves{0, 3, 0, 3, 0, 3, 0};
-        const array<int16_t, Board::N_COLUMN> expected{1000, 1000, 1000, 1000, 1000, 1000, 1000};
+        const vector<int> moves{0, 3, 0, 3, 0, 3};
+        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, 0, 0, 0};
 
         Game_P4 game;
         Minmax minmax(game.get_player(1), 0);
@@ -83,7 +84,18 @@ TEST_CASE("min", "[minmax]")
 
         for(int i = 0; i < Board::N_COLUMN; ++i)
         {
+            if(i == 3)
+            {
+                view::View_ASCII v(game.get_board());
+                v.display(false);
+            }
             game.play(i);
+
+            if(i == 3)
+            {
+                view::View_ASCII v(game.get_board());
+                v.display(false);
+            }
 
             CAPTURE(i);
             REQUIRE(minmax.min(game, 0) == expected[i]);

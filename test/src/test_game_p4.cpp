@@ -177,11 +177,3 @@ TEST_CASE("is finished", "[game_p4]")
 
     REQUIRE_FALSE(game.play(3));
 }
-
-TEST_CASE("Bug", "[game_p4]")
-{
-    Game_P4 game;
-    REQUIRE(game.play(0));
-    REQUIRE(game.play(4));
-    REQUIRE_FALSE(game.is_finished());
-}
