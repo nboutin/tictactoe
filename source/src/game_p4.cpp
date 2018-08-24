@@ -93,6 +93,7 @@ void Game_P4::compute_next_player()
         current_player = &p1;
 }
 
+// TODO search should start at the bottom of the grid y = 6;
 bool Game_P4::is_winner_vertically(const Board::grid_t& b) const
 {
     for(int x = 0; x < Board::N_COLUMN; ++x)
@@ -120,13 +121,14 @@ bool Game_P4::is_winner_vertically(const Board::grid_t& b) const
                 red = 0;
             }
 
-            if(red >= 4 || yellow >= 4)
+            if(red >= LIGNE || yellow >= LIGNE)
                 return true;
         }
     }
     return false;
 }
 
+// TODO search should start at the bottom of the grid y = 6;
 bool Game_P4::is_winner_horizontally(const Board::grid_t& b) const
 {
     for(int y = 0; y < Board::N_ROW; ++y)
@@ -154,13 +156,14 @@ bool Game_P4::is_winner_horizontally(const Board::grid_t& b) const
                 red = 0;
             }
 
-            if(red >= 4 || yellow >= 4)
+            if(red >= LIGNE || yellow >= LIGNE)
                 return true;
         }
     }
     return false;
 }
 
+// TODO search should start at the bottom of the grid y = 6;
 bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
 {
     // Diag '\'
@@ -170,7 +173,7 @@ bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
         {
             int red    = 0;
             int yellow = 0;
-            for(int i = 0; i < 4; ++i)
+            for(int i = 0; i < LIGNE; ++i)
             {
                 const auto& cell = b[x + i][y + i];
 
@@ -192,7 +195,7 @@ bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
                     red = 0;
                 }
 
-                if(red >= 4 || yellow >= 4)
+                if(red >= LIGNE || yellow >= LIGNE)
                     return true;
             }
         }
@@ -205,7 +208,7 @@ bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
         {
             int red    = 0;
             int yellow = 0;
-            for(int i = 0; i < 4; ++i)
+            for(int i = 0; i < LIGNE; ++i)
             {
                 const auto& cell = b[x - i][y + i];
 
@@ -227,7 +230,7 @@ bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
                     red = 0;
                 }
 
-                if(red >= 4 || yellow >= 4)
+                if(red >= LIGNE || yellow >= LIGNE)
                     return true;
             }
         }

@@ -8,6 +8,9 @@
 
 namespace p4
 {
+
+constexpr auto LIGNE = 4;
+
 class Game_P4
 {
 public:

@@ -1,5 +1,6 @@
 
 #include "evaluate.h"
+#include "game_p4.h"
 
 using namespace p4;
 using namespace std;
@@ -8,7 +9,8 @@ namespace ai
 {
 int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
 {
-    return evaluate_vertical(grid, win_color) + evaluate_horizontal(grid, win_color);
+    return evaluate_vertical(grid, win_color) + evaluate_horizontal(grid, win_color)
+           + evaluate_diagonal(grid, win_color);
 }
 
 int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color)
@@ -65,6 +67,52 @@ int16_t evaluate_horizontal(const p4::Board::grid_t& grid, const color_e win_col
             }
         }
     }
+    return score;
+}
+
+// TODO search should start at the bottom of the grid y = 6;
+int16_t evaluate_diagonal(const p4::Board::grid_t& grid, const p4::color_e win_color)
+{
+    int16_t score = 0;
+
+    // Diag '\'
+    for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
+    {
+        for(int x = 0; x <= Board::N_COLUMN - LIGNE; ++x)
+        {
+            for(const auto c : array<color_e, 2>{color_e::red, color_e::yellow})
+            {
+                const array<Cell, 4> v4{c, c, c, c};
+                array<Cell, 4> test;
+
+                for(int i = 0; i < LIGNE; ++i)
+                    test[i] = grid[x + i][y + i];
+
+                if(test == v4)
+                    return (c == win_color) ? WIN_POINT : LOOSE_POINT;
+            }
+        }
+    }
+
+    // Diag '/'
+    for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
+    {
+        for(int x = 3; x < Board::N_ROW; ++x)
+        {
+            for(const auto c : array<color_e, 2>{color_e::red, color_e::yellow})
+            {
+                const array<Cell, 4> v4{c, c, c, c};
+                array<Cell, 4> test;
+
+                for(int i = 0; i < LIGNE; ++i)
+                    test[i] = grid[x - i][y + i];
+
+                if(test == v4)
+                    return (c == win_color) ? WIN_POINT : LOOSE_POINT;
+            }
+        }
+    }
+
     return score;
 }
 }
