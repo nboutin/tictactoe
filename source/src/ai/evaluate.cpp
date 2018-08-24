@@ -8,13 +8,7 @@ namespace ai
 {
 int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
 {
-    const auto v = evaluate_vertical(grid, win_color);
-    const auto h = evaluate_horizontal(grid, win_color);
-
-    //    cout << "eval v+h:" << v << "+" << h << endl;
-
-    return v + h;
-    //    return evaluate_vertical(game) + evaluate_horizontal(game);
+    return evaluate_vertical(grid, win_color) + evaluate_horizontal(grid, win_color);
 }
 
 int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color)
@@ -36,7 +30,7 @@ int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color
                 std::copy(grid[x].begin() + y, grid[x].begin() + y + 4, test.begin());
 
                 if(v4 == test)
-                    return (c == win_color) ? MAX : MIN;
+                    return (c == win_color) ? WIN_POINT : LOOSE_POINT;
 
                 // TODO use break;
                 //                else if(v3 == test)
@@ -67,7 +61,7 @@ int16_t evaluate_horizontal(const p4::Board::grid_t& grid, const color_e win_col
                     test[xp] = grid[xp + x][y];
 
                 if(test == v4)
-                    return (c == win_color) ? MAX : MIN;
+                    return (c == win_color) ? WIN_POINT : LOOSE_POINT;
             }
         }
     }

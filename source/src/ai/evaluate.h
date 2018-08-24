@@ -6,11 +6,8 @@
 
 namespace ai
 {
-static const auto MAX    = 1000;
-static const auto MIN    = -MAX;
-static const auto ALIGN3 = 3;    // -xxx
-static const auto ALIGN2 = 2;    // --xx
-static const auto ALIGN1 = 1;    // ---x
+constexpr auto WIN_POINT = 1000;
+constexpr auto LOOSE_POINT = -WIN_POINT;
 
 int16_t evaluate(const p4::Board::grid_t& grid, p4::color_e win_color);
 int16_t evaluate_horizontal(const p4::Board::grid_t& grid, p4::color_e win_color);

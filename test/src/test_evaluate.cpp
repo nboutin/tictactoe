@@ -14,7 +14,7 @@ TEST_CASE("eval_h", "[evaluate]")
     SECTION("first row")
     {
         const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{MAX, MIN};
+        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -31,7 +31,7 @@ TEST_CASE("eval_h", "[evaluate]")
     SECTION("first row at the top")
     {
         const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{MAX, MIN};
+        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -48,7 +48,7 @@ TEST_CASE("eval_h", "[evaluate]")
     SECTION("left row")
     {
         const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{MAX, MIN};
+        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -65,7 +65,7 @@ TEST_CASE("eval_h", "[evaluate]")
     SECTION("middle")
     {
         const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{MAX, MIN};
+        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -91,7 +91,7 @@ TEST_CASE("eval_v", "[evaluate]")
     SECTION("first column")
     {
         array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{MAX, MIN};
+        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -108,7 +108,7 @@ TEST_CASE("eval_v", "[evaluate]")
     SECTION("first column at the top")
     {
         array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{MAX, MIN};
+        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -124,7 +124,7 @@ TEST_CASE("eval_v", "[evaluate]")
     SECTION("last column")
     {
         array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{MAX, MIN};
+        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -140,7 +140,7 @@ TEST_CASE("eval_v", "[evaluate]")
     SECTION("in the middle")
     {
         array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{MAX, MIN};
+        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;

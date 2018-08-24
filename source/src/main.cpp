@@ -10,8 +10,6 @@ using namespace view;
 using namespace std;
 using namespace ai;
 
-// https://gist.github.com/application2000/73fd6f4bf1be6600a2cf9f56315a2d91
-
 int main(int argc, char* argv[])
 {
     Game_P4 game;

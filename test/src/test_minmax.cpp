@@ -2,6 +2,7 @@
 #include <catch.hpp>
 #include <vector>
 
+#include "evaluate.h"
 #include "game_p4.h"
 #include "view_ascii.h"
 
@@ -25,7 +26,7 @@ TEST_CASE("min", "[minmax]")
     {
         const int depth = 0;
         const vector<int> moves{0, 3, 0, 3, 0, 3};
-        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, 0, 0, 0, 0};
+        const array<int16_t, Board::N_COLUMN> expected{WIN_POINT, 0, 0, 0, 0, 0, 0};
 
         Game_P4 game;
         Minmax minmax(game.get_player(1), depth);
@@ -53,15 +54,15 @@ TEST_CASE("min", "[minmax]")
     {
         const int depth = 0;
         const vector<int> moves{0, 3, 0, 3, 0, 3};
-        const array<int16_t, Board::N_COLUMN> expected_min{1000, 0, 0, 0, 0, 0, 0};
+        const array<int16_t, Board::N_COLUMN> expected_min{WIN_POINT, 0, 0, 0, 0, 0, 0};
         const array<array<int16_t, Board::N_COLUMN>, Board::N_COLUMN> expected_max{{
             {{0, 0, 0, 0, 0, 0, 0}},    // no used
-            {{0, 0, 0, -1000, 0, 0, 0}},
-            {{0, 0, 0, -1000, 0, 0, 0}},
+            {{0, 0, 0, LOOSE_POINT, 0, 0, 0}},
+            {{0, 0, 0, LOOSE_POINT, 0, 0, 0}},
             {{0, 0, 0, 0, 0, 0, 0}},
-            {{0, 0, 0, -1000, 0, 0, 0}},
-            {{0, 0, 0, -1000, 0, 0, 0}},
-            {{0, 0, 0, -1000, 0, 0, 0}},
+            {{0, 0, 0, LOOSE_POINT, 0, 0, 0}},
+            {{0, 0, 0, LOOSE_POINT, 0, 0, 0}},
+            {{0, 0, 0, LOOSE_POINT, 0, 0, 0}},
         }};
 
         Game_P4 game;
@@ -135,7 +136,7 @@ TEST_CASE("min", "[minmax]")
 //        game.unplay(2);
 //
 //        game.play(3);
-//        REQUIRE(minmax.evaluate(game) == -1000);
+//        REQUIRE(minmax.evaluate(game) == LOOSE_POINT);
 //        REQUIRE(game.is_finished());
 //        game.unplay(3);
 //        REQUIRE_FALSE(game.is_finished());
