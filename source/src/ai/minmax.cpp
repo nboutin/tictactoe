@@ -39,8 +39,8 @@ uint8_t Minmax::compute(p4::Game_P4 game)
                 max       = val;
                 best_move = m;
             }
-            game.undo();
         }
+        game.undo();
         //        cout << "compute:: m:" << m << ", val:" << val << ", max:" << max
         //        << endl;
     }
@@ -78,8 +78,8 @@ int16_t Minmax::min(p4::Game_P4& game, const uint8_t _depth)
 
             //        cout << "min:: m:" << m << ", val:" << val << ", min:" << min <<
             //        endl;
-            game.undo();
         }
+        game.undo();
     }
     return min;
 }
@@ -104,9 +104,8 @@ int16_t Minmax::max(p4::Game_P4& game, const uint8_t _depth)
             int16_t val = min(game, _depth - 1);
             if(val > max)
                 max = val;
-
-            game.undo();
         }
+        game.undo();
     }
     return max;
 }
