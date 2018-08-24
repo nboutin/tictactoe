@@ -71,7 +71,7 @@ TEST_CASE("min", "[minmax]")
     SECTION("depth 0")
     {
         const vector<int> moves{0, 3, 0, 3, 0, 3};
-        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, 0, 0, 0};
+        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, -1000, 0, 0};
 
         Game_P4 game;
         Minmax minmax(game.get_player(1), 0);
@@ -84,25 +84,43 @@ TEST_CASE("min", "[minmax]")
 
         for(int i = 0; i < Board::N_COLUMN; ++i)
         {
-            if(i == 3)
-            {
-                view::View_ASCII v(game.get_board());
-                v.display(false);
-            }
-            game.play(i);
-
-            if(i == 3)
-            {
-                view::View_ASCII v(game.get_board());
-                v.display(false);
-            }
-
+            REQUIRE(game.play(i));
             CAPTURE(i);
             REQUIRE(minmax.min(game, 0) == expected[i]);
 
             game.undo();
         }
     }
+
+    // ----
+    // ----
+    // r-Y-
+    // r-y-
+    // r-y-
+    //    SECTION("depth 1")
+    //    {
+    //    	const int depth = 1;
+    //        const vector<int> moves{0, 3, 0, 3, 0, 3};
+    //        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, -1000, 0, 0};
+    //
+    //        Game_P4 game;
+    //        Minmax minmax(game.get_player(1), depth);
+    //
+    //        for(auto m : moves)
+    //            game.play(m);
+    //
+    //        view::View_ASCII v(game.get_board());
+    //        v.display(false);
+    //
+    //        for(int i = 0; i < Board::N_COLUMN; ++i)
+    //        {
+    //            REQUIRE(game.play(i));
+    //            CAPTURE(i);
+    //            REQUIRE(minmax.min(game, 0) == expected[i]);
+    //
+    //            game.undo();
+    //        }
+    //    }
 }
 
 // TEST_CASE("compute", "[minmax]")
