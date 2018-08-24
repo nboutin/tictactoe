@@ -10,25 +10,32 @@ Game_P4::Game_P4()
 
 bool Game_P4::play(const uint8_t x)
 {
-    last_move.reset();
-
     if(finished)
+    {
+        moves_history.push_back({});    // bad move
         return false;
+    }
 
     if(!board.play(x, current_player->get_color()))
+    {
+        moves_history.push_back({});    // bad move
         return false;
+    }
 
-    if(!compute_ending())
-        compute_next_player();
+    compute_ending();
 
-    moves_history.push_back(x);
-    last_move = x;
+    compute_next_player();
+
+    moves_history.push_back({x});
 
     return true;
 }
 
 void Game_P4::undo()
 {
+    auto last_move = moves_history.back();
+    moves_history.pop_back();
+
     if(last_move)
     {
         board.unplay(last_move.value());
@@ -38,10 +45,10 @@ void Game_P4::undo()
 }
 
 // TODO add check
-const Player& Game_P4::get_player(uint8_t i) { return (i == 1) ? p1 : p2; }
+const Player& Game_P4::get_player(const uint8_t i) { return (i == 1) ? p1 : p2; }
 
 // TODO add check
-void Game_P4::set_ai(uint8_t i)
+void Game_P4::set_ai(const uint8_t i)
 {
     if(i == 1)
         p1.set_ai();
@@ -49,7 +56,7 @@ void Game_P4::set_ai(uint8_t i)
         p2.set_ai();
 }
 
-void Game_P4::set_name(uint8_t i, const std::string& name)
+void Game_P4::set_name(const uint8_t i, const std::string& name)
 {
     if(i == 1)
         p1.set_name(name);

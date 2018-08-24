@@ -25,7 +25,7 @@ public:
     void set_ai(uint8_t i);
     void set_name(uint8_t i, const std::string& name);
 
-    std::vector<uint8_t> get_history() const { return moves_history; }
+    std::vector<std::optional<uint8_t>> get_history() const { return moves_history; }
 
 private:
     void compute_next_player();
@@ -41,7 +41,6 @@ private:
 
     Board board;
     bool finished = false;
-    std::vector<uint8_t> moves_history;
-    std::optional<uint8_t> last_move;
+    std::vector<std::optional<uint8_t>> moves_history;
 };
 }

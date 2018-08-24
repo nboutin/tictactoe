@@ -14,6 +14,96 @@ using namespace p4;
 using namespace ai;
 using namespace std;
 
+TEST_CASE("min", "[minmax]")
+{
+    // ----
+    // ----
+    // r-Y-
+    // r-y-
+    // r-y-
+    SECTION("depth 0")
+    {
+        const int depth = 0;
+        const vector<int> moves{0, 3, 0, 3, 0, 3};
+        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, 0, 0, 0, 0};
+
+        Game_P4 game;
+        Minmax minmax(game.get_player(1), depth);
+
+        for(auto m : moves)
+            game.play(m);
+
+        for(int i = 0; i < Board::N_COLUMN; ++i)
+        {
+            REQUIRE(game.play(i));
+            CAPTURE(i);
+            REQUIRE(minmax.min(game, 0) == expected[i]);
+
+            game.undo();
+        }
+    }
+
+    // -----
+    // -----
+    // r--Y-
+    // r--y-
+    // r--y-
+    // 0123456
+    SECTION("depth 1")
+    {
+        const int depth = 0;
+        const vector<int> moves{0, 3, 0, 3, 0, 3};
+        const array<int16_t, Board::N_COLUMN> expected_min{1000, 0, 0, 0, 0, 0, 0};
+        const array<array<int16_t, Board::N_COLUMN>, Board::N_COLUMN> expected_max{{
+            {{0, 0, 0, 0, 0, 0, 0}},    // no used
+            {{0, 0, 0, -1000, 0, 0, 0}},
+            {{0, 0, 0, -1000, 0, 0, 0}},
+            {{0, 0, 0, 0, 0, 0, 0}},
+            {{0, 0, 0, -1000, 0, 0, 0}},
+            {{0, 0, 0, -1000, 0, 0, 0}},
+            {{0, 0, 0, -1000, 0, 0, 0}},
+        }};
+
+        Game_P4 game;
+        Minmax minmax(game.get_player(1), depth);
+
+        for(auto m : moves)
+            game.play(m);
+
+        for(int i = 0; i < Board::N_COLUMN; ++i)
+        {
+            //            cout << "###########i:" << i << endl;
+
+            REQUIRE(game.get_current_player().get_color() == color_e::red);
+            CAPTURE(i);
+            REQUIRE(game.play(i));
+
+            //            view::View_ASCII v(game.get_board());
+            //            v.display(false);
+
+            REQUIRE(minmax.min(game, depth) == expected_min[i]);
+
+            for(int j = 0; j < Board::N_COLUMN; ++j)
+            {
+                //                cout << "j:" << j << endl;
+                if(i == 0)
+                    continue;
+
+                REQUIRE(game.get_current_player().get_color() == color_e::yellow);
+
+                CAPTURE(j);
+                REQUIRE(game.play(j));
+
+                //                v.display(false);
+
+                REQUIRE(minmax.max(game, depth) == expected_max[i][j]);
+                game.undo();
+            }
+            game.undo();
+        }
+    }
+}
+
 // TEST_CASE("eval", "[minmax]")
 //{
 //    SECTION("")
@@ -60,68 +150,6 @@ using namespace std;
 //        //        v.display(false);
 //    }
 //}
-
-TEST_CASE("min", "[minmax]")
-{
-    // ----
-    // ----
-    // r-Y-
-    // r-y-
-    // r-y-
-    SECTION("depth 0")
-    {
-        const vector<int> moves{0, 3, 0, 3, 0, 3};
-        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, -1000, 0, 0};
-
-        Game_P4 game;
-        Minmax minmax(game.get_player(1), 0);
-
-        for(auto m : moves)
-            game.play(m);
-
-        view::View_ASCII v(game.get_board());
-        v.display(false);
-
-        for(int i = 0; i < Board::N_COLUMN; ++i)
-        {
-            REQUIRE(game.play(i));
-            CAPTURE(i);
-            REQUIRE(minmax.min(game, 0) == expected[i]);
-
-            game.undo();
-        }
-    }
-
-    // ----
-    // ----
-    // r-Y-
-    // r-y-
-    // r-y-
-    //    SECTION("depth 1")
-    //    {
-    //    	const int depth = 1;
-    //        const vector<int> moves{0, 3, 0, 3, 0, 3};
-    //        const array<int16_t, Board::N_COLUMN> expected{1000, 0, 0, -1000, 0, 0};
-    //
-    //        Game_P4 game;
-    //        Minmax minmax(game.get_player(1), depth);
-    //
-    //        for(auto m : moves)
-    //            game.play(m);
-    //
-    //        view::View_ASCII v(game.get_board());
-    //        v.display(false);
-    //
-    //        for(int i = 0; i < Board::N_COLUMN; ++i)
-    //        {
-    //            REQUIRE(game.play(i));
-    //            CAPTURE(i);
-    //            REQUIRE(minmax.min(game, 0) == expected[i]);
-    //
-    //            game.undo();
-    //        }
-    //    }
-}
 
 // TEST_CASE("compute", "[minmax]")
 //{
