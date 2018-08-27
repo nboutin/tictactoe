@@ -95,9 +95,16 @@ int16_t evaluate_diagonal(const p4::Board::grid_t& grid, const p4::color_e win_c
     }
 
     // Diag '/'
+    //  0123456
+    // 0---r--r
+    // 1--r--r-
+    // 2-r-rr-r
+    // 3r-rr-r-
+    // 4-r--r--
+    // 5r--r---
     for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
     {
-        for(int x = 3; x < Board::N_ROW; ++x)
+        for(int x = 3; x < Board::N_COLUMN; ++x)
         {
             for(const auto c : array<color_e, 2>{color_e::red, color_e::yellow})
             {

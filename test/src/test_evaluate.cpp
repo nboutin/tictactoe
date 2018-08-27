@@ -13,8 +13,8 @@ TEST_CASE("eval_h", "[evaluate]")
 {
     SECTION("first row")
     {
-        const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -30,8 +30,8 @@ TEST_CASE("eval_h", "[evaluate]")
 
     SECTION("first row at the top")
     {
-        const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -47,8 +47,8 @@ TEST_CASE("eval_h", "[evaluate]")
 
     SECTION("left row")
     {
-        const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -64,8 +64,8 @@ TEST_CASE("eval_h", "[evaluate]")
 
     SECTION("middle")
     {
-        const array<color_e, 2> c{color_e::red, color_e::yellow};
-        const array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -90,8 +90,8 @@ TEST_CASE("eval_v", "[evaluate]")
 
     SECTION("first column")
     {
-        array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -107,8 +107,8 @@ TEST_CASE("eval_v", "[evaluate]")
 
     SECTION("first column at the top")
     {
-        array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -123,8 +123,8 @@ TEST_CASE("eval_v", "[evaluate]")
 
     SECTION("last column")
     {
-        array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -139,8 +139,8 @@ TEST_CASE("eval_v", "[evaluate]")
 
     SECTION("in the middle")
     {
-        array<color_e, 2> c{color_e::red, color_e::yellow};
-        array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
         for(int i = 0; i < 2; i++)
         {
             Board::grid_t grid;
@@ -149,6 +149,235 @@ TEST_CASE("eval_v", "[evaluate]")
             grid[3][3] = c[i];
             grid[3][4] = c[i];
 
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+}
+
+TEST_CASE("eval_d_down", "[evaluate]")
+{
+    // 2---r
+    // 3--r
+    // 4-r
+    // 5r-
+    // 0123456
+    SECTION("bottom left")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][5] = c[i];
+            grid[1][4] = c[i];
+            grid[2][3] = c[i];
+            grid[3][2] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123
+    // 0---r
+    // 1--r
+    // 2-r
+    // 3r
+    SECTION("top left")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[3][0] = c[i];
+            grid[2][1] = c[i];
+            grid[1][2] = c[i];
+            grid[0][3] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  01234
+    // 0-----
+    // 1----r
+    // 2---r
+    // 3--r
+    // 4-r
+    // 5-
+    SECTION("middle")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[4][1] = c[i];
+            grid[3][2] = c[i];
+            grid[2][3] = c[i];
+            grid[1][4] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123456
+    // 0------r
+    // 1-----r
+    // 2----r
+    // 3---r
+    SECTION("top right")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[6][0] = c[i];
+            grid[5][1] = c[i];
+            grid[4][2] = c[i];
+            grid[3][3] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123456
+    // 2------r
+    // 3-----r
+    // 4----r
+    // 5---r
+    SECTION("bottom right")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[6][2] = c[i];
+            grid[5][3] = c[i];
+            grid[4][4] = c[i];
+            grid[3][5] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+}
+
+TEST_CASE("eval_d_up", "[evaluate]")
+{
+    //  0123456
+    // 0r
+    // 1-r
+    // 2--r
+    // 3---r
+    SECTION("top left")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][0] = c[i];
+            grid[1][1] = c[i];
+            grid[2][2] = c[i];
+            grid[3][3] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123456
+    // 2r
+    // 3-r
+    // 4--r
+    // 5---r
+    SECTION("bottom left")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[0][2] = c[i];
+            grid[1][3] = c[i];
+            grid[2][4] = c[i];
+            grid[3][5] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123456
+    // 0---r---
+    // 1----r--
+    // 2-----r-
+    // 3------r
+    SECTION("top right")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[3][0] = c[i];
+            grid[4][1] = c[i];
+            grid[5][2] = c[i];
+            grid[6][3] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123456
+    // 2---r---
+    // 3----r--
+    // 4-----r-
+    // 5------r
+    SECTION("bottom right")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[3][2] = c[i];
+            grid[4][3] = c[i];
+            grid[5][4] = c[i];
+            grid[6][5] = c[i];
+
+            CAPTURE(i);
+            REQUIRE(evaluate(grid, color_e::red) == r[i]);
+        }
+    }
+
+    //  0123456
+    // 0
+    // 1--r
+    // 2---r
+    // 3----r
+    // 4-----r
+    SECTION("middle")
+    {
+        constexpr array<color_e, 2> c{color_e::red, color_e::yellow};
+        constexpr array<int16_t, 2> r{WIN_POINT, LOOSE_POINT};
+        for(int i = 0; i < 2; i++)
+        {
+            Board::grid_t grid;
+            grid[2][1] = c[i];
+            grid[3][2] = c[i];
+            grid[4][3] = c[i];
+            grid[5][4] = c[i];
+
+            CAPTURE(i);
             REQUIRE(evaluate(grid, color_e::red) == r[i]);
         }
     }
