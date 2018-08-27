@@ -33,9 +33,7 @@ TEST_CASE("no more free cell", "[game_p4]")
     std::vector<int> moves{0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 2, 3, 4, 5, 4, 5, 4, 5, 1, 2, 1,
                            2, 1, 2, 3, 4, 3, 4, 3, 4, 6, 0, 6, 0, 6, 0, 5, 6, 5, 6, 5};
     for(auto m : moves)
-    {
         game.play(m);
-    }
 
     REQUIRE_FALSE(game.is_finished());
 

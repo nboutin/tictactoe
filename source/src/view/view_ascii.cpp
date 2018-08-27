@@ -26,6 +26,18 @@ void View_ASCII::display(bool clear)
     }
     cout << "0123456\n";
 
+    // print history
+    cout << "history:";
+    for(auto h : history)
+    {
+        if(h)
+            cout << (int)h.value();
+        else
+            cout << '-';
+        cout << ",";
+    }
+    cout << '\n';
+
     if(current_player.get_color() == color_e::red)
         cout << "\033[1;31;44m";
     else

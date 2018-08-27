@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
 
         view.set_current_player(game.get_current_player());
         view.message(game.get_current_player().get_name() + ":");
+        view.set_history(game.get_history());
         view.display();
     }
     view.message("Game is finished");
