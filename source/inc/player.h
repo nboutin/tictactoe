@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <string>
-
 #include "color.h"
+
+#include <string>
 
 namespace p4
 {

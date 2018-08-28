@@ -1,11 +1,11 @@
 
 #include "minmax.h"
+#include "evaluate.h"
+//#include "view_ascii.h"
 
 #include <iostream>
 #include <limits>
-
-#include "evaluate.h"
-//#include "view_ascii.h"
+#include <utility>
 
 using namespace ai;
 using namespace p4;
@@ -18,11 +18,14 @@ uint8_t Minmax::compute(p4::Game_P4 game) const
     int16_t max       = std::numeric_limits<int16_t>::min();
     uint8_t best_move = 0;
 
+    vector<pair<int, int>> v_min;
+    int16_t val = 0;
+
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
         if(game.play(m))
         {
-            int16_t val = min(game, depth);
+            val = min(game, depth);
 
             if(val > max)
             {
@@ -31,7 +34,11 @@ uint8_t Minmax::compute(p4::Game_P4 game) const
             }
         }
         game.undo();
+        v_min.push_back(make_pair(m, val));
     }
+
+    for(auto t : v_min)
+        cout << "(" << t.first << ',' << t.second << ')';
 
     return best_move;
 }
@@ -42,17 +49,24 @@ int16_t Minmax::min(p4::Game_P4& game, const uint8_t _depth) const
         return evaluate(game.get_board().get_grid(), player.get_color());
 
     int16_t min = std::numeric_limits<int16_t>::max();
+    vector<pair<int, int>> v_max;
+    int16_t val = 0;
 
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
         if(game.play(m))
         {
-            int16_t val = max(game, _depth - 1);
+            val = max(game, _depth - 1);
             if(val < min)
                 min = val;
         }
         game.undo();
+        v_max.push_back(make_pair(m, val));
     }
+
+    for(auto t : v_max)
+        cout << "(" << t.first << ',' << t.second << ')';
+
     return min;
 }
 
