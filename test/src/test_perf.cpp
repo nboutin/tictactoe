@@ -92,9 +92,9 @@ TEST_CASE("perf")
     SECTION("depth 4")
     {
         Game_P4 game;
-        Minmax minmax(game.get_player(1), 3);
+        Minmax minmax(game.get_player(1), 4);
         vector<uint32_t> durations;
-        for(int i = 0; i < C2; ++i)
+        for(int i = 0; i < 50; ++i)
         {
             auto start = std::chrono::high_resolution_clock::now();
             minmax.compute(game);
@@ -104,6 +104,42 @@ TEST_CASE("perf")
             durations.push_back(d);
         }
         auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
-        REQUIRE(average == Approx(chrono::milliseconds(64350).count()).epsilon(E1));
+        REQUIRE(average == Approx(chrono::milliseconds(452650).count()).epsilon(E1));
+    }
+
+    SECTION("depth 5")
+    {
+        Game_P4 game;
+        Minmax minmax(game.get_player(1), 5);
+        vector<uint32_t> durations;
+        for(int i = 0; i < 10; ++i)
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            minmax.compute(game);
+            auto stop = std::chrono::high_resolution_clock::now();
+
+            auto d = chrono::duration_cast<chrono::microseconds>(stop - start).count();
+            durations.push_back(d);
+        }
+        auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
+        REQUIRE(average == Approx(chrono::milliseconds(3205100).count()).epsilon(E1));
+    }
+
+    SECTION("depth 6")
+    {
+        Game_P4 game;
+        Minmax minmax(game.get_player(1), 6);
+        vector<uint32_t> durations;
+        for(int i = 0; i < 1; ++i)
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            minmax.compute(game);
+            auto stop = std::chrono::high_resolution_clock::now();
+
+            auto d = chrono::duration_cast<chrono::microseconds>(stop - start).count();
+            durations.push_back(d);
+        }
+        auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
+        REQUIRE(average == Approx(chrono::seconds(3205).count()).epsilon(E1));
     }
 }
