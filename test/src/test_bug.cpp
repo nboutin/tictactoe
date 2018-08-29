@@ -20,10 +20,13 @@ TEST_CASE("bug")
         const std::vector<int> moves{0, 3, 0, 2, 0, 0, 1, 3, 0, 3, 3, 2, 5, 4};
 
         // depth 0
-//        constexpr std::array<int, 7> compute{0, 0, 0, 0, 0, 0, 0};
+        //        constexpr std::array<int, 7> compute{0, 0, 0, 0, 0, 0, 0};
 
         // depth 1
-//        constexpr std::array<int, 7> compute{0, LOOSE_POINT, 0, 0, 0, 0, 0};
+        //        constexpr std::array<int, 7> compute{0, LOOSE_POINT, 0, 0, 0, 0, 0};
+
+        // depth 2
+        //        constexpr std::array<int, 7> compute{0, LOOSE_POINT, 0, 0, 0, 0, 0};
 
         // depth 3
         //        constexpr std::array<int, 7> compute{
@@ -36,7 +39,9 @@ TEST_CASE("bug")
         View_ASCII v(game.get_board());
         v.display();
 
-        Minmax minmax(game.get_player(1), 1);
+        const int depth = 2;
+
+        Minmax minmax(game.get_player(1), depth);
 
         minmax.compute(game);
     }

@@ -31,6 +31,7 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_minmax.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_game_p4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_bug.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/test_perf.cpp
 	
 	${CMAKE_SOURCE_DIR}/source/src/model/board.cpp
 	${CMAKE_SOURCE_DIR}/source/src/model/cell.cpp
