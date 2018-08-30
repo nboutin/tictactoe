@@ -2,6 +2,8 @@
 #include "evaluate.h"
 #include "game_p4.h"
 
+#include <algorithm>
+
 using namespace p4;
 using namespace std;
 
@@ -17,28 +19,38 @@ int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color
 {
     int16_t score = 0;
 
-    for(const auto c : array<color_e, 2>{color_e::red, color_e::yellow})
+    for(auto c : array<const color_e, 2>{color_e::red, color_e::yellow})
     {
-        const array<Cell, 4> v4{c, c, c, c};
-        //        const array<Cell, 4> v3{Cell(), {c}, {c}, {c}};
-        //        const array<Cell, 4> v2{Cell(), Cell(), {c}, {c}};
+        const array<Cell, 4> line{c, c, c, c};
+
+        //        for(int x = 0; x < Board::N_COLUMN; ++x)
+        //        {
+        //            // Start from bottom
+        //            for(int y = Board::N_ROW - 4; y >= 0; --y)
+        //            {
+        //            	// FIXME use constant
+        //                auto p = std::mismatch(
+        //                    grid[x].begin() + y, grid[x].begin() + y + 4, line.begin(),
+        //                    line.end());
+        //
+        //                // match found
+        //                //            p.first != grid[x].end() ||
+        //                if(p.second != line.end())
+        //                    return (c == win_color) ? WIN_POINT : LOOSE_POINT;
+        //            }
+        //        }
 
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
             // Start from bottom
+            // FIXME use constant
             for(int y = Board::N_ROW - 4; y >= 0; --y)
             {
                 array<Cell, 4> test;
                 std::copy(grid[x].begin() + y, grid[x].begin() + y + 4, test.begin());
 
-                if(v4 == test)
+                if(line == test)
                     return (c == win_color) ? WIN_POINT : LOOSE_POINT;
-
-                // TODO use break;
-                //                else if(v3 == test)
-                //                    score += (c == win_color) ? ALIGN3 : -ALIGN3;
-                //                else if(v2 == test)
-                //                    score += (c == win_color) ? ALIGN2 : -ALIGN2;
             }
         }
     }
