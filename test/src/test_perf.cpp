@@ -11,9 +11,9 @@ using namespace p4;
 using namespace ai;
 using namespace std;
 
-constexpr auto C1   = 1000;
-constexpr auto C2   = 100;
-constexpr auto E1   = 0.05;
+constexpr auto C1 = 1000;
+constexpr auto C2 = 100;
+constexpr auto E1 = 0.02;
 
 TEST_CASE("perf")
 {
@@ -122,24 +122,24 @@ TEST_CASE("perf")
             durations.push_back(d);
         }
         auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
-        REQUIRE(average == Approx(chrono::milliseconds(3205100).count()).epsilon(E1));
+        REQUIRE(average == Approx(chrono::milliseconds(3101100).count()).epsilon(E1));
     }
 
-    SECTION("depth 6")
-    {
-        Game_P4 game;
-        Minmax minmax(game.get_player(1), 6);
-        vector<uint32_t> durations;
-        for(int i = 0; i < 1; ++i)
-        {
-            auto start = std::chrono::high_resolution_clock::now();
-            minmax.compute(game);
-            auto stop = std::chrono::high_resolution_clock::now();
-
-            auto d = chrono::duration_cast<chrono::microseconds>(stop - start).count();
-            durations.push_back(d);
-        }
-        auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
-        REQUIRE(average == Approx(chrono::seconds(3205).count()).epsilon(E1));
-    }
+//    SECTION("depth 6")
+//    {
+//        Game_P4 game;
+//        Minmax minmax(game.get_player(1), 6);
+//        vector<uint32_t> durations;
+//        for(int i = 0; i < 1; ++i)
+//        {
+//            auto start = std::chrono::high_resolution_clock::now();
+//            minmax.compute(game);
+//            auto stop = std::chrono::high_resolution_clock::now();
+//
+//            auto d = chrono::duration_cast<chrono::milliseconds>(stop - start).count();
+//            durations.push_back(d);
+//        }
+//        auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
+//        REQUIRE(average == Approx(chrono::milliseconds(21000).count()).epsilon(E1));
+//    }
 }
