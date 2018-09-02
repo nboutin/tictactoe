@@ -1,11 +1,13 @@
 
 #include "view_ascii.h"
+#include "ansi_sequence.h"
 
 #include <iostream>
 
 using namespace view;
 using namespace p4;
 using namespace std;
+using namespace ansi;
 
 View_ASCII::View_ASCII(const Board& board) : board(board), current_player("", color_e::red) {}
 
@@ -31,7 +33,7 @@ void View_ASCII::display(bool clear)
     for(auto h : history)
     {
         if(h)
-            cout << (int)h.value();
+            cout << (int) h.value();
         else
             cout << '-';
         cout << ",";

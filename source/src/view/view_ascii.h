@@ -16,8 +16,8 @@ public:
 
     void display(bool clear = true);
     void message(const std::string& msg);
-    void set_history(const std::vector<std::optional<uint8_t>>& h) { history = h; }
 
+    void set_history(const std::vector<std::optional<uint8_t>>& h) { history = h; }
     void set_current_player(const p4::Player& p) { current_player = p; }
 
 private:
