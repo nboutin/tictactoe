@@ -13,7 +13,7 @@ public:
     static constexpr auto N_COLUMN = 7;    // X
     static constexpr auto N_ROW    = 6;    // Y
 
-    typedef std::array<std::array<Cell, N_ROW>, N_COLUMN> grid_t;
+    using grid_t = std::array<std::array<Cell, N_ROW>, N_COLUMN>;
 
     const grid_t& get_grid() const { return grid; }
 

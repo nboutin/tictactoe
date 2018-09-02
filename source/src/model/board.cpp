@@ -4,7 +4,7 @@
 using namespace p4;
 using namespace std;
 
-bool Board::play(uint8_t x, color_e color)
+bool Board::play(const uint8_t x, const color_e color)
 {
     if(x >= N_COLUMN)
         return false;
@@ -19,7 +19,7 @@ bool Board::play(uint8_t x, color_e color)
     return true;
 }
 
-void Board::unplay(uint8_t x)
+void Board::unplay(const uint8_t x)
 {
     int y = 0;
     for(; y < N_ROW; ++y)
@@ -29,7 +29,7 @@ void Board::unplay(uint8_t x)
     grid[x][y].remove_token();
 }
 
-optional<uint8_t> Board::find_free_row(uint8_t x)
+optional<uint8_t> Board::find_free_row(const uint8_t x)
 {
     for(int8_t y = N_ROW - 1; y >= 0; --y)
     {

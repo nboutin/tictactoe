@@ -11,8 +11,15 @@ namespace ai
 {
 int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
 {
-    return evaluate_vertical(grid, win_color) + evaluate_horizontal(grid, win_color)
-           + evaluate_diagonal(grid, win_color);
+    auto evalv = evaluate_vertical(grid, win_color);
+    auto evalh = evaluate_horizontal(grid, win_color);
+    auto evald = evaluate_diagonal(grid, win_color);
+
+    //    cout << "v:" << evalv << ", h:" << evalh << ", d:" << evald << endl;
+    return evalv + evalh + evald;
+
+    //    return evaluate_vertical(grid, win_color) + evaluate_horizontal(grid, win_color)
+    //           + evaluate_diagonal(grid, win_color);
 }
 
 int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color)

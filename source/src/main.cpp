@@ -12,12 +12,16 @@ using namespace ai;
 
 int main(int argc, char* argv[])
 {
+    cout << "Choose AI level:";
+    auto level = 0;
+    cin >> level;
+
     Game_P4 game;
     View_ASCII view(game.get_board());
 
     game.set_ai(1);
     game.set_name(1, "AI_1");
-    Minmax minmax(game.get_player(1), 5);
+    Minmax minmax(game.get_player(1), level);
 
     view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");
