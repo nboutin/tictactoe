@@ -15,7 +15,7 @@ constexpr auto C1 = 1000;
 constexpr auto C2 = 100;
 constexpr auto E1 = 0.02;
 
-TEST_CASE("perf")
+TEST_CASE("perf", "[!hide]")
 {
     SECTION("depth 0")
     {
