@@ -5,8 +5,8 @@ namespace ansi
 {
 namespace ansi_impl
 {
-constexpr auto csi_start = "\033[";    //!< Control Sequence Introducer, ESC [
-constexpr auto end       = 'm';
+// constexpr auto csi_start = "\033[";    //!< Control Sequence Introducer, ESC [
+constexpr auto end = "m";
 }
 //! \brief Select Graphic Rendition
 namespace sgr
@@ -57,10 +57,17 @@ enum class bg {
     def     = 49,    //!< default background color
 };
 
+template <typename T>
+    using enableStd = typename std::enable_if<
+      std::is_same<T, rang::style>::value || std::is_same<T, rang::fg>::value
+        || std::is_same<T, rang::bg>::value || std::is_same<T, rang::fgB>::value
+        || std::is_same<T, rang::bgB>::value,
+      std::ostream &>::type;
+
 template<typename T>
 inline std::ostream& operator<<(std::ostream& oss, const T value)
 {
-    return oss << ansi_impl::csi_start + static_cast<int>(value) + ansi_impl::end;
+    return oss << "\033[" << static_cast<int>(value) << "m";
 }
 
 // inline std::string csi(const std::string& sgr) { return csi_start + sgr + end; }
