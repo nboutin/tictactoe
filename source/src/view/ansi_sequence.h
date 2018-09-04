@@ -3,11 +3,15 @@
 
 namespace ansi
 {
-constexpr auto csi = "\033[";    //!< Control Sequence Introducer, ESC [
-
+namespace ansi_impl
+{
+constexpr auto csi_start = "\033[";    //!< Control Sequence Introducer, ESC [
+constexpr auto end       = 'm';
+}
 //! \brief Select Graphic Rendition
-enum class sgr {
-    end           = 'm',
+namespace sgr
+{
+enum class style {
     reset         = 0,
     bold          = 1,
     faint         = 2,
@@ -27,8 +31,7 @@ enum class sgr {
     inverse_off   = 27,
 };
 
-//! \brief Foreground color
-enum class f_color {
+enum class fg {
     black   = 30,
     red     = 31,
     green   = 32,
@@ -41,8 +44,7 @@ enum class f_color {
     def     = 39,    //!< default foreground color
 };
 
-//! \brief Background color
-enum class b_color {
+enum class bg {
     black   = 40,
     red     = 41,
     green   = 42,
@@ -55,19 +57,32 @@ enum class b_color {
     def     = 49,    //!< default background color
 };
 
-//inline std::ostream& sgr(sgr sgr)
-//{
+template<typename T>
+inline std::ostream& operator<<(std::ostream& oss, const T value)
+{
+    return oss << ansi_impl::csi_start + static_cast<int>(value) + ansi_impl::end;
+}
+
+// inline std::string csi(const std::string& sgr) { return csi_start + sgr + end; }
 //
+// inline std::string csi(const std::string& sgr1, const std::string& sgr2)
+//{
+//    return csi_start + sgr1 + ";" + sgr2 + ";" + end;
+//}
+//
+// inline std::string csi(const std::string& sgr1, const std::string& sgr2, const std::string& sgr3)
+//{
+//    return csi_start + sgr1 + ";" + sgr2 + ";" + sgr3 + end;
 //}
 
-//inline std::ostream& operator<<(std::ostream& oss, sgr c) { return oss << static_cast<char>(c); }
+// inline std::ostream& operator<<(std::ostream& oss, sgr c) { return oss << static_cast<char>(c); }
 //
-//inline std::ostream& operator<<(std::ostream& oss, f_color c)
+// inline std::ostream& operator<<(std::ostream& oss, f_color c)
 //{
 //    return oss << static_cast<char>(c);
 //}
 //
-//inline std::ostream& operator<<(std::ostream& oss, b_color c)
+// inline std::ostream& operator<<(std::ostream& oss, b_color c)
 //{
 //    return oss << static_cast<char>(c);
 //}

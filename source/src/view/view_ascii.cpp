@@ -28,7 +28,6 @@ void View_ASCII::display(bool clear)
     }
     cout << "0123456\n";
 
-    // print history
     cout << "history:";
     for(auto h : history)
     {
@@ -41,14 +40,15 @@ void View_ASCII::display(bool clear)
     cout << '\n';
 
     if(current_player.get_color() == color_e::red)
-        cout << "\033[1;31;44m";
+        cout << sgr::style::bold << sgr::fg::red, sgr::bg::blue;
     else
-        cout << "\033[1;33;44m";
+        cout << sgr::style::bold << sgr::fg::yellow, sgr::bg::blue;
 
     for(const auto& msg : msgs)
         cout << msg << '\n';
 
-    cout << "\033[0m" << flush;
+    //    cout << csi(sgr::reset) << flush;
+    cout << sgr::style::reset << flush;
     msgs.clear();
 }
 
@@ -59,16 +59,19 @@ string View_ASCII::cell_to_print(const Cell& cell) const
     if(cell.is_empty())
     {
         return "\033[4;44m \033[0m";
+        //        return csi(sgr::underline, sgr::b_blue) + " " + csi(sgr::reset);
     }
     else
     {
         if(cell.get_color() == color_e::red)
         {
             return "\033[1;31;44mO\033[0m";
+            //            return csi(sgr::bold, sgr::f_red, sgr::b_blue) + "0" + csi(sgr::reset);
         }
         else
         {
             return "\033[1;33;44mO\033[0m";
+            //            return csi(sgr::bold, sgr::f_yellow, sgr::b_blue) + "0" + csi(sgr::reset);
         }
     }
     return "E";
