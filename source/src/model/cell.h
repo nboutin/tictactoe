@@ -33,15 +33,4 @@ inline bool operator==(const Cell& lhs, const Cell& rhs)
 {
     return ((lhs.empty == rhs.empty) && (lhs.color == rhs.color));
 }
-
-inline std::ostream& operator<<(std::ostream& oss, const Cell& c)
-{
-    if(c.empty)
-        oss << '_';
-    else if(c.color == color_e::red)
-        oss << 'r';
-    else
-        oss << 'y';
-    return oss;
-}
 }
