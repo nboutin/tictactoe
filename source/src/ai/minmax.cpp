@@ -24,33 +24,22 @@ uint8_t Minmax::compute(p4::Game_P4 game)
     uint8_t best_move = 0;
     std::vector<int> vals;
 
-    using rmins = std::pair<int, std::future<int16_t>>;
-    std::vector<rmins> f_mins;
+    using f_min = std::pair<int, std::future<int16_t>>;
+    std::vector<f_min> vf_mins;
 
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
-        //        int16_t val = 0;
         if(game.play(m))
         {
-            //            auto f = std::async(std::launch::async, &Minmax::min, this,
-            //            std::ref(game), depth); auto p = make_pair(m, std::move(f));
-            f_mins.push_back(
+            vf_mins.push_back(
                 make_pair(m, std::async(std::launch::async, &Minmax::min_copy, this, game, depth)));
 
-            //            val = min(game, depth);
             // auto val = negamax(game, alpha, beta, depth);
-
-            //            if(val > max)
-            //            {
-            //                max       = val;
-            //                best_move = m;
-            //            }
         }
         game.undo();
-        //        vals.push_back(val);
     }
 
-    for(auto&& mr : f_mins)
+    for(auto&& mr : vf_mins)
     {
         auto val = mr.second.get();
         if(val > max)
