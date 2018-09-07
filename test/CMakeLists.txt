@@ -54,6 +54,7 @@ add_executable(${PROJECT_NAME} ${SOURCE})
 target_link_libraries(
 	${PROJECT_NAME}
 	Catch
+	pthread
 )
 
 ##### Install

@@ -5,6 +5,7 @@
 #include "helper_ostream.h"
 
 #include <algorithm>
+#include <future>
 #include <iostream>
 #include <limits>
 #include <utility>
@@ -15,7 +16,7 @@ using namespace std;
 
 Minmax::Minmax(const p4::Player& p, const uint8_t depth) : depth(depth), player(p) {}
 
-uint8_t Minmax::compute(p4::Game_P4 game) const
+uint8_t Minmax::compute(p4::Game_P4 game)
 {
     auto max = std::numeric_limits<int16_t>::min();
     //    auto alpha        = std::numeric_limits<int16_t>::min();
@@ -23,21 +24,29 @@ uint8_t Minmax::compute(p4::Game_P4 game) const
     uint8_t best_move = 0;
     std::vector<int> vals;
 
+    using f_min = std::pair<int, std::future<int16_t>>;
+    std::vector<f_min> vf_mins;
+
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
-        int16_t val = 0;
         if(game.play(m))
         {
-            val = min(game, depth);
-            // auto val = negamax(game, alpha, beta, depth);
+            vf_mins.push_back(
+                make_pair(m, std::async(std::launch::async, &Minmax::min_copy, this, game, depth)));
 
-            if(val > max)
-            {
-                max       = val;
-                best_move = m;
-            }
+            // auto val = negamax(game, alpha, beta, depth);
         }
         game.undo();
+    }
+
+    for(auto&& mr : vf_mins)
+    {
+        auto val = mr.second.get();
+        if(val > max)
+        {
+            max       = val;
+            best_move = mr.first;
+        }
         vals.push_back(val);
     }
 
@@ -45,6 +54,8 @@ uint8_t Minmax::compute(p4::Game_P4 game) const
 
     return best_move;
 }
+
+int16_t Minmax::min_copy(p4::Game_P4 game, uint8_t depth) { return min(game, depth); }
 
 // fonction alphabeta(nœud, A, B) /* A < B */
 //   si nœud est une feuille alors
@@ -92,7 +103,7 @@ Minmax::negamax(p4::Game_P4& game, int16_t alpha, const int16_t beta, const int1
     return best;
 }
 
-int16_t Minmax::min(p4::Game_P4& game, const uint8_t _depth) const
+int16_t Minmax::min(p4::Game_P4& game, const uint8_t _depth)
 {
     if(_depth == 0 || game.is_finished())
         return evaluate(game.get_board().get_grid(), player.get_color());
@@ -114,7 +125,7 @@ int16_t Minmax::min(p4::Game_P4& game, const uint8_t _depth) const
     return min;
 }
 
-int16_t Minmax::max(p4::Game_P4& game, const uint8_t _depth) const
+int16_t Minmax::max(p4::Game_P4& game, const uint8_t _depth)
 {
     if(_depth == 0 || game.is_finished())
         return evaluate(game.get_board().get_grid(), player.get_color());
