@@ -16,16 +16,9 @@ void View_ASCII::display(bool clear)
     if(clear)
         std::system("clear");
 
-    const auto& b = board.get_grid();
+    //    const auto& g =
+    print_grid(board.get_grid());
 
-    for(int y = 0; y < Board::N_ROW; ++y)
-    {
-        for(int x = 0; x < Board::N_COLUMN; ++x)
-        {
-            cout << b[x][y];
-        }
-        cout << '\n';
-    }
     cout << "0123456\n";
 
     print_history();
@@ -40,6 +33,18 @@ void View_ASCII::display(bool clear)
 
     cout << style::reset << flush;
     msgs.clear();
+}
+
+void View_ASCII::print_grid(const p4::Board::grid_t& g) const
+{
+    for(int y = 0; y < Board::N_ROW; ++y)
+    {
+        for(int x = 0; x < Board::N_COLUMN; ++x)
+        {
+            cout << g[x][y];
+        }
+        cout << '\n';
+    }
 }
 
 void View_ASCII::message(const std::string& msg) { msgs.push_back(msg); }

@@ -21,6 +21,7 @@ public:
     void set_current_player(const p4::Player& p) { current_player = p; }
 
 private:
+    void print_grid(const p4::Board::grid_t& g) const;
     void print_history() const;
 
     const p4::Board& board;
