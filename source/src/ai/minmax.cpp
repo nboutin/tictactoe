@@ -14,9 +14,11 @@ using namespace ai;
 using namespace p4;
 using namespace std;
 
+constexpr auto TIME_MIN = chrono::seconds(10);
+
 Minmax::Minmax(const p4::Player& p, const uint8_t depth) : depth(depth), player(p) {}
 
-uint8_t Minmax::compute(p4::Game_P4 game)
+uint8_t Minmax::compute(p4::Game_P4 game) const
 {
     auto max = std::numeric_limits<int16_t>::min();
     //    auto alpha        = std::numeric_limits<int16_t>::min();
@@ -26,6 +28,8 @@ uint8_t Minmax::compute(p4::Game_P4 game)
 
     using f_min = std::pair<int, std::future<int16_t>>;
     std::vector<f_min> vf_mins;
+
+    start = chrono::high_resolution_clock::now();
 
     for(int m = 0; m < Board::N_COLUMN; ++m)
     {
@@ -55,7 +59,55 @@ uint8_t Minmax::compute(p4::Game_P4 game)
     return best_move;
 }
 
-int16_t Minmax::min_copy(p4::Game_P4 game, uint8_t depth) { return min(game, depth); }
+int16_t Minmax::min_copy(p4::Game_P4 game, int8_t depth) const { return min(game, depth); }
+
+int16_t Minmax::min(p4::Game_P4& game, const int8_t _depth) const
+{
+    auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
+
+    if(game.is_finished() || (_depth <= 0 && d >= TIME_MIN))
+        return evaluate(game.get_board().get_grid(), player.get_color());
+
+    int16_t min = std::numeric_limits<int16_t>::max();
+
+    for(int m = 0; m < Board::N_COLUMN; ++m)
+    {
+        int16_t val = 0;
+        if(game.play(m))
+        {
+            val = max(game, _depth - 1);
+            if(val < min)
+                min = val;
+        }
+        game.undo();
+    }
+    //    data[depth - _depth].push_back(val);
+    return min;
+}
+
+int16_t Minmax::max(p4::Game_P4& game, const int8_t _depth) const
+{
+    auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
+
+    if(game.is_finished() || (_depth <= 0 && d >= TIME_MIN))
+        return evaluate(game.get_board().get_grid(), player.get_color());
+
+    int16_t max = std::numeric_limits<int16_t>::min();
+
+    for(int m = 0; m < Board::N_COLUMN; ++m)
+    {
+        int16_t val = 0;
+        if(game.play(m))
+        {
+            val = min(game, _depth - 1);
+            if(val > max)
+                max = val;
+        }
+        game.undo();
+        //        data[depth - _depth].push_back(val);
+    }
+    return max;
+}
 
 // fonction alphabeta(nœud, A, B) /* A < B */
 //   si nœud est une feuille alors
@@ -101,48 +153,4 @@ Minmax::negamax(p4::Game_P4& game, int16_t alpha, const int16_t beta, const int1
         game.undo();
     }
     return best;
-}
-
-int16_t Minmax::min(p4::Game_P4& game, const uint8_t _depth)
-{
-    if(_depth == 0 || game.is_finished())
-        return evaluate(game.get_board().get_grid(), player.get_color());
-
-    int16_t min = std::numeric_limits<int16_t>::max();
-
-    for(int m = 0; m < Board::N_COLUMN; ++m)
-    {
-        int16_t val = 0;
-        if(game.play(m))
-        {
-            val = max(game, _depth - 1);
-            if(val < min)
-                min = val;
-        }
-        game.undo();
-    }
-    //    data[depth - _depth].push_back(val);
-    return min;
-}
-
-int16_t Minmax::max(p4::Game_P4& game, const uint8_t _depth)
-{
-    if(_depth == 0 || game.is_finished())
-        return evaluate(game.get_board().get_grid(), player.get_color());
-
-    int16_t max = std::numeric_limits<int16_t>::min();
-
-    for(int m = 0; m < Board::N_COLUMN; ++m)
-    {
-        int16_t val = 0;
-        if(game.play(m))
-        {
-            val = min(game, _depth - 1);
-            if(val > max)
-                max = val;
-        }
-        game.undo();
-        //        data[depth - _depth].push_back(val);
-    }
-    return max;
 }
