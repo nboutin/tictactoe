@@ -1,7 +1,6 @@
 
 #include "minmax.h"
 #include "evaluate.h"
-//#include "view_ascii.h"
 #include "helper_ostream.h"
 
 #include <algorithm>
@@ -14,58 +13,116 @@ using namespace ai;
 using namespace p4;
 using namespace std;
 
-constexpr auto TIME_MIN = chrono::seconds(10);
-
 Minmax::Minmax(const p4::Player& p, const uint8_t depth) : depth(depth), player(p) {}
 
-uint8_t Minmax::compute(p4::Game_P4 game) const
+uint8_t Minmax::compute(p4::Game_P4 game, algo algo, const std::chrono::seconds _duration_min) const
 {
-    auto max = std::numeric_limits<int16_t>::min();
-    //    auto alpha        = std::numeric_limits<int16_t>::min();
-    //    auto beta         = std::numeric_limits<int16_t>::max();
     uint8_t best_move = 0;
-    std::vector<int> vals;
+    auto max          = std::numeric_limits<int16_t>::min();
+    start             = chrono::high_resolution_clock::now();
+    duration_min      = _duration_min;
 
-    using f_min = std::pair<int, std::future<int16_t>>;
-    std::vector<f_min> vf_mins;
-
-    start = chrono::high_resolution_clock::now();
-
-    for(int m = 0; m < Board::N_COLUMN; ++m)
+    switch(algo)
     {
-        if(game.play(m))
-        {
-            vf_mins.push_back(
-                make_pair(m, std::async(std::launch::async, &Minmax::min_copy, this, game, depth)));
-
-            // auto val = negamax(game, alpha, beta, depth);
-        }
-        game.undo();
-    }
-
-    for(auto&& mr : vf_mins)
+    case algo::minmax:
     {
-        auto val = mr.second.get();
-        if(val > max)
+        for(int m = 0; m < Board::N_COLUMN; ++m)
         {
-            max       = val;
-            best_move = mr.first;
+            if(game.play(m))
+            {
+                auto val = min(game, depth);
+                if(val > max)
+                {
+                    max       = val;
+                    best_move = m;
+                }
+            }
+            game.undo();
         }
-        vals.push_back(val);
+        return best_move;
     }
+    case algo::minmax_parallel:
+    {
+        using f_min = std::pair<int, std::future<int16_t>>;
+        std::vector<f_min> vf_mins;
 
-    cout << "compute:" << vals << '\n';
+        for(int m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                vf_mins.push_back(make_pair(
+                    m, std::async(std::launch::async, &Minmax::min_copy, this, game, depth)));
+            }
+            game.undo();
+        }
+
+        for(auto&& mr : vf_mins)
+        {
+            auto val = mr.second.get();
+            if(val > max)
+            {
+                max       = val;
+                best_move = mr.first;
+            }
+        }
+        return best_move;
+    }
+    case algo::alphabeta:
+    {
+        auto beta  = std::numeric_limits<int16_t>::max();
+        auto alpha = std::numeric_limits<int16_t>::min();
+        for(int m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                auto val = alphabeta(game, depth, alpha, beta, true);
+
+                if(val > max)
+                {
+                    max       = val;
+                    best_move = m;
+                }
+            }
+            game.undo();
+        }
+        return best_move;
+    }
+    case algo::negamax:
+    {
+        auto beta  = std::numeric_limits<int16_t>::max();
+        auto alpha = std::numeric_limits<int16_t>::min();
+
+        for(int m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                auto val = negamax(game, alpha, beta, depth);
+                if(val > max)
+                {
+                    max       = val;
+                    best_move = m;
+                }
+            }
+            game.undo();
+        }
+        return best_move;
+    }
+    }
 
     return best_move;
+}
+
+bool Minmax::is_leaf(const p4::Game_P4& game, int8_t _depth) const
+{
+    auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
+    return (game.is_finished() || (_depth <= 0 && d >= duration_min));
 }
 
 int16_t Minmax::min_copy(p4::Game_P4 game, int8_t depth) const { return min(game, depth); }
 
 int16_t Minmax::min(p4::Game_P4& game, const int8_t _depth) const
 {
-    auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
-
-    if(game.is_finished() || (_depth <= 0 && d >= TIME_MIN))
+    if(is_leaf(game, _depth))
         return evaluate(game.get_board().get_grid(), player.get_color());
 
     int16_t min = std::numeric_limits<int16_t>::max();
@@ -81,15 +138,12 @@ int16_t Minmax::min(p4::Game_P4& game, const int8_t _depth) const
         }
         game.undo();
     }
-    //    data[depth - _depth].push_back(val);
     return min;
 }
 
 int16_t Minmax::max(p4::Game_P4& game, const int8_t _depth) const
 {
-    auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
-
-    if(game.is_finished() || (_depth <= 0 && d >= TIME_MIN))
+    if(is_leaf(game, _depth))
         return evaluate(game.get_board().get_grid(), player.get_color());
 
     int16_t max = std::numeric_limits<int16_t>::min();
@@ -104,9 +158,78 @@ int16_t Minmax::max(p4::Game_P4& game, const int8_t _depth) const
                 max = val;
         }
         game.undo();
-        //        data[depth - _depth].push_back(val);
     }
     return max;
+}
+
+// function alphabeta(node, depth, α, β, maximizingPlayer) is
+//    if depth = 0 or node is a terminal node then
+//        return the heuristic value of node
+//    if maximizingPlayer then
+//        value := −∞
+//        for each child of node do
+//            value := max(value, alphabeta(child, depth − 1, α, β, FALSE))
+//            α := max(α, value)
+//            if α ≥ β then
+//                break (* β cut-off *)
+//        return value
+//    else
+//        value := +∞
+//        for each child of node do
+//            value := min(value, alphabeta(child, depth − 1, α, β, TRUE))
+//            β := min(β, value)
+//            if α ≥ β then
+//                break (* α cut-off *)
+//        return value
+//
+//(* Initial call *)
+// alphabeta(origin, depth, −∞, +∞, TRUE)
+int16_t Minmax::alphabeta(p4::Game_P4& game,
+                          const int8_t _depth,
+                          const int16_t _alpha,
+                          const int16_t _beta,
+                          bool is_max) const
+{
+    if(is_leaf(game, _depth))
+        return evaluate(game.get_board().get_grid(), player.get_color());
+
+    auto alpha = _alpha;
+    auto beta  = _beta;
+
+    if(is_max)
+    {
+        for(int m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                alpha = std::max(alpha, alphabeta(game, _depth - 1, alpha, beta, false));
+                if(alpha >= beta)
+                {
+                    game.undo();
+                    return beta;
+                }
+            }
+            game.undo();
+        }
+        return alpha;
+    }
+    else
+    {
+        for(int m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                beta = std::min(beta, alphabeta(game, _depth - 1, alpha, beta, true));
+                if(alpha >= beta)
+                {
+                    game.undo();
+                    return alpha;
+                }
+            }
+            game.undo();
+        }
+        return beta;
+    }
 }
 
 // fonction alphabeta(nœud, A, B) /* A < B */
@@ -153,4 +276,4 @@ Minmax::negamax(p4::Game_P4& game, int16_t alpha, const int16_t beta, const int1
         game.undo();
     }
     return best;
-}
+    }
