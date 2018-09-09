@@ -13,10 +13,10 @@ target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 ##### Includes
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/source/inc
-	${CMAKE_SOURCE_DIR}/source/src/model
-	${CMAKE_SOURCE_DIR}/source/src/view
-	${CMAKE_SOURCE_DIR}/source/src/ai
+	${CMAKE_SOURCE_DIR}/connect_four/source/inc
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/model
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/view
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai
 	
 	${CMAKE_CURRENT_SOURCE_DIR}/inc
 )
@@ -33,13 +33,13 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_bug.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_perf.cpp
 	
-	${CMAKE_SOURCE_DIR}/source/src/model/board.cpp
-	${CMAKE_SOURCE_DIR}/source/src/model/cell.cpp
-	${CMAKE_SOURCE_DIR}/source/src/view/view_ascii.cpp
-	${CMAKE_SOURCE_DIR}/source/src/game_p4.cpp
-	${CMAKE_SOURCE_DIR}/source/src/player.cpp
-	${CMAKE_SOURCE_DIR}/source/src/ai/minmax.cpp
-	${CMAKE_SOURCE_DIR}/source/src/ai/evaluate.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/model/board.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/model/cell.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/view/view_ascii.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/game_p4.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/player.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai/minmax.cpp
+	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai/evaluate.cpp
 )
 
 ##### Compilation
