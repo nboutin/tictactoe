@@ -9,3 +9,4 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output/lib)
 ##### Sources
 
 add_subdirectory(connect_four)
+add_subdirectory(tictactoe)

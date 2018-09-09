@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "board.h"
 #include "player.h"
+#include "board.h"
 
 namespace view
 {
