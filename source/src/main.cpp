@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     {
         int y = 0;
         if(game.get_current_player().is_ai())
-            y = minmax.compute(game);
+            y = minmax.compute(game, Minmax::algo::minmax_parallel, chrono::seconds(5));
         else
             cin >> y;
 
