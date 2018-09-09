@@ -19,7 +19,7 @@ void View_ASCII::display(bool clear)
     //    const auto& g =
     print_grid(board.get_grid());
 
-    cout << "0123456\n";
+    cout << "-0--1--2--3--4--5--6-\n";
 
     print_history();
 
@@ -33,18 +33,6 @@ void View_ASCII::display(bool clear)
 
     cout << style::reset << flush;
     msgs.clear();
-}
-
-void View_ASCII::print_grid(const p4::Board::grid_t& g) const
-{
-    for(int y = 0; y < Board::N_ROW; ++y)
-    {
-        for(int x = 0; x < Board::N_COLUMN; ++x)
-        {
-            cout << g[x][y];
-        }
-        cout << '\n';
-    }
 }
 
 void View_ASCII::message(const std::string& msg) { msgs.push_back(msg); }
@@ -63,23 +51,38 @@ void View_ASCII::print_history() const
     cout << '\n';
 }
 
+void View_ASCII::print_grid(const p4::Board::grid_t& g) const
+{
+    for(int y = 0; y < Board::N_ROW; ++y)
+    {
+        for(int i = 0; i < 2; ++i)
+        {
+            for(int x = 0; x < Board::N_COLUMN; ++x)
+            {
+                cout << g[x][y] << g[x][y] << g[x][y];
+            }
+            cout << '\n';
+        }
+    }
+}
+
 namespace p4
 {
 inline std::ostream& operator<<(std::ostream& os, const Cell& cell)
 {
     if(cell.is_empty())
     {
-        return os << style::underline << bg::blue << " " << style::reset;
+        return os << bg::blue << " " << style::reset;
     }
     else
     {
         if(cell.get_color() == color_e::red)
         {
-            return os << style::bold << fg::red << bg::blue << "0" << style::reset;
+            return os << bg::red << fg::black << "O" << style::reset;
         }
         else
         {
-            return os << style::bold << fg::yellow << bg::blue << "0" << style::reset;
+            return os << bg::yellow << fg::black << "O" << style::reset;
         }
     }
 
