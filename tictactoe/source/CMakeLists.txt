@@ -15,6 +15,7 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/tictactoe.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/view_ascii.cpp
 )
 
 ##### Compilation
