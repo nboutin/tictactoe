@@ -10,7 +10,7 @@ bool Board::play(const Point p, const token_e token)
         return false;
 
     // Check free cell
-    if(!grid[p.x][p.y])
+    if(grid[p.x][p.y])
         return false;
 
     grid[p.x][p.y] = token;

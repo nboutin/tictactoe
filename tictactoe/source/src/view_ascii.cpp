@@ -46,8 +46,10 @@ void View_ASCII::print_history() const
 
 void View_ASCII::print_grid(const tictactoe::Board::grid_t& g) const
 {
+    cout << "  012\n";
     for(int y = 0; y < Board::N_ROW; ++y)
     {
+        cout << std::to_string(y) << " ";
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
             cout << g[x][y];
