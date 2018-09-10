@@ -40,7 +40,8 @@ void TicTacToe::undo()
         board.undo(last_move.value());
         compute_next_player();
     }
-    finished = false;
+    winner_player = nullptr;
+    finished      = false;
 }
 
 /// \brief Decide if a game is finished
@@ -56,6 +57,11 @@ bool TicTacToe::compute_ending()
     auto is_winner =
         is_winner_horizontally(g);    // || is_winner_vertically(g) || is_winner_diagonal(g);
 
+    if(is_winner)
+    {
+        winner_player = (is_winner.value() == p1.get_token()) ? &p1 : &p2;
+    }
+
     finished = !space_available || is_winner;
     return finished;
 }
@@ -68,7 +74,7 @@ void TicTacToe::compute_next_player()
         current_player = &p1;
 }
 
-bool TicTacToe::is_winner_horizontally(const Board::grid_t& g) const
+std::optional<token_e> TicTacToe::is_winner_horizontally(const Board::grid_t& g) const
 {
     for(int y = 0; y < Board::N_ROW; ++y)
     {
@@ -81,8 +87,8 @@ bool TicTacToe::is_winner_horizontally(const Board::grid_t& g) const
             const std::vector<Board::cell_t> line_h(Board::N_COLUMN, {t});
 
             if(test == line_h)
-                return true;    // TODO return player winner
+                return {t};
         }
     }
-    return false;
+    return {};
 }

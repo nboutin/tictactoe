@@ -22,6 +22,8 @@ void View_ASCII::display(bool clear)
 
 void View_ASCII::print_messages()
 {
+    // Current player
+    cout << current_player.get_name() << ':';
     for(const auto& msg : msgs)
         cout << msg << '\n';
 
@@ -30,7 +32,7 @@ void View_ASCII::print_messages()
 
 void View_ASCII::print_history() const
 {
-    cout << "history:";
+    cout << "History:";
     for(auto m : moves)
     {
         if(m)

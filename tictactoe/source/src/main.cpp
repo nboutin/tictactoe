@@ -23,28 +23,26 @@ int main(int argc, char* argv[])
     //    game.set_name(1, "AI_1");
     //    Minmax minmax(game.get_player(1), level);
 
-    view.set_current_player(game.get_current_player());
-    view.message(game.get_current_player().get_name() + ":");
-    view.display();
-
     while(game.is_finished() == false)
     {
+        // Display
+        view.set_current_player(game.get_current_player());
+        view.set_history(game.get_history());
+        view.display();
+
+        // Input
         Board::Point p{};
         //        if(game.get_current_player().is_ai())
         //            y = minmax.compute(game, Minmax::algo::minmax_parallel, chrono::seconds(5));
         //        else
-        cin >> p.x >> p.y;
+        cin >> p.x;
+        cin >> p.y;
 
-        auto r = game.play(p);
-
-        if(r == false)
+        // Compute
+        if(game.play(p) == false)
             view.message("Input is invalid");
-
-        view.set_current_player(game.get_current_player());
-        view.message(game.get_current_player().get_name() + ":");
-        view.set_history(game.get_history());
-        view.display();
     }
     view.message("Game is finished");
+    view.set_history(game.get_history());
     view.display();
 }
