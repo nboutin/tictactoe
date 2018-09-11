@@ -13,6 +13,7 @@ bool Board::play(const Point p, const token_e token)
     if(grid[p.x][p.y])
         return false;
 
+    // add token to grid
     grid[p.x][p.y] = token;
 
     return true;

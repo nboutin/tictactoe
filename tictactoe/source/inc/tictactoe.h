@@ -13,6 +13,7 @@ namespace tictactoe
 class TicTacToe
 {
 public:
+	static constexpr auto LIGNE = 3;
     using move = std::optional<Board::Point>;
 
     TicTacToe();
@@ -31,7 +32,9 @@ private:
     bool compute_ending();
     void compute_next_player();
 
-    std::optional<token_e> is_winner_horizontally(const Board::grid_t& g) const;
+    std::optional<token_e> is_winner_diagonal(const Board::grid_t& g) const;
+    std::optional<token_e> is_winner_vertical(const Board::grid_t& g) const;
+    std::optional<token_e> is_winner_horizontal(const Board::grid_t& g) const;
 
     bool finished = false;
     Board board;
