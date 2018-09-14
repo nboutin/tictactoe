@@ -1,27 +1,21 @@
 ##### Configuration
 
 cmake_minimum_required(VERSION 3.0.0)
-project(connect_four)
+project(tictactoe)
 
 ##### 3rd party
 
 ##### Include
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/model)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/view)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ai)
 
 ##### Source
 
 set(SOURCE
+	${CMAKE_CURRENT_SOURCE_DIR}/src/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/game_p4.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/model/cell.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/model/board.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/view/view_ascii.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/ai/minmax.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/ai/evaluate.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/tictactoe.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/view_ascii.cpp
 )
 
 ##### Compilation

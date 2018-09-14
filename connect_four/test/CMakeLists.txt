@@ -37,7 +37,6 @@ set(SOURCE
 	${CMAKE_SOURCE_DIR}/connect_four/source/src/model/cell.cpp
 	${CMAKE_SOURCE_DIR}/connect_four/source/src/view/view_ascii.cpp
 	${CMAKE_SOURCE_DIR}/connect_four/source/src/game_p4.cpp
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/player.cpp
 	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai/minmax.cpp
 	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai/evaluate.cpp
 )

@@ -1,7 +1,7 @@
 ##### Configuration
 
 cmake_minimum_required(VERSION 3.0.0)
-project(p4)
+project(connect_four)
 
 ##### Source
 
