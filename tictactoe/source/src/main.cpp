@@ -1,6 +1,6 @@
 
+#include "minmax.h"
 #include "tictactoe.h"
-//#include "minmax.h"
 #include "view_ascii.h"
 
 #include <iostream>
@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
     //    game.set_ai(1);
     //    game.set_name(1, "AI_1");
     //    Minmax minmax(game.get_player(1), level);
+    ai::MinMax minmax(ai::MinMax::algo_e::minmax, 2);
 
     while(game.is_finished() == false)
     {
