@@ -12,4 +12,4 @@ add_subdirectory(source)
 
 ##### Test
 
-#add_subdirectory(test)
+add_subdirectory(test)

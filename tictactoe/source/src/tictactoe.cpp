@@ -1,6 +1,8 @@
 
 #include "tictactoe.h"
 
+#include <algorithm>
+
 using namespace tictactoe;
 
 TicTacToe::TicTacToe()
@@ -64,10 +66,10 @@ bool TicTacToe::compute_ending()
     {
         winner_player = (is_winner.value() == p1.get_token()) ? &p1 : &p2;
     }
-//    else if((is_winner = is_winner_diagonal(g)))
-//    {
-//        winner_player = (is_winner.value() == p1.get_token()) ? &p1 : &p2;
-//    }
+    else if((is_winner = is_winner_diagonal(g)))
+    {
+        winner_player = (is_winner.value() == p1.get_token()) ? &p1 : &p2;
+    }
 
     finished = !space_available || is_winner;
     return finished;
@@ -122,18 +124,16 @@ std::optional<token_e> TicTacToe::is_winner_diagonal(const Board::grid_t& g) con
     }
     return {};
 }
+
 std::optional<token_e> TicTacToe::is_winner_vertical(const Board::grid_t& g) const
 {
     for(int x = 0; x < Board::N_COLUMN; ++x)
     {
-        std::vector<Board::cell_t> test;
-        std::copy(g[x].begin(), g[x].end(), test.begin());
-
         for(auto t : {token_e::cross, token_e::circle})
         {
             const std::vector<Board::cell_t> line(LIGNE, {t});
 
-            if(test == line)
+            if(std::equal(g[x].begin(), g[x].end(), line.begin(), line.end()))
                 return {t};
         }
     }
@@ -144,15 +144,15 @@ std::optional<token_e> TicTacToe::is_winner_horizontal(const Board::grid_t& g) c
 {
     for(int y = 0; y < Board::N_ROW; ++y)
     {
-        std::vector<Board::cell_t> test;
+        std::array<Board::cell_t, LIGNE> test;
         for(int x = 0; x < Board::N_COLUMN; ++x)
-            test.push_back(g[x][y]);
+            test[x] = g[x][y];
 
         for(auto t : {token_e::cross, token_e::circle})
         {
             const std::vector<Board::cell_t> line(LIGNE, {t});
 
-            if(test == line)
+            if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
                 return {t};
         }
     }
