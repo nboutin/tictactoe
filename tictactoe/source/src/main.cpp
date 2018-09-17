@@ -22,7 +22,8 @@ int main(int argc, char* argv[])
     //    game.set_ai(1);
     //    game.set_name(1, "AI_1");
     //    Minmax minmax(game.get_player(1), level);
-    ai::MinMax minmax(ai::MinMax::algo_e::minmax, 2);
+    constexpr auto depth = 2;
+    ai::MinMax minmax(ai::MinMax::algo_e::minmax, depth);
 
     while(game.is_finished() == false)
     {

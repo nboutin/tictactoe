@@ -16,6 +16,7 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/inc
 	${CMAKE_SOURCE_DIR}/source/inc
 )
+include_directories(${CMAKE_SOURCE_DIR}/../ai)
 
 ##### Sources
 
