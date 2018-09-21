@@ -52,8 +52,8 @@ void TicTacToe::undo()
 /// A game is finished, if someone win, if no more token can be added to the board (draw)
 bool TicTacToe::compute_ending()
 {
-    // Look for free cell in the highest row
-    auto space_available = (moves.size() < Board::N_COLUMN * Board::N_ROW);
+    // Look for free cell in grid
+    auto space_available = (moves.size() < (Board::N_COLUMN * Board::N_ROW));
 
     const auto& g = board.get_grid();
 
@@ -81,6 +81,34 @@ void TicTacToe::compute_next_player()
         current_player = &p2;
     else
         current_player = &p1;
+}
+
+const Player& TicTacToe::get_player(player_e p) const
+{
+    switch(p)
+    {
+    case player_e::p1: return p1;
+    case player_e::p2: return p2;
+    }
+    return p1;
+}
+
+void TicTacToe::set_ai(const player_e p)
+{
+    switch(p)
+    {
+    case player_e::p1: p1.set_ai(); break;
+    case player_e::p2: p2.set_ai(); break;
+    }
+}
+
+void TicTacToe::set_name(const player_e p, const std::string& name)
+{
+    switch(p)
+    {
+    case player_e::p1: p1.set_name(name); break;
+    case player_e::p2: p2.set_name(name); break;
+    }
 }
 
 std::optional<token_e> TicTacToe::is_winner_diagonal(const Board::grid_t& g) const

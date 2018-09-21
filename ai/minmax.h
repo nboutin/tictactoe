@@ -64,6 +64,7 @@ public:
 
 private:
     bool is_leaf(const Game& game, int8_t _depth) { return (game.is_finished() || _depth <= 0); }
+
     int16_t minmax(Game& game, const std::vector<move>& moves, int8_t _depth, bool is_max)
     {
         if(is_leaf(game, _depth))

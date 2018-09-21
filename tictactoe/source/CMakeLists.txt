@@ -8,7 +8,7 @@ project(tictactoe)
 ##### Include
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
-include_directories(${CMAKE_SOURCE_DIR}/../ai)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ai)
 
 ##### Source
 
@@ -17,6 +17,8 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/tictactoe.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/view_ascii.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ai/minmax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ai/evaluate.cpp
 )
 
 ##### Compilation

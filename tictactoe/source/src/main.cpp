@@ -8,22 +8,20 @@
 using namespace tictactoe;
 using namespace view;
 using namespace std;
-// using namespace ai;
 
 int main(int argc, char* argv[])
 {
-    //    cout << "Choose AI level:";
-    //    auto level = 0;
-    //    cin >> level;
+    cout << "Choose AI level:";
+    auto level = 0;
+    cin >> level;
 
     TicTacToe game;
+    game.set_ai(player_e::p1);
+    game.set_name(player_e::p1, "AI_1");
+
     View_ASCII view(game.get_board().get_grid());
 
-    //    game.set_ai(1);
-    //    game.set_name(1, "AI_1");
-    //    Minmax minmax(game.get_player(1), level);
-    constexpr auto depth = 2;
-    ai::MinMax minmax(ai::MinMax::algo_e::minmax, depth);
+    ai::Minmax minmax(game.get_player(player_e::p1), level);
 
     while(game.is_finished() == false)
     {
@@ -34,10 +32,10 @@ int main(int argc, char* argv[])
 
         // Input
         Board::Point p{};
-        //        if(game.get_current_player().is_ai())
-        //            y = minmax.compute(game, Minmax::algo::minmax_parallel, chrono::seconds(5));
-        //        else
-        cin >> p.x >> p.y;
+        if(game.get_current_player().is_ai())
+            p = minmax.compute(game, ai::Minmax::algo::minmax_parallel, chrono::seconds(5));
+        else
+            cin >> p.x >> p.y;
 
         // Compute
         if(game.play(p) == false)

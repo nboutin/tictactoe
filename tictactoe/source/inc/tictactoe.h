@@ -5,38 +5,34 @@
 #include "player.h"
 #include "token.h"
 
-#include <minmax.h>
-
 #include <optional>
 #include <vector>
 
 namespace tictactoe
 {
-class TicTacToe : public ai::MinMax::Game
+enum class player_e { p1, p2 };
+
+class TicTacToe
 {
 public:
     static constexpr auto LIGNE = 3;
     using move                  = std::optional<Board::Point>;
 
     TicTacToe();
-    virtual ~TicTacToe() = default;
-
-    virtual bool play(const ai::MinMax::move& move) final
-    {
-        return play(Board::Point{static_cast<uint16_t>(move.x), static_cast<uint16_t>(move.y)});
-    }
-    virtual void undo() final;
-    virtual bool is_finished() const final { return finished; }
-    virtual int16_t evaluate() const final { return 0; }
 
     bool play(Board::Point p);
-    //    void undo();
-    //    bool is_finished() const { return finished; }
+    void undo();
+    bool is_finished() const { return finished; }
 
     const Board& get_board() const { return board; }
     const Player& get_current_player() const { return *current_player; }
+    const Player& get_player(player_e p) const;
+
     Player get_winner_player() const { return *winner_player; }
     const std::vector<move>& get_history() const { return moves; }
+
+    void set_ai(player_e p);
+    void set_name(player_e p, const std::string& name);
 
 private:
     bool compute_ending();
