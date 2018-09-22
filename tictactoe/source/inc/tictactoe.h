@@ -25,14 +25,14 @@ public:
     bool is_finished() const { return finished; }
 
     const Board& get_board() const { return board; }
+
     const Player& get_current_player() const { return *current_player; }
     const Player& get_player(player_e p) const;
-
-    Player* get_winner_player() const { return winner_player; }
-    const std::vector<move>& get_history() const { return moves; }
-
+    const Player* get_winner_player() const { return winner_player; }
     void set_ai(player_e p);
     void set_name(player_e p, const std::string& name);
+
+    const std::vector<move>& get_history() const { return moves; }
 
 private:
     bool compute_ending();
