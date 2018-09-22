@@ -1,10 +1,10 @@
 
 #include <catch.hpp>
+#include "../../source/inc/connect4.h"
 
-#include "game_p4.h"
 #include "view_ascii.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace view;
 
 // View_ASCII v(game.get_board());
@@ -12,7 +12,7 @@ using namespace view;
 
 TEST_CASE("current player", "[game_p4]")
 {
-    Game_P4 game;
+    Connect4 game;
     Player p1("Player 1", color_e::red);
     Player p2("Player 2", color_e::yellow);
 
@@ -28,7 +28,7 @@ TEST_CASE("current player", "[game_p4]")
 
 TEST_CASE("no more free cell", "[game_p4]")
 {
-    Game_P4 game;
+    Connect4 game;
 
     std::vector<int> moves{0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 2, 3, 4, 5, 4, 5, 4, 5, 1, 2, 1,
                            2, 1, 2, 3, 4, 3, 4, 3, 4, 6, 0, 6, 0, 6, 0, 5, 6, 5, 6, 5};
@@ -44,7 +44,7 @@ TEST_CASE("no more free cell", "[game_p4]")
 
 TEST_CASE("is winner vertically", "[game_p4]")
 {
-    Game_P4 game;
+    Connect4 game;
 
     SECTION("red y=0")
     {
@@ -80,7 +80,7 @@ TEST_CASE("is winner vertically", "[game_p4]")
 
 TEST_CASE("is winner horizontally", "[game_p4]")
 {
-    Game_P4 game;
+    Connect4 game;
 
     SECTION("red x=0")
     {
@@ -107,7 +107,7 @@ TEST_CASE("is winner horizontally", "[game_p4]")
 
 TEST_CASE("is winner diagonal", "[game_p4]")
 {
-    Game_P4 game;
+    Connect4 game;
 
     SECTION("diag up")
     {
@@ -159,7 +159,7 @@ TEST_CASE("is winner diagonal", "[game_p4]")
 
 TEST_CASE("is finished", "[game_p4]")
 {
-    Game_P4 game;
+    Connect4 game;
 
     for(int x = 0; x < 3; ++x)
         for(int y = 0; y < 2; ++y)

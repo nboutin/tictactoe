@@ -1,7 +1,7 @@
 
 #include "board.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace std;
 
 bool Board::play(const uint8_t x, const color_e color)

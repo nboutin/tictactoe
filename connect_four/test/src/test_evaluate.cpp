@@ -5,7 +5,7 @@
 #include "evaluate.h"
 #include "view_ascii.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace ai;
 using namespace std;
 

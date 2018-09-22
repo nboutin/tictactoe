@@ -5,11 +5,11 @@
 #include <iostream>
 
 using namespace view;
-using namespace p4;
+using namespace connect4;
 using namespace std;
 using namespace rang;
 
-View_ASCII::View_ASCII(const p4::Board& board) : board(board), current_player("", color_e::red) {}
+View_ASCII::View_ASCII(const connect4::Board& board) : board(board), current_player("", color_e::red) {}
 
 void View_ASCII::display(bool clear)
 {
@@ -51,7 +51,7 @@ void View_ASCII::print_history() const
     cout << '\n';
 }
 
-void View_ASCII::print_grid(const p4::Board::grid_t& g) const
+void View_ASCII::print_grid(const connect4::Board::grid_t& g) const
 {
     for(int y = 0; y < Board::N_ROW; ++y)
     {
@@ -66,7 +66,7 @@ void View_ASCII::print_grid(const p4::Board::grid_t& g) const
     }
 }
 
-namespace p4
+namespace connect4
 {
 inline std::ostream& operator<<(std::ostream& os, const Cell& cell)
 {

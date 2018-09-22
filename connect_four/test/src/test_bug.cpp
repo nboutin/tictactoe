@@ -1,12 +1,12 @@
 
 #include "evaluate.h"
-#include "game_p4.h"
 #include "minmax.h"
 #include "view_ascii.h"
 
 #include <catch.hpp>
+#include "../../source/inc/connect4.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace ai;
 using namespace view;
 
@@ -14,7 +14,7 @@ TEST_CASE("bug5", "[!hide]")
 {
     // last player yellow
     // 0,3,0,3,0,0,0,4,2,2,0,4,1,1
-    Game_P4 game;
+    Connect4 game;
     for(auto m : {0, 3, 0, 3, 0, 0, 0, 4, 2, 2, 0})
         game.play(m);
 
@@ -45,7 +45,7 @@ TEST_CASE("bug3", "[!hide]")
         2, 1, 1, 2, 4, 4, 1, 1, 1, 2, 2, 3, 5, 5, 5, 4,
     };
 
-    Game_P4 game;
+    Connect4 game;
 
     for(auto m : moves)
         game.play(m);
@@ -67,7 +67,7 @@ TEST_CASE("bug3", "[!hide]")
 }
 TEST_CASE("bug2", "[!hide]")
 {
-    Game_P4 game;
+    Connect4 game;
     const std::vector<int> moves{0, 3, 0, 3, 0, 0, 0, 3, 3, 4, 2, 4, 2, 2, 2, 5};
 
     for(auto m : moves)
@@ -111,7 +111,7 @@ TEST_CASE("bug1", "[!hide]")
 {
     SECTION("")
     {
-        Game_P4 game;
+        Connect4 game;
 
         //        const std::vector<int> moves{0, 3, 0, 2, 0, 0, 1, 3, 0, 3, 3, 2, 5, 4, 0, 4, 1};
         const std::vector<int> moves{0, 3, 0, 2, 0, 0, 1, 3, 0, 3, 3, 2, 5, 4};

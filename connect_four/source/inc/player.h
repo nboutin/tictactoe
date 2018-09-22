@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace p4
+namespace connect4
 {
 class Player
 {

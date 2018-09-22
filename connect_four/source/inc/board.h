@@ -5,7 +5,7 @@
 
 #include "cell.h"
 
-namespace p4
+namespace connect4
 {
 class Board
 {

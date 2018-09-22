@@ -6,16 +6,14 @@
 #include "board.h"
 #include "player.h"
 
-namespace p4
+namespace connect4
 {
-
 constexpr auto LIGNE = 4;
 
-class Game_P4
+class Connect4
 {
 public:
-    Game_P4();
-
+	Connect4();
     bool play(uint8_t x);
     void undo();
 

@@ -1,14 +1,13 @@
 
-#include "game_p4.h"
-
-using namespace p4;
+#include "connect4.h"
+using namespace connect4;
 using namespace std;
 
-Game_P4::Game_P4()
+Connect4::Connect4()
     : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(&p1)
 {}
 
-bool Game_P4::play(const uint8_t x)
+bool Connect4::play(const uint8_t x)
 {
     if(finished)
     {
@@ -31,7 +30,7 @@ bool Game_P4::play(const uint8_t x)
     return true;
 }
 
-void Game_P4::undo()
+void Connect4::undo()
 {
     auto last_move = moves_history.back();
     moves_history.pop_back();
@@ -45,10 +44,10 @@ void Game_P4::undo()
 }
 
 // TODO add check
-const Player& Game_P4::get_player(const uint8_t i) { return (i == 1) ? p1 : p2; }
+const Player& Connect4::get_player(const uint8_t i) { return (i == 1) ? p1 : p2; }
 
 // TODO add check
-void Game_P4::set_ai(const uint8_t i)
+void Connect4::set_ai(const uint8_t i)
 {
     if(i == 1)
         p1.set_ai();
@@ -56,7 +55,7 @@ void Game_P4::set_ai(const uint8_t i)
         p2.set_ai();
 }
 
-void Game_P4::set_name(const uint8_t i, const std::string& name)
+void Connect4::set_name(const uint8_t i, const std::string& name)
 {
     if(i == 1)
         p1.set_name(name);
@@ -68,7 +67,7 @@ void Game_P4::set_name(const uint8_t i, const std::string& name)
 /// \return true if finished otherwise false
 ///
 /// A game is finished, if someone win, if no more token can be added to the board (draw)
-bool Game_P4::compute_ending()
+bool Connect4::compute_ending()
 {
     const auto& b        = board.get_grid();
     auto space_available = false;
@@ -85,7 +84,7 @@ bool Game_P4::compute_ending()
     return finished;
 }
 
-void Game_P4::compute_next_player()
+void Connect4::compute_next_player()
 {
     if(*current_player == p1)
         current_player = &p2;
@@ -94,7 +93,7 @@ void Game_P4::compute_next_player()
 }
 
 // TODO search should start at the bottom of the grid y = 6;
-bool Game_P4::is_winner_vertically(const Board::grid_t& b) const
+bool Connect4::is_winner_vertically(const Board::grid_t& b) const
 {
     for(int x = 0; x < Board::N_COLUMN; ++x)
     {
@@ -129,7 +128,7 @@ bool Game_P4::is_winner_vertically(const Board::grid_t& b) const
 }
 
 // TODO search should start at the bottom of the grid y = 6;
-bool Game_P4::is_winner_horizontally(const Board::grid_t& b) const
+bool Connect4::is_winner_horizontally(const Board::grid_t& b) const
 {
     for(int y = 0; y < Board::N_ROW; ++y)
     {
@@ -164,7 +163,7 @@ bool Game_P4::is_winner_horizontally(const Board::grid_t& b) const
 }
 
 // TODO search should start at the bottom of the grid y = 6;
-bool Game_P4::is_winner_diagonal(const Board::grid_t& b) const
+bool Connect4::is_winner_diagonal(const Board::grid_t& b) const
 {
     // Diag '\'
     for(int y = 0; y <= 2; ++y)

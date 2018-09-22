@@ -2,8 +2,8 @@
 #include <catch.hpp>
 #include <vector>
 
+#include "../../source/inc/connect4.h"
 #include "evaluate.h"
-#include "game_p4.h"
 #include "view_ascii.h"
 
 /// \warning Nasty trick to access private methods when testing
@@ -11,7 +11,7 @@
 #define private public
 #include "minmax.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace ai;
 using namespace std;
 
@@ -28,7 +28,7 @@ TEST_CASE("min", "[minmax]")
         const vector<int> moves{0, 3, 0, 3, 0, 3};
         const array<int16_t, Board::N_COLUMN> expected{WIN_POINT, 0, 0, 0, 0, 0, 0};
 
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), depth);
 
         for(auto m : moves)
@@ -65,7 +65,7 @@ TEST_CASE("min", "[minmax]")
             {{0, 0, 0, LOOSE_POINT, 0, 0, 0}},
         }};
 
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), depth);
 
         for(auto m : moves)

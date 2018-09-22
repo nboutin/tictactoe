@@ -1,15 +1,14 @@
 
 #include "evaluate.h"
-#include "game_p4.h"
-
 #include <algorithm>
+#include "../inc/connect4.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace std;
 
 namespace ai
 {
-int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
+int16_t evaluate(const connect4::Board::grid_t& grid, const color_e win_color)
 {
     auto evalv = evaluate_vertical(grid, win_color);
     auto evalh = evaluate_horizontal(grid, win_color);
@@ -22,7 +21,7 @@ int16_t evaluate(const p4::Board::grid_t& grid, const color_e win_color)
     //           + evaluate_diagonal(grid, win_color);
 }
 
-int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color)
+int16_t evaluate_vertical(const connect4::Board::grid_t& grid, const color_e win_color)
 {
     int16_t score = 0;
 
@@ -64,7 +63,7 @@ int16_t evaluate_vertical(const p4::Board::grid_t& grid, const color_e win_color
     return score;
 }
 
-int16_t evaluate_horizontal(const p4::Board::grid_t& grid, const color_e win_color)
+int16_t evaluate_horizontal(const connect4::Board::grid_t& grid, const color_e win_color)
 {
     int16_t score = 0;
 
@@ -90,7 +89,7 @@ int16_t evaluate_horizontal(const p4::Board::grid_t& grid, const color_e win_col
 }
 
 // TODO search should start at the bottom of the grid y = 6;
-int16_t evaluate_diagonal(const p4::Board::grid_t& grid, const p4::color_e win_color)
+int16_t evaluate_diagonal(const connect4::Board::grid_t& grid, const connect4::color_e win_color)
 {
     int16_t score = 0;
 

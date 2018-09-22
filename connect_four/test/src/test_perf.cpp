@@ -1,13 +1,13 @@
 
-#include "game_p4.h"
 #include "minmax.h"
 
 #include <catch.hpp>
 
 #include <chrono>
 #include <numeric>
+#include "../../source/inc/connect4.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace ai;
 using namespace std;
 
@@ -19,7 +19,7 @@ TEST_CASE("perf", "[!hide]")
 {
     SECTION("depth 0")
     {
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), 0);
         vector<uint32_t> durations;
         for(int i = 0; i < C1; ++i)
@@ -37,7 +37,7 @@ TEST_CASE("perf", "[!hide]")
 
     SECTION("depth 1")
     {
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), 1);
         vector<uint32_t> durations;
         for(int i = 0; i < C1; ++i)
@@ -55,7 +55,7 @@ TEST_CASE("perf", "[!hide]")
 
     SECTION("depth 2")
     {
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), 2);
         vector<uint32_t> durations;
         for(int i = 0; i < C1; ++i)
@@ -73,7 +73,7 @@ TEST_CASE("perf", "[!hide]")
 
     SECTION("depth 3")
     {
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), 3);
         vector<uint32_t> durations;
         for(int i = 0; i < C2; ++i)
@@ -91,7 +91,7 @@ TEST_CASE("perf", "[!hide]")
 
     SECTION("depth 4")
     {
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), 4);
         vector<uint32_t> durations;
         for(int i = 0; i < 50; ++i)
@@ -109,7 +109,7 @@ TEST_CASE("perf", "[!hide]")
 
     SECTION("depth 5")
     {
-        Game_P4 game;
+        Connect4 game;
         Minmax minmax(game.get_player(1), 5);
         vector<uint32_t> durations;
         for(int i = 0; i < 10; ++i)
@@ -127,7 +127,7 @@ TEST_CASE("perf", "[!hide]")
 
     //    SECTION("depth 6")
     //    {
-    //        Game_P4 game;
+    //        Connect4 game;
     //        Minmax minmax(game.get_player(1), 6);
     //        vector<uint32_t> durations;
     //        for(int i = 0; i < 1; ++i)

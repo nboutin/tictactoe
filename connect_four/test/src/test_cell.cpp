@@ -3,7 +3,7 @@
 
 #include "cell.h"
 
-using namespace p4;
+using namespace connect4;
 
 TEST_CASE("operator==", "[cell]")
 {

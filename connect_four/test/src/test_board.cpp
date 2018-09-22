@@ -3,7 +3,7 @@
 
 #include "board.h"
 
-using namespace p4;
+using namespace connect4;
 
 TEST_CASE("play two token", "[board]")
 {

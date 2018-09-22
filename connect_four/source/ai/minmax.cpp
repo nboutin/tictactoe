@@ -10,12 +10,12 @@
 #include <utility>
 
 using namespace ai;
-using namespace p4;
+using namespace connect4;
 using namespace std;
 
-Minmax::Minmax(const p4::Player& p, const uint8_t depth) : depth(depth), player(p) {}
+Minmax::Minmax(const connect4::Player& p, const uint8_t depth) : depth(depth), player(p) {}
 
-uint8_t Minmax::compute(p4::Game_P4 game, algo algo, const std::chrono::seconds _duration_min) const
+uint8_t Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _duration_min) const
 {
     uint8_t best_move = 0;
     auto max          = std::numeric_limits<int16_t>::min();
@@ -112,15 +112,15 @@ uint8_t Minmax::compute(p4::Game_P4 game, algo algo, const std::chrono::seconds 
     return best_move;
 }
 
-bool Minmax::is_leaf(const p4::Game_P4& game, int8_t _depth) const
+bool Minmax::is_leaf(const connect4::Connect4& game, int8_t _depth) const
 {
     auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
     return (game.is_finished() || (_depth <= 0 && d >= duration_min));
 }
 
-int16_t Minmax::min_copy(p4::Game_P4 game, int8_t depth) const { return min(game, depth); }
+int16_t Minmax::min_copy(connect4::Connect4 game, int8_t depth) const { return min(game, depth); }
 
-int16_t Minmax::min(p4::Game_P4& game, const int8_t _depth) const
+int16_t Minmax::min(connect4::Connect4& game, const int8_t _depth) const
 {
     if(is_leaf(game, _depth))
         return evaluate(game.get_board().get_grid(), player.get_color());
@@ -141,7 +141,7 @@ int16_t Minmax::min(p4::Game_P4& game, const int8_t _depth) const
     return min;
 }
 
-int16_t Minmax::max(p4::Game_P4& game, const int8_t _depth) const
+int16_t Minmax::max(connect4::Connect4& game, const int8_t _depth) const
 {
     if(is_leaf(game, _depth))
         return evaluate(game.get_board().get_grid(), player.get_color());
@@ -184,7 +184,7 @@ int16_t Minmax::max(p4::Game_P4& game, const int8_t _depth) const
 //
 //(* Initial call *)
 // alphabeta(origin, depth, −∞, +∞, TRUE)
-int16_t Minmax::alphabeta(p4::Game_P4& game,
+int16_t Minmax::alphabeta(connect4::Connect4& game,
                           const int8_t _depth,
                           const int16_t _alpha,
                           const int16_t _beta,
@@ -247,7 +247,7 @@ int16_t Minmax::alphabeta(p4::Game_P4& game,
 //                       retourner meilleur
 //       retourner meilleur
 int16_t
-Minmax::negamax(p4::Game_P4& game, int16_t alpha, const int16_t beta, const int16_t _depth) const
+Minmax::negamax(connect4::Connect4& game, int16_t alpha, const int16_t beta, const int16_t _depth) const
 {
     if(_depth == 0 || game.is_finished())
         return evaluate(game.get_board().get_grid(), player.get_color());

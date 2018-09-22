@@ -5,7 +5,7 @@
 
 #include "color.h"
 
-namespace p4
+namespace connect4
 {
 class Cell
 {

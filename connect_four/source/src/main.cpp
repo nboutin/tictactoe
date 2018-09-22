@@ -1,11 +1,11 @@
 
 #include <iostream>
 
-#include "game_p4.h"
+#include "../inc/connect4.h"
 #include "minmax.h"
 #include "view_ascii.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace view;
 using namespace std;
 using namespace ai;
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     auto level = 0;
     cin >> level;
 
-    Game_P4 game;
+    Connect4 game;
     View_ASCII view(game.get_board());
 
     game.set_ai(1);

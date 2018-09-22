@@ -1,7 +1,7 @@
 
 #include "cell.h"
 
-using namespace p4;
+using namespace connect4;
 using namespace std;
 
 Cell::Cell(color_e color) { add_token(color); }

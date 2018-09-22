@@ -34,7 +34,7 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/cell.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/view_ascii.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/game_p4.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/connect4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/ai/minmax.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/ai/evaluate.cpp
 )
