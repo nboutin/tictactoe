@@ -28,7 +28,7 @@ public:
     const Player& get_current_player() const { return *current_player; }
     const Player& get_player(player_e p) const;
 
-    Player get_winner_player() const { return *winner_player; }
+    Player* get_winner_player() const { return winner_player; }
     const std::vector<move>& get_history() const { return moves; }
 
     void set_ai(player_e p);
