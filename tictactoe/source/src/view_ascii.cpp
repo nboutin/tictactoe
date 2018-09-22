@@ -23,7 +23,7 @@ void View_ASCII::display(bool clear)
 void View_ASCII::print_messages()
 {
     // Current player
-    cout << current_player.get_name() << ':';
+    cout << current_player.get_name() << ":\n";
     for(const auto& msg : msgs)
         cout << msg << '\n';
 

@@ -34,7 +34,7 @@ Minmax::compute(TicTacToe game, algo algo, const std::chrono::seconds _duration_
         {
             if(game.play(m))
             {
-                auto val = min(game, depth);
+                auto val = minmax(game, depth, false);
                 if(val > max)
                 {
                     max       = val;
@@ -55,7 +55,9 @@ Minmax::compute(TicTacToe game, algo algo, const std::chrono::seconds _duration_
             if(game.play(m))
             {
                 vf_mins.push_back(make_pair(
-                    m, std::async(std::launch::async, &Minmax::min_copy, this, game, depth)));
+                    m,
+                    std::async(
+                        std::launch::async, &Minmax::minmax_copy, this, game, depth, false)));
             }
             game.undo();
         }
@@ -122,48 +124,50 @@ bool Minmax::is_leaf(const TicTacToe& game, int8_t _depth) const
     return (game.is_finished() || (_depth <= 0 && d >= duration_min));
 }
 
-int16_t Minmax::min_copy(TicTacToe game, int8_t depth) const { return min(game, depth); }
-
-int16_t Minmax::min(TicTacToe& game, const int8_t _depth) const
+int16_t Minmax::minmax_copy(TicTacToe game, int8_t depth, bool is_max) const
 {
-    if(is_leaf(game, _depth))
-        return evaluate(game, player.get_token());
-
-    int16_t min = std::numeric_limits<int16_t>::max();
-
-    for(auto m : moves)
-    {
-        int16_t val = 0;
-        if(game.play(m))
-        {
-            val = max(game, _depth - 1);
-            if(val < min)
-                min = val;
-        }
-        game.undo();
-    }
-    return min;
+    return minmax(game, depth, is_max);
 }
 
-int16_t Minmax::max(TicTacToe& game, const int8_t _depth) const
+int16_t Minmax::minmax(TicTacToe& game, const int8_t _depth, bool is_max) const
 {
     if(is_leaf(game, _depth))
-        return evaluate(game, player.get_token());
+        return evaluate(game, player.get_token()) - _depth;
 
-    int16_t max = std::numeric_limits<int16_t>::min();
-
-    for(auto m : moves)
+    if(!is_max)    // min
     {
-        int16_t val = 0;
-        if(game.play(m))
+        int16_t min = std::numeric_limits<int16_t>::max();
+
+        for(auto m : moves)
         {
-            val = min(game, _depth - 1);
-            if(val > max)
-                max = val;
+            int16_t val = 0;
+            if(game.play(m))
+            {
+                val = minmax(game, _depth - 1, true);
+                if(val < min)
+                    min = val;
+            }
+            game.undo();
         }
-        game.undo();
+        return min;
     }
-    return max;
+    else    // max
+    {
+        int16_t max = std::numeric_limits<int16_t>::min();
+
+        for(auto m : moves)
+        {
+            int16_t val = 0;
+            if(game.play(m))
+            {
+                val = minmax(game, _depth - 1, false);
+                if(val > max)
+                    max = val;
+            }
+            game.undo();
+        }
+        return max;
+    }
 }
 
 #if 0

@@ -22,9 +22,8 @@ public:
 private:
     bool is_leaf(const tictactoe::TicTacToe& game, int8_t depth) const;
 
-    int16_t min_copy(tictactoe::TicTacToe game, int8_t depth) const;
-    int16_t min(tictactoe::TicTacToe& game, int8_t depth) const;
-    int16_t max(tictactoe::TicTacToe& game, int8_t depth) const;
+    int16_t minmax_copy(tictactoe::TicTacToe game, int8_t depth, bool is_max) const;
+    int16_t minmax(tictactoe::TicTacToe& game, int8_t depth, bool is_max) const;
 #if 0
     int16_t alphabeta(tictactoe::TicTacToe& game,
                       int8_t _depth,
