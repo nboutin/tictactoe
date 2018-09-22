@@ -149,6 +149,16 @@ std::optional<color_e> Connect4::is_winner_horizontal(const Board::grid_t& g) co
 
 std::optional<color_e> Connect4::is_winner_diagonal(const Board::grid_t& g) const
 {
+    auto win = is_winner_diagonal1(g);
+
+    if(win)
+        return win;
+
+    return is_winner_diagonal2(g);
+}
+
+std::optional<color_e> Connect4::is_winner_diagonal1(const Board::grid_t& g) const
+{
     // Diag '\'
     for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
     {
@@ -169,6 +179,11 @@ std::optional<color_e> Connect4::is_winner_diagonal(const Board::grid_t& g) cons
             }
         }
     }
+    return {};
+}
+
+std::optional<color_e> Connect4::is_winner_diagonal2(const Board::grid_t& g) const
+{
     for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
     {
         for(int x = 3; x < Board::N_COLUMN; ++x)

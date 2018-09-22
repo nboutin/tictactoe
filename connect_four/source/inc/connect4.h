@@ -39,6 +39,8 @@ private:
     std::optional<color_e> is_winner_vertical(const Board::grid_t& b) const;
     std::optional<color_e> is_winner_horizontal(const Board::grid_t& b) const;
     std::optional<color_e> is_winner_diagonal(const Board::grid_t& b) const;
+    std::optional<color_e> is_winner_diagonal1(const Board::grid_t& b) const;
+    std::optional<color_e> is_winner_diagonal2(const Board::grid_t& b) const;
 
     Player p1;
     Player p2;

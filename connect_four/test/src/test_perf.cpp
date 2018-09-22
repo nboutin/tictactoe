@@ -25,7 +25,7 @@ TEST_CASE("perf", "[!hide]")
         for(int i = 0; i < C1; ++i)
         {
             auto start = std::chrono::high_resolution_clock::now();
-            minmax.compute(game, Minmax::algo::minmax_parallel);
+            minmax.compute(game, Minmax::algo::minmax);
             auto stop = std::chrono::high_resolution_clock::now();
 
             auto d = chrono::duration_cast<chrono::microseconds>(stop - start).count();
@@ -34,6 +34,7 @@ TEST_CASE("perf", "[!hide]")
         auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
         REQUIRE(average == Approx(chrono::microseconds(180).count()).epsilon(E1));
     }
+#if 0
     SECTION("depth 1")
     {
         Connect4 game;
@@ -69,7 +70,6 @@ TEST_CASE("perf", "[!hide]")
         auto average = std::accumulate(durations.begin(), durations.end(), 0) / durations.size();
         REQUIRE(average == Approx(chrono::microseconds(9060).count()).epsilon(E1));
     }
-#if 0
 
     SECTION("depth 3")
     {
