@@ -1,9 +1,11 @@
 
-#include <catch.hpp>
-#include <vector>
 
 #include "evaluate.h"
 #include "view_ascii.h"
+
+#include <catch.hpp>
+
+#include <vector>
 
 using namespace connect4;
 using namespace ai;

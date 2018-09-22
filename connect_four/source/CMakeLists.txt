@@ -16,7 +16,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/connect4.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/cell.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/board.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/view_ascii.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ai/minmax.cpp

@@ -1,10 +1,12 @@
 
-#include <catch.hpp>
-#include <vector>
 
-#include "../../source/inc/connect4.h"
+#include "connect4.h"
 #include "evaluate.h"
 #include "view_ascii.h"
+
+#include <catch.hpp>
+
+#include <vector>
 
 /// \warning Nasty trick to access private methods when testing
 /// DO NOT put header file below

@@ -1,14 +1,13 @@
 
+#include "connect4.h"
 #include "evaluate.h"
 #include "minmax.h"
 #include "view_ascii.h"
 
 #include <catch.hpp>
-#include "../../source/inc/connect4.h"
 
 using namespace connect4;
 using namespace ai;
-using namespace view;
 
 TEST_CASE("bug5", "[!hide]")
 {

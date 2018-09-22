@@ -1,12 +1,11 @@
 
-#include <iostream>
-
-#include "../inc/connect4.h"
+#include "connect4.h"
 #include "minmax.h"
 #include "view_ascii.h"
 
+#include <iostream>
+
 using namespace connect4;
-using namespace view;
 using namespace std;
 using namespace ai;
 

@@ -15,7 +15,8 @@ using namespace std;
 
 Minmax::Minmax(const connect4::Player& p, const uint8_t depth) : depth(depth), player(p) {}
 
-uint8_t Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _duration_min) const
+uint8_t
+Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _duration_min) const
 {
     uint8_t best_move = 0;
     auto max          = std::numeric_limits<int16_t>::min();
@@ -123,7 +124,7 @@ int16_t Minmax::min_copy(connect4::Connect4 game, int8_t depth) const { return m
 int16_t Minmax::min(connect4::Connect4& game, const int8_t _depth) const
 {
     if(is_leaf(game, _depth))
-        return evaluate(game.get_board().get_grid(), player.get_color());
+        return evaluate(game, player.get_color());
 
     int16_t min = std::numeric_limits<int16_t>::max();
 
@@ -144,7 +145,7 @@ int16_t Minmax::min(connect4::Connect4& game, const int8_t _depth) const
 int16_t Minmax::max(connect4::Connect4& game, const int8_t _depth) const
 {
     if(is_leaf(game, _depth))
-        return evaluate(game.get_board().get_grid(), player.get_color());
+        return evaluate(game, player.get_color());
 
     int16_t max = std::numeric_limits<int16_t>::min();
 
@@ -191,7 +192,7 @@ int16_t Minmax::alphabeta(connect4::Connect4& game,
                           bool is_max) const
 {
     if(is_leaf(game, _depth))
-        return evaluate(game.get_board().get_grid(), player.get_color());
+        return evaluate(game, player.get_color());
 
     auto alpha = _alpha;
     auto beta  = _beta;
@@ -246,11 +247,13 @@ int16_t Minmax::alphabeta(connect4::Connect4& game,
 //                   si A ≥ B alors
 //                       retourner meilleur
 //       retourner meilleur
-int16_t
-Minmax::negamax(connect4::Connect4& game, int16_t alpha, const int16_t beta, const int16_t _depth) const
+int16_t Minmax::negamax(connect4::Connect4& game,
+                        int16_t alpha,
+                        const int16_t beta,
+                        const int16_t _depth) const
 {
     if(_depth == 0 || game.is_finished())
-        return evaluate(game.get_board().get_grid(), player.get_color());
+        return evaluate(game, player.get_color());
 
     int16_t best = std::numeric_limits<int16_t>::min();
 

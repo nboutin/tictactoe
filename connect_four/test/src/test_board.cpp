@@ -1,7 +1,7 @@
 
-#include <catch.hpp>
-
 #include "board.h"
+
+#include <catch.hpp>
 
 using namespace connect4;
 
@@ -13,11 +13,11 @@ TEST_CASE("play two token", "[board]")
 
     REQUIRE(b.play(0, color_e::yellow));
 
-    const auto& bn = b.get_grid();
+    const auto& g = b.get_grid();
 
-    REQUIRE(bn[0][5].get_color() == color_e::red);
-    REQUIRE(bn[0][4].get_color() == color_e::yellow);
-    REQUIRE(bn[0][3].is_empty());
+    REQUIRE(g[0][5] == color_e::red);
+    REQUIRE(g[0][4] == color_e::yellow);
+    REQUIRE(!g[0][3]);
 }
 
 TEST_CASE("boundaries", "[board]")
@@ -28,9 +28,9 @@ TEST_CASE("boundaries", "[board]")
     REQUIRE_FALSE(b.play(Board::N_COLUMN, color_e::yellow));
 
     bool empty = true;
-    for(const auto& c : b.get_grid())
-        for(const auto& r : c)
-            empty &= r.is_empty();
+    for(const auto& g : b.get_grid())
+        for(const auto& c : g)
+            empty &= !c;
     REQUIRE(empty);
 }
 
@@ -42,8 +42,8 @@ TEST_CASE("full column", "[board]")
     {
         REQUIRE(b.play(0, color_e::red));
     }
-    const auto& bn = b.get_grid();
-    REQUIRE(bn[0][0].get_color() == color_e::red);
+    const auto& g = b.get_grid();
+    REQUIRE(g[0][0] == color_e::red);
 
     REQUIRE_FALSE(b.play(0, color_e::red));
 }

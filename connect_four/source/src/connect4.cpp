@@ -11,29 +11,27 @@ bool Connect4::play(const move x)
 {
     if(finished)
     {
-        moves_history.push_back({});    // bad move
+        moves.push_back({});    // bad move
         return false;
     }
 
     if(!board.play(x, current_player->get_color()))
     {
-        moves_history.push_back({});    // bad move
+        moves.push_back({});    // bad move
         return false;
     }
 
+    moves.push_back({x});
     compute_ending();
-
     compute_next_player();
-
-    moves_history.push_back({x});
 
     return true;
 }
 
 void Connect4::undo()
 {
-    auto last_move = moves_history.back();
-    moves_history.pop_back();
+    auto last_move = moves.back();
+    moves.pop_back();
 
     if(last_move)
     {
@@ -41,6 +39,42 @@ void Connect4::undo()
         compute_next_player();
     }
     finished = false;
+}
+
+/// \brief Decide if a game is finished
+/// \return true if finished otherwise false
+///
+/// A game is finished, if someone win, if no more token can be added to the board (draw)
+bool Connect4::compute_ending()
+{
+    // Look for free cell
+    auto space_available = (moves.size() < Board::N_COLUMN * Board::N_ROW);
+
+    const auto& g  = board.get_grid();
+    auto is_winner = is_winner_horizontal(g);
+    if(is_winner)
+    {
+        winner_player = (is_winner.value() == p1.get_color()) ? &p1 : &p2;
+    }
+    else if((is_winner = is_winner_vertical(g)))
+    {
+        winner_player = (is_winner.value() == p1.get_color()) ? &p1 : &p2;
+    }
+    else if((is_winner = is_winner_diagonal(g)))
+    {
+        winner_player = (is_winner.value() == p1.get_color()) ? &p1 : &p2;
+    }
+
+    finished = !space_available || is_winner;
+    return finished;
+}
+
+void Connect4::compute_next_player()
+{
+    if(*current_player == p1)
+        current_player = &p2;
+    else
+        current_player = &p1;
 }
 
 const Player& Connect4::get_player(const player_e p)
@@ -71,176 +105,88 @@ void Connect4::set_name(const player_e p, const std::string& name)
     }
 }
 
-/// \brief Decide if a game is finished
-/// \return true if finished otherwise false
-///
-/// A game is finished, if someone win, if no more token can be added to the board (draw)
-bool Connect4::compute_ending()
+std::optional<color_e> Connect4::is_winner_vertical(const Board::grid_t& g) const
 {
-    const auto& b        = board.get_grid();
-    auto space_available = false;
-
-    // Look for free cell in the highest row
-    for(int x = 0; x < Board::N_COLUMN; ++x)
+    for(int y = Board::N_ROW - LIGNE; y >= 0; --y)
     {
-        space_available |= b[x][0].is_empty();
-    }
-
-    auto is_winner = is_winner_vertically(b) || is_winner_horizontally(b) || is_winner_diagonal(b);
-
-    finished = !space_available || is_winner;
-    return finished;
-}
-
-void Connect4::compute_next_player()
-{
-    if(*current_player == p1)
-        current_player = &p2;
-    else
-        current_player = &p1;
-}
-
-// TODO search should start at the bottom of the grid y = 6;
-bool Connect4::is_winner_vertically(const Board::grid_t& b) const
-{
-    for(int x = 0; x < Board::N_COLUMN; ++x)
-    {
-        int red    = 0;
-        int yellow = 0;
-        for(int y = 0; y < Board::N_ROW; ++y)
-        {
-            const auto& cell = b[x][y];
-            if(cell.is_empty())
-            {
-                red    = 0;
-                yellow = 0;
-                continue;
-            }
-
-            if(cell.get_color() == color_e::red)
-            {
-                red++;
-                yellow = 0;
-            }
-            else
-            {
-                yellow++;
-                red = 0;
-            }
-
-            if(red >= LIGNE || yellow >= LIGNE)
-                return true;
-        }
-    }
-    return false;
-}
-
-// TODO search should start at the bottom of the grid y = 6;
-bool Connect4::is_winner_horizontally(const Board::grid_t& b) const
-{
-    for(int y = 0; y < Board::N_ROW; ++y)
-    {
-        int red    = 0;
-        int yellow = 0;
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
-            const auto& cell = b[x][y];
-            if(cell.is_empty())
+            for(auto c : {color_e::red, color_e::yellow})
             {
-                red    = 0;
-                yellow = 0;
-                continue;
-            }
+                const std::vector<Board::cell_t> line(LIGNE, c);
 
-            if(cell.get_color() == color_e::red)
-            {
-                red++;
-                yellow = 0;
+                if(std::equal(g[x].begin() + y, g[x].begin() + y + LIGNE, line.begin(), line.end()))
+                    return {c};
             }
-            else
-            {
-                yellow++;
-                red = 0;
-            }
-
-            if(red >= LIGNE || yellow >= LIGNE)
-                return true;
         }
     }
-    return false;
+    return {};
 }
 
-// TODO search should start at the bottom of the grid y = 6;
-bool Connect4::is_winner_diagonal(const Board::grid_t& b) const
+std::optional<color_e> Connect4::is_winner_horizontal(const Board::grid_t& g) const
+{
+    for(int y = Board::N_ROW - 1; y >= 0; --y)
+    {
+        for(int x = 0; x <= Board::N_COLUMN - LIGNE; ++x)
+        {
+            array<Board::cell_t, LIGNE> test;
+            for(int xp = 0; xp < LIGNE; ++xp)
+            {
+                test[xp] = g[xp + x][y];
+
+                for(const auto c : {color_e::red, color_e::yellow})
+                {
+                    const std::vector<Board::cell_t> line(LIGNE, c);
+
+                    if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
+                        return {c};
+                }
+            }
+        }
+    }
+    return {};
+}
+
+std::optional<color_e> Connect4::is_winner_diagonal(const Board::grid_t& g) const
 {
     // Diag '\'
-    for(int y = 0; y <= 2; ++y)
+    for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
     {
-        for(int x = 0; x <= 3; ++x)
+        for(int x = 0; x <= Board::N_COLUMN - LIGNE; ++x)
         {
-            int red    = 0;
-            int yellow = 0;
+            std::array<Board::cell_t, LIGNE> test;
+            for(int i = 0; i < Connect4::LIGNE; ++i)
+            {
+                test[i] = g[x + i][y + i];
+
+                for(const auto c : {color_e::red, color_e::yellow})
+                {
+                    const std::vector<Board::cell_t> line(LIGNE, c);
+
+                    if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
+                        return {c};
+                }
+            }
+        }
+    }
+    for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
+    {
+        for(int x = 3; x < Board::N_COLUMN; ++x)
+        {
+            std::array<Board::cell_t, LIGNE> test;
             for(int i = 0; i < LIGNE; ++i)
             {
-                const auto& cell = b[x + i][y + i];
-
-                if(cell.is_empty())
+                test[i] = g[x - i][y + i];
+                for(const auto c : {color_e::red, color_e::yellow})
                 {
-                    red    = 0;
-                    yellow = 0;
-                    continue;
-                }
+                    const std::vector<Board::cell_t> line(LIGNE, c);
 
-                if(cell.get_color() == color_e::red)
-                {
-                    red++;
-                    yellow = 0;
+                    if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
+                        return {c};
                 }
-                else
-                {
-                    yellow++;
-                    red = 0;
-                }
-
-                if(red >= LIGNE || yellow >= LIGNE)
-                    return true;
             }
         }
     }
 
-    // Diag '/'
-    for(int y = 0; y <= 2; ++y)
-    {
-        for(int x = 3; x < Board::N_ROW; ++x)
-        {
-            int red    = 0;
-            int yellow = 0;
-            for(int i = 0; i < LIGNE; ++i)
-            {
-                const auto& cell = b[x - i][y + i];
-
-                if(cell.is_empty())
-                {
-                    red    = 0;
-                    yellow = 0;
-                    continue;
-                }
-
-                if(cell.get_color() == color_e::red)
-                {
-                    red++;
-                    yellow = 0;
-                }
-                else
-                {
-                    yellow++;
-                    red = 0;
-                }
-
-                if(red >= LIGNE || yellow >= LIGNE)
-                    return true;
-            }
-        }
-    }
-    return false;
+    return {};
 }

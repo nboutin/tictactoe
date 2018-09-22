@@ -1,11 +1,11 @@
 
+#include "connect4.h"
 #include "minmax.h"
 
 #include <catch.hpp>
 
 #include <chrono>
 #include <numeric>
-#include "../../source/inc/connect4.h"
 
 using namespace connect4;
 using namespace ai;

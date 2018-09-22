@@ -1,13 +1,14 @@
 
 #pragma once
 
+#include "board.h"
+#include "player.h"
+
+#include <optional>
 #include <string>
 #include <vector>
 
-#include "player.h"
-#include "board.h"
-
-namespace view
+namespace connect4
 {
 class View_ASCII
 {
@@ -25,9 +26,9 @@ private:
     void print_history() const;
 
     const connect4::Board& board;
+    connect4::Player current_player;
+
     std::vector<std::string> msgs;
     std::vector<std::optional<uint8_t>> history;
-
-    connect4::Player current_player;
 };
 }

@@ -1,15 +1,17 @@
 
 #include "view_ascii.h"
+#include "color.h"
+#include "view_cell.h"
+
 #include "rang.h"
 
 #include <iostream>
 
-using namespace view;
 using namespace connect4;
 using namespace std;
 using namespace rang;
 
-View_ASCII::View_ASCII(const connect4::Board& board) : board(board), current_player("", color_e::red) {}
+View_ASCII::View_ASCII(const Board& board) : board(board), current_player("", color_e::red) {}
 
 void View_ASCII::display(bool clear)
 {
@@ -64,28 +66,5 @@ void View_ASCII::print_grid(const connect4::Board::grid_t& g) const
             cout << '\n';
         }
     }
-}
-
-namespace connect4
-{
-inline std::ostream& operator<<(std::ostream& os, const Cell& cell)
-{
-    if(cell.is_empty())
-    {
-        return os << bg::blue << " " << style::reset;
-    }
-    else
-    {
-        if(cell.get_color() == color_e::red)
-        {
-            return os << bg::red << fg::black << "O" << style::reset;
-        }
-        else
-        {
-            return os << bg::yellow << fg::black << "O" << style::reset;
-        }
-    }
-
-    return os;
 }
 }

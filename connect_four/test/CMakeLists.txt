@@ -1,7 +1,7 @@
 ##### Coniguration
 
 cmake_minimum_required(VERSION 3.0.0)
-project(p4_test)
+project(connect_four_test)
 
 ##### 3rd party
 
@@ -24,15 +24,13 @@ include_directories(
 set(SOURCE 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_board.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/test_cell.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/test_evaluate.cpp
+#	${CMAKE_CURRENT_SOURCE_DIR}/src/test_evaluate.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_minmax.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_game_p4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_bug.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_perf.cpp
 	
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/board.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/cell.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/view_ascii.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/connect4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../source/ai/minmax.cpp

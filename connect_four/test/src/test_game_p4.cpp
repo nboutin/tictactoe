@@ -1,16 +1,15 @@
 
-#include <catch.hpp>
-#include "../../source/inc/connect4.h"
-
+#include "connect4.h"
 #include "view_ascii.h"
 
+#include <catch.hpp>
+
 using namespace connect4;
-using namespace view;
 
 // View_ASCII v(game.get_board());
 // v.display();
 
-TEST_CASE("current player", "[game_p4]")
+TEST_CASE("current player", "[connect4]")
 {
     Connect4 game;
     Player p1("Player 1", color_e::red);
@@ -26,7 +25,7 @@ TEST_CASE("current player", "[game_p4]")
     REQUIRE(game.get_current_player() == p1);
 }
 
-TEST_CASE("no more free cell", "[game_p4]")
+TEST_CASE("no more free cell", "[connect4]")
 {
     Connect4 game;
 
@@ -42,7 +41,7 @@ TEST_CASE("no more free cell", "[game_p4]")
     REQUIRE(game.is_finished());
 }
 
-TEST_CASE("is winner vertically", "[game_p4]")
+TEST_CASE("is winner vertically", "[connect4]")
 {
     Connect4 game;
 
@@ -78,7 +77,7 @@ TEST_CASE("is winner vertically", "[game_p4]")
     }
 }
 
-TEST_CASE("is winner horizontally", "[game_p4]")
+TEST_CASE("is winner horizontally", "[connect4]")
 {
     Connect4 game;
 
@@ -105,7 +104,7 @@ TEST_CASE("is winner horizontally", "[game_p4]")
     }
 }
 
-TEST_CASE("is winner diagonal", "[game_p4]")
+TEST_CASE("is winner diagonal", "[connect4]")
 {
     Connect4 game;
 
@@ -157,7 +156,7 @@ TEST_CASE("is winner diagonal", "[game_p4]")
     }
 }
 
-TEST_CASE("is finished", "[game_p4]")
+TEST_CASE("is finished", "[connect4]")
 {
     Connect4 game;
 
