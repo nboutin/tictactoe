@@ -3,9 +3,9 @@
 
 int16_t evaluate(const tictactoe::TicTacToe& g, tictactoe::token_e win_token)
 {
-    if(g.is_finished())
+    if(g.is_finished() && g.get_winner_player() != nullptr)
     {
-        if(g.get_winner_player().get_token() == win_token)
+        if(g.get_winner_player()->get_token() == win_token)
             return WIN_POINT;
         else
             return LOOSE_POINT;

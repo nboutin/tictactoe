@@ -23,8 +23,8 @@ bool TicTacToe::play(const Board::Point p)
         return false;
     }
 
-    compute_ending();
     moves.push_back({p});
+    compute_ending();
     compute_next_player();
 
     return true;
