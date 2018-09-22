@@ -40,7 +40,7 @@ TEST_CASE("min", "[minmax]")
         {
             REQUIRE(game.play(i));
             CAPTURE(i);
-            REQUIRE(minmax.min(game, 0) == expected[i]);
+            REQUIRE(minmax.minmax(game, 0, false) == expected[i]);
 
             game.undo();
         }
@@ -79,7 +79,7 @@ TEST_CASE("min", "[minmax]")
             CAPTURE(i);
             REQUIRE(game.play(i));
 
-            REQUIRE(minmax.min(game, depth) == expected_min[i]);
+            REQUIRE(minmax.minmax(game, depth, false) == expected_min[i]);
 
             for(int j = 0; j < Board::N_COLUMN; ++j)
             {
@@ -91,7 +91,7 @@ TEST_CASE("min", "[minmax]")
                 CAPTURE(j);
                 REQUIRE(game.play(j));
 
-                REQUIRE(minmax.max(game, depth) == expected_max[i][j]);
+                REQUIRE(minmax.minmax(game, depth, true) == expected_max[i][j]);
                 game.undo();
             }
             game.undo();
