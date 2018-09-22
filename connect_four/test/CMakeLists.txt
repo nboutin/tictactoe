@@ -13,12 +13,10 @@ target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 ##### Includes
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/connect_four/source/inc
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/model
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/view
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai
-	
 	${CMAKE_CURRENT_SOURCE_DIR}/inc
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/inc
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/ai
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/external
 )
 
 ##### Sources
@@ -33,17 +31,16 @@ set(SOURCE
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_bug.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/test_perf.cpp
 	
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/model/board.cpp
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/model/cell.cpp
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/view/view_ascii.cpp
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/game_p4.cpp
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai/minmax.cpp
-	${CMAKE_SOURCE_DIR}/connect_four/source/src/ai/evaluate.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/board.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/cell.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/view_ascii.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/src/game_p4.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/ai/minmax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../source/ai/evaluate.cpp
 )
 
 ##### Compilation
 
-#add_definitions(-Dprivate=public)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=gnu++17")
 
 ##### Target
