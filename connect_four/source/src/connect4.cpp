@@ -7,7 +7,7 @@ Connect4::Connect4()
     : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(&p1)
 {}
 
-bool Connect4::play(const uint8_t x)
+bool Connect4::play(const move x)
 {
     if(finished)
     {
@@ -43,24 +43,32 @@ void Connect4::undo()
     finished = false;
 }
 
-// TODO add check
-const Player& Connect4::get_player(const uint8_t i) { return (i == 1) ? p1 : p2; }
-
-// TODO add check
-void Connect4::set_ai(const uint8_t i)
+const Player& Connect4::get_player(const player_e p)
 {
-    if(i == 1)
-        p1.set_ai();
-    else
-        p2.set_ai();
+    switch(p)
+    {
+    case player_e::p1: return p1;
+    case player_e::p2: return p2;
+    }
+    return p1;
 }
 
-void Connect4::set_name(const uint8_t i, const std::string& name)
+void Connect4::set_ai(const player_e p)
 {
-    if(i == 1)
-        p1.set_name(name);
-    else
-        p2.set_name(name);
+    switch(p)
+    {
+    case player_e::p1: p1.set_ai(); break;
+    case player_e::p2: p2.set_ai(); break;
+    }
+}
+
+void Connect4::set_name(const player_e p, const std::string& name)
+{
+    switch(p)
+    {
+    case player_e::p1: p1.set_name(name); break;
+    case player_e::p2: p2.set_name(name); break;
+    }
 }
 
 /// \brief Decide if a game is finished

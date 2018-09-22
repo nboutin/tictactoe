@@ -19,9 +19,9 @@ int main(int argc, char* argv[])
     Connect4 game;
     View_ASCII view(game.get_board());
 
-    game.set_ai(1);
-    game.set_name(1, "AI_1");
-    Minmax minmax(game.get_player(1), level);
+    game.set_ai(player_e::p1);
+    game.set_name(player_e::p1, "AI_1");
+    Minmax minmax(game.get_player(player_e::p1), level);
 
     view.set_current_player(game.get_current_player());
     view.message(game.get_current_player().get_name() + ":");

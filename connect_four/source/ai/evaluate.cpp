@@ -1,7 +1,7 @@
 
 #include "evaluate.h"
-#include <algorithm>
 #include "../inc/connect4.h"
+#include <algorithm>
 
 using namespace connect4;
 using namespace std;
@@ -28,23 +28,6 @@ int16_t evaluate_vertical(const connect4::Board::grid_t& grid, const color_e win
     for(auto c : array<const color_e, 2>{color_e::red, color_e::yellow})
     {
         const array<Cell, 4> line{c, c, c, c};
-
-        //        for(int x = 0; x < Board::N_COLUMN; ++x)
-        //        {
-        //            // Start from bottom
-        //            for(int y = Board::N_ROW - 4; y >= 0; --y)
-        //            {
-        //            	// FIXME use constant
-        //                auto p = std::mismatch(
-        //                    grid[x].begin() + y, grid[x].begin() + y + 4, line.begin(),
-        //                    line.end());
-        //
-        //                // match found
-        //                //            p.first != grid[x].end() ||
-        //                if(p.second != line.end())
-        //                    return (c == win_color) ? WIN_POINT : LOOSE_POINT;
-        //            }
-        //        }
 
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
@@ -94,16 +77,16 @@ int16_t evaluate_diagonal(const connect4::Board::grid_t& grid, const connect4::c
     int16_t score = 0;
 
     // Diag '\'
-    for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
+    for(int y = 0; y <= Board::N_ROW - Connect4::LIGNE; ++y)
     {
-        for(int x = 0; x <= Board::N_COLUMN - LIGNE; ++x)
+        for(int x = 0; x <= Board::N_COLUMN - Connect4::LIGNE; ++x)
         {
             for(const auto c : array<color_e, 2>{color_e::red, color_e::yellow})
             {
                 const array<Cell, 4> v4{c, c, c, c};
                 array<Cell, 4> test;
 
-                for(int i = 0; i < LIGNE; ++i)
+                for(int i = 0; i < Connect4::LIGNE; ++i)
                     test[i] = grid[x + i][y + i];
 
                 if(test == v4)
@@ -120,7 +103,7 @@ int16_t evaluate_diagonal(const connect4::Board::grid_t& grid, const connect4::c
     // 3r-rr-r-
     // 4-r--r--
     // 5r--r---
-    for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
+    for(int y = 0; y <= Board::N_ROW - Connect4::LIGNE; ++y)
     {
         for(int x = 3; x < Board::N_COLUMN; ++x)
         {
@@ -129,7 +112,7 @@ int16_t evaluate_diagonal(const connect4::Board::grid_t& grid, const connect4::c
                 const array<Cell, 4> v4{c, c, c, c};
                 array<Cell, 4> test;
 
-                for(int i = 0; i < LIGNE; ++i)
+                for(int i = 0; i < Connect4::LIGNE; ++i)
                     test[i] = grid[x - i][y + i];
 
                 if(test == v4)

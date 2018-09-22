@@ -8,13 +8,16 @@
 
 namespace connect4
 {
-constexpr auto LIGNE = 4;
+enum class player_e { p1, p2 };
 
 class Connect4
 {
 public:
-	Connect4();
-    bool play(uint8_t x);
+    static constexpr auto LIGNE = 4;
+    using move = uint8_t;
+
+    Connect4();
+    bool play(move x);
     void undo();
 
     bool is_finished() const { return finished; };
@@ -22,11 +25,11 @@ public:
     const Board& get_board() const { return board; }
     const Player& get_current_player() const { return *current_player; }
 
-    const Player& get_player(uint8_t i);
-    void set_ai(uint8_t i);
-    void set_name(uint8_t i, const std::string& name);
+    const Player& get_player(player_e p);
+    void set_ai(player_e p);
+    void set_name(player_e p, const std::string& name);
 
-    std::vector<std::optional<uint8_t>> get_history() const { return moves_history; }
+    std::vector<std::optional<move>> get_history() const { return moves_history; }
 
 private:
     void compute_next_player();

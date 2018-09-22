@@ -20,7 +20,7 @@ TEST_CASE("perf", "[!hide]")
     SECTION("depth 0")
     {
         Connect4 game;
-        Minmax minmax(game.get_player(1), 0);
+        Minmax minmax(game.get_player(player_e::p1), 0);
         vector<uint32_t> durations;
         for(int i = 0; i < C1; ++i)
         {
@@ -38,7 +38,7 @@ TEST_CASE("perf", "[!hide]")
     SECTION("depth 1")
     {
         Connect4 game;
-        Minmax minmax(game.get_player(1), 1);
+        Minmax minmax(game.get_player(player_e::p1), 1);
         vector<uint32_t> durations;
         for(int i = 0; i < C1; ++i)
         {
@@ -56,7 +56,7 @@ TEST_CASE("perf", "[!hide]")
     SECTION("depth 2")
     {
         Connect4 game;
-        Minmax minmax(game.get_player(1), 2);
+        Minmax minmax(game.get_player(player_e::p1), 2);
         vector<uint32_t> durations;
         for(int i = 0; i < C1; ++i)
         {
@@ -74,7 +74,7 @@ TEST_CASE("perf", "[!hide]")
     SECTION("depth 3")
     {
         Connect4 game;
-        Minmax minmax(game.get_player(1), 3);
+        Minmax minmax(game.get_player(player_e::p1), 3);
         vector<uint32_t> durations;
         for(int i = 0; i < C2; ++i)
         {
@@ -92,7 +92,7 @@ TEST_CASE("perf", "[!hide]")
     SECTION("depth 4")
     {
         Connect4 game;
-        Minmax minmax(game.get_player(1), 4);
+        Minmax minmax(game.get_player(player_e::p1), 4);
         vector<uint32_t> durations;
         for(int i = 0; i < 50; ++i)
         {
@@ -110,7 +110,7 @@ TEST_CASE("perf", "[!hide]")
     SECTION("depth 5")
     {
         Connect4 game;
-        Minmax minmax(game.get_player(1), 5);
+        Minmax minmax(game.get_player(player_e::p1), 5);
         vector<uint32_t> durations;
         for(int i = 0; i < 10; ++i)
         {
@@ -128,7 +128,7 @@ TEST_CASE("perf", "[!hide]")
     //    SECTION("depth 6")
     //    {
     //        Connect4 game;
-    //        Minmax minmax(game.get_player(1), 6);
+    //        Minmax minmax(game.get_player(player_e::p1), 6);
     //        vector<uint32_t> durations;
     //        for(int i = 0; i < 1; ++i)
     //        {

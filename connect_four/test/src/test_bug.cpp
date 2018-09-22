@@ -25,7 +25,7 @@ TEST_CASE("bug5", "[!hide]")
 
     for(size_t d = 0; d < expected.size(); ++d)
     {
-        Minmax minmax(game.get_player(1), d);
+        Minmax minmax(game.get_player(player_e::p1), d);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == expected[d]);
     }
 }
@@ -55,13 +55,13 @@ TEST_CASE("bug3", "[!hide]")
 
     SECTION("depth0")
     {
-        Minmax minmax(game.get_player(1), 0);
+        Minmax minmax(game.get_player(player_e::p1), 0);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 4);
     }
 
     SECTION("depth1")
     {
-        Minmax minmax(game.get_player(1), 1);
+        Minmax minmax(game.get_player(player_e::p1), 1);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 4);
     }
 }
@@ -78,31 +78,31 @@ TEST_CASE("bug2", "[!hide]")
 
     SECTION("depth1")
     {
-        Minmax minmax(game.get_player(1), 1);
+        Minmax minmax(game.get_player(player_e::p1), 1);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 6);
     }
 
     SECTION("depth2")
     {
-        Minmax minmax(game.get_player(1), 2);
+        Minmax minmax(game.get_player(player_e::p1), 2);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 6);
     }
 
     SECTION("depth3")
     {
-        Minmax minmax(game.get_player(1), 3);
+        Minmax minmax(game.get_player(player_e::p1), 3);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 6);
     }
 
     SECTION("depth4")
     {
-        Minmax minmax(game.get_player(1), 4);
+        Minmax minmax(game.get_player(player_e::p1), 4);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 6);
     }
 
     SECTION("depth5")
     {
-        Minmax minmax(game.get_player(1), 5);
+        Minmax minmax(game.get_player(player_e::p1), 5);
         REQUIRE(minmax.compute(game, Minmax::algo::minmax) == 6);
     }
 }
@@ -138,7 +138,7 @@ TEST_CASE("bug1", "[!hide]")
 
         const int depth = 2;
 
-        Minmax minmax(game.get_player(1), depth);
+        Minmax minmax(game.get_player(player_e::p1), depth);
 
         minmax.compute(game, Minmax::algo::minmax);
     }

@@ -29,7 +29,7 @@ TEST_CASE("min", "[minmax]")
         const array<int16_t, Board::N_COLUMN> expected{WIN_POINT, 0, 0, 0, 0, 0, 0};
 
         Connect4 game;
-        Minmax minmax(game.get_player(1), depth);
+        Minmax minmax(game.get_player(player_e::p1), depth);
 
         for(auto m : moves)
             game.play(m);
@@ -66,7 +66,7 @@ TEST_CASE("min", "[minmax]")
         }};
 
         Connect4 game;
-        Minmax minmax(game.get_player(1), depth);
+        Minmax minmax(game.get_player(player_e::p1), depth);
 
         for(auto m : moves)
             game.play(m);
