@@ -1,7 +1,6 @@
 
 #include "minmax.h"
 #include "evaluate.h"
-//#include "helper_ostream.h"
 
 #include <algorithm>
 #include <future>
@@ -137,7 +136,6 @@ int16_t Minmax::minmax(TicTacToe& game, const int8_t _depth, bool is_max) const
     if(!is_max)    // min
     {
         int16_t min = std::numeric_limits<int16_t>::max();
-
         for(auto m : moves)
         {
             int16_t val = 0;

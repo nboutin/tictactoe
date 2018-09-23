@@ -16,34 +16,33 @@ int main(int argc, char* argv[])
     cin >> level;
 
     Connect4 game;
-    View_ASCII view(game.get_board());
-
     game.set_ai(player_e::p1);
     game.set_name(player_e::p1, "AI_1");
-    Minmax minmax(game.get_player(player_e::p1), level);
 
-    view.set_current_player(game.get_current_player());
-    view.message(game.get_current_player().get_name() + ":");
-    view.display();
+    View_ASCII view(game.get_board());
+
+    Minmax minmax(game.get_player(player_e::p1), level);
 
     while(game.is_finished() == false)
     {
+        // Display
+        view.set_current_player(game.get_current_player());
+        view.message(game.get_current_player().get_name() + ":");
+        view.set_history(game.get_history());
+        view.display();
+
+        // Input
         int y = 0;
         if(game.get_current_player().is_ai())
             y = minmax.compute(game, Minmax::algo::minmax_parallel, chrono::seconds(5));
         else
             cin >> y;
 
-        auto r = game.play(y);
-
-        if(r == false)
+        // Compute
+        if(game.play(y) == false)
             view.message("Input is invalid");
-
-        view.set_current_player(game.get_current_player());
-        view.message(game.get_current_player().get_name() + ":");
-        view.set_history(game.get_history());
-        view.display();
     }
     view.message("Game is finished");
+    view.set_history(game.get_history());
     view.display();
 }
