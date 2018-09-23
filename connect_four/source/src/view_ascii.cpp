@@ -16,7 +16,8 @@ View_ASCII::View_ASCII(const Board& board) : board(board), current_player("", co
 void View_ASCII::display(bool clear)
 {
     if(clear)
-        std::system("clear");
+        if(std::system("clear") == -1)
+            return;
 
     //    const auto& g =
     print_grid(board.get_grid());
