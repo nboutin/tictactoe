@@ -113,7 +113,8 @@ std::optional<color_e> Connect4::is_winner_vertical(const Board::grid_t& g) cons
         {
             for(auto c : {color_e::red, color_e::yellow})
             {
-                const std::vector<Board::cell_t> line(LIGNE, c);
+                std::array<Board::cell_t, LIGNE> line;
+                line.fill(c);
 
                 if(std::equal(g[x].begin() + y, g[x].begin() + y + LIGNE, line.begin(), line.end()))
                     return {c};
@@ -129,14 +130,15 @@ std::optional<color_e> Connect4::is_winner_horizontal(const Board::grid_t& g) co
     {
         for(int x = 0; x <= Board::N_COLUMN - LIGNE; ++x)
         {
-            array<Board::cell_t, LIGNE> test;
+            std::array<Board::cell_t, LIGNE> test;
             for(int xp = 0; xp < LIGNE; ++xp)
             {
                 test[xp] = g[xp + x][y];
 
                 for(const auto c : {color_e::red, color_e::yellow})
                 {
-                    const std::vector<Board::cell_t> line(LIGNE, c);
+                    std::array<Board::cell_t, LIGNE> line;
+                    line.fill(c);
 
                     if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
                         return {c};
@@ -171,7 +173,8 @@ std::optional<color_e> Connect4::is_winner_diagonal1(const Board::grid_t& g) con
 
                 for(const auto c : {color_e::red, color_e::yellow})
                 {
-                    const std::vector<Board::cell_t> line(LIGNE, c);
+                    std::array<Board::cell_t, LIGNE> line;
+                    line.fill(c);
 
                     if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
                         return {c};
@@ -194,7 +197,8 @@ std::optional<color_e> Connect4::is_winner_diagonal2(const Board::grid_t& g) con
                 test[i] = g[x - i][y + i];
                 for(const auto c : {color_e::red, color_e::yellow})
                 {
-                    const std::vector<Board::cell_t> line(LIGNE, c);
+                    std::array<Board::cell_t, LIGNE> line;
+                    line.fill(c);
 
                     if(std::equal(test.begin(), test.end(), line.begin(), line.end()))
                         return {c};
