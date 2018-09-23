@@ -25,7 +25,6 @@ private:
 
     int16_t minmax_copy(connect4::Connect4 game, int8_t depth, bool is_max) const;
     int16_t minmax(connect4::Connect4& game, int8_t depth, bool is_max) const;
-    //    int16_t max(connect4::Connect4& game, int8_t depth) const;
 
     int16_t alphabeta(connect4::Connect4& game,
                       int8_t _depth,

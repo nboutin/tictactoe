@@ -7,7 +7,7 @@ Connect4::Connect4()
     : p1("Player 1", color_e::red), p2("Player 2", color_e::yellow), current_player(&p1)
 {}
 
-bool Connect4::play(const move x)
+bool Connect4::play(const move_t x)
 {
     if(finished)
     {
@@ -105,7 +105,7 @@ void Connect4::set_name(const player_e p, const std::string& name)
     }
 }
 
-std::optional<color_e> Connect4::is_winner_vertical(const Board::grid_t& g) const
+Board::cell_t Connect4::is_winner_vertical(const Board::grid_t& g) const
 {
     for(int y = Board::N_ROW - LIGNE; y >= 0; --y)
     {
@@ -124,7 +124,7 @@ std::optional<color_e> Connect4::is_winner_vertical(const Board::grid_t& g) cons
     return {};
 }
 
-std::optional<color_e> Connect4::is_winner_horizontal(const Board::grid_t& g) const
+Board::cell_t Connect4::is_winner_horizontal(const Board::grid_t& g) const
 {
     for(int y = Board::N_ROW - 1; y >= 0; --y)
     {
@@ -149,7 +149,7 @@ std::optional<color_e> Connect4::is_winner_horizontal(const Board::grid_t& g) co
     return {};
 }
 
-std::optional<color_e> Connect4::is_winner_diagonal(const Board::grid_t& g) const
+Board::cell_t Connect4::is_winner_diagonal(const Board::grid_t& g) const
 {
     auto win = is_winner_diagonal1(g);
 
@@ -159,7 +159,7 @@ std::optional<color_e> Connect4::is_winner_diagonal(const Board::grid_t& g) cons
     return is_winner_diagonal2(g);
 }
 
-std::optional<color_e> Connect4::is_winner_diagonal1(const Board::grid_t& g) const
+Board::cell_t Connect4::is_winner_diagonal1(const Board::grid_t& g) const
 {
     // Diag '\'
     for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
@@ -185,7 +185,7 @@ std::optional<color_e> Connect4::is_winner_diagonal1(const Board::grid_t& g) con
     return {};
 }
 
-std::optional<color_e> Connect4::is_winner_diagonal2(const Board::grid_t& g) const
+Board::cell_t Connect4::is_winner_diagonal2(const Board::grid_t& g) const
 {
     for(int y = 0; y <= Board::N_ROW - LIGNE; ++y)
     {

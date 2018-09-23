@@ -132,7 +132,7 @@ int16_t Minmax::minmax_copy(TicTacToe game, int8_t depth, bool is_max) const
 int16_t Minmax::minmax(TicTacToe& game, const int8_t _depth, bool is_max) const
 {
     if(is_leaf(game, _depth))
-        return evaluate(game, player.get_token()) - _depth;
+        return evaluate(game, player.get_token());
 
     if(!is_max)    // min
     {

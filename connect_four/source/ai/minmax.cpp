@@ -140,7 +140,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int8_t _depth, bool is_ma
             int16_t val = 0;
             if(game.play(m))
             {
-                val = minmax(game, _depth - 1, true);
+                val = minmax(game, _depth - 1, true) - _depth;
                 if(val < min)
                     min = val;
             }
@@ -157,7 +157,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int8_t _depth, bool is_ma
             int16_t val = 0;
             if(game.play(m))
             {
-                val = minmax(game, _depth - 1, true);
+                val = minmax(game, _depth - 1, true) + _depth;
                 if(val > max)
                     max = val;
             }
@@ -283,4 +283,5 @@ int16_t Minmax::negamax(connect4::Connect4& game,
         game.undo();
     }
     return best;
-    }
+}
+
