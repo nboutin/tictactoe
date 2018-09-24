@@ -111,7 +111,7 @@ Board::cell_t Connect4::is_winner_vertical(const Board::grid_t& g) const
     {
         for(int x = 0; x < Board::N_COLUMN; ++x)
         {
-            for(auto c : {color_e::red, color_e::yellow})
+            for(const auto c : {color_e::red, color_e::yellow})
             {
                 std::array<Board::cell_t, LIGNE> line;
                 line.fill(c);

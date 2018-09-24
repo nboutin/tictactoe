@@ -27,7 +27,7 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
     {
     case algo::minmax:
     {
-        for(int m = 0; m < Board::N_COLUMN; ++m)
+        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
             {
@@ -47,7 +47,7 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
         using f_min = std::pair<Connect4::move_t, std::future<int16_t>>;
         std::vector<f_min> vf_mins;
 
-        for(int m = 0; m < Board::N_COLUMN; ++m)
+        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
             {
@@ -67,6 +67,43 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
                 max       = val;
                 best_move = mr.first;
             }
+        }
+        return best_move;
+    }
+    case algo::negamax:
+    {
+        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                auto val = -negamax(game, depth, false);
+                if(val > max)
+                {
+                    max       = val;
+                    best_move = m;
+                }
+            }
+            game.undo();
+        }
+        return best_move;
+    }
+    case algo::negascout:
+    {
+        auto beta  = std::numeric_limits<int16_t>::max();
+        auto alpha = std::numeric_limits<int16_t>::min();
+
+        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        {
+            if(game.play(m))
+            {
+                auto val = negascout(game, alpha, beta, depth);
+                if(val > max)
+                {
+                    max       = val;
+                    best_move = m;
+                }
+            }
+            game.undo();
         }
         return best_move;
     }
@@ -90,28 +127,7 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
         }
         return best_move;
     }
-    case algo::negamax:
-    {
-        auto beta  = std::numeric_limits<int16_t>::max();
-        auto alpha = std::numeric_limits<int16_t>::min();
-
-        for(int m = 0; m < Board::N_COLUMN; ++m)
-        {
-            if(game.play(m))
-            {
-                auto val = negamax(game, alpha, beta, depth);
-                if(val > max)
-                {
-                    max       = val;
-                    best_move = m;
-                }
-            }
-            game.undo();
-        }
-        return best_move;
     }
-    }
-
     return best_move;
 }
 
@@ -134,7 +150,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_m
     if(!is_max)    // min
     {
         int16_t min = std::numeric_limits<int16_t>::max();
-        for(int m = 0; m < Board::N_COLUMN; ++m)
+        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
                 min = std::min(min, static_cast<int16_t>(minmax(game, _depth - 1, true) - _depth));
@@ -145,7 +161,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_m
     else
     {
         int16_t max = std::numeric_limits<int16_t>::min();
-        for(int m = 0; m < Board::N_COLUMN; ++m)
+        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
                 max = std::max(max, static_cast<int16_t>(minmax(game, _depth - 1, false) + _depth));
@@ -225,51 +241,39 @@ int16_t Minmax::alphabeta(connect4::Connect4& game,
     }
 }
 
-// fonction alphabeta(nœud, A, B) /* A < B */
-//   si nœud est une feuille alors
-//       retourner la valeur de nœud
-//   sinon
-//       meilleur = –∞
-//       pour tout fils de nœud faire
-//           v = -alphabeta(fils,-B,-A)
-//           si v > meilleur alors
-//               meilleur = v
-//               si meilleur > A alors
-//                   A = meilleur
-//                   si A ≥ B alors
-//                       retourner meilleur
-//       retourner meilleur
-int16_t Minmax::negamax(connect4::Connect4& game,
-                        int16_t alpha,
-                        const int16_t beta,
-                        const int16_t _depth) const
+// function negamax(node, α, β, player)
+//    if node is a terminal node
+//        return color * the heuristic value of node
+//    else
+//		foreach child of node
+//            val := -negamax(child, -β, -α, -player)
+//            if val ≥ β
+//                return val
+//            if val > α
+//                α := val
+//		return α
+int16_t Minmax::negascout(connect4::Connect4& game,
+                          int16_t alpha,
+                          const int16_t beta,
+                          const depth_t _depth) const
 {
-    if(_depth == 0 || game.is_finished())
+    auto local_alpha = alpha;
+
+    if(is_leaf(game, _depth))
         return evaluate(game, player.get_color());
 
-    int16_t best = std::numeric_limits<int16_t>::min();
-
-    for(int m = 0; m < Board::N_COLUMN; ++m)
+    for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
     {
         if(game.play(m))
         {
-            int16_t val = -negamax(game, -beta, -alpha, _depth - 1);
-            if(val > best)
-            {
-                best = val;
-                if(best > alpha)
-                {
-                    alpha = best;
-                    if(alpha >= beta)
-                    {
-                        game.undo();
-                        return best;
-                    }
-                }
-            }
+            auto val = -negascout(game, -beta, -local_alpha, _depth - 1);
+            if(val >= beta)
+                return val;
+            if(val > local_alpha)
+                local_alpha = val;
         }
         game.undo();
     }
-    return best;
+    return alpha;
 }
 

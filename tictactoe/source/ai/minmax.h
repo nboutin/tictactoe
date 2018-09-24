@@ -33,6 +33,7 @@ private:
 
     int16_t negamax(tictactoe::TicTacToe& game, int16_t alpha, int16_t beta, int16_t depth) const;
 #endif
+
     uint8_t depth;
     mutable std::chrono::time_point<std::chrono::high_resolution_clock> start;
     mutable std::chrono::seconds duration_min;

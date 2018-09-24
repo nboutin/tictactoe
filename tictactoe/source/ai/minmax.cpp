@@ -253,6 +253,7 @@ int16_t Minmax::alphabeta(TicTacToe& game,
 //                   si A ≥ B alors
 //                       retourner meilleur
 //       retourner meilleur
+
 int16_t
 Minmax::negamax(TicTacToe& game, int16_t alpha, const int16_t beta, const int16_t _depth) const
 {

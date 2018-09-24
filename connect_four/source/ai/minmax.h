@@ -12,7 +12,7 @@ class Minmax
 {
 public:
     static constexpr auto DURATION_MIN = std::chrono::seconds(0);
-    enum class algo { minmax, minmax_parallel, alphabeta, negamax };
+    enum class algo { minmax, minmax_parallel, alphabeta, negamax, negascout };
 
     using depth_t = int16_t;
 
@@ -28,13 +28,15 @@ private:
     int16_t minmax_copy(connect4::Connect4 game, depth_t depth, bool is_max) const;
     int16_t minmax(connect4::Connect4& game, depth_t depth, bool is_max) const;
 
+    int16_t negamax(connect4::Connect4& game, depth_t depth, bool is_max) const;
+
     int16_t alphabeta(connect4::Connect4& game,
                       depth_t _depth,
                       int16_t alpha,
                       int16_t beta,
                       bool is_max) const;
 
-    int16_t negamax(connect4::Connect4& game, int16_t alpha, int16_t beta, depth_t depth) const;
+    int16_t negascout(connect4::Connect4& game, int16_t alpha, int16_t beta, depth_t depth) const;
 
     depth_t depth;
     mutable std::chrono::time_point<std::chrono::high_resolution_clock> start;
