@@ -5,7 +5,7 @@ using namespace nim;
 
 bool Board::play(const move_t m)
 {
-    if(m < MOVE_MIN || m > MOVE_MAX || (tokens - m) < TOKEN_MIN)
+    if((m < MOVE_MIN) || (m > MOVE_MAX) || (tokens - m) < TOKEN_MIN)
         return false;
 
     tokens -= m;

@@ -7,7 +7,7 @@ namespace nim
 class Board
 {
 public:
-    using move_t = uint8_t;
+    using move_t = uint16_t;
     using grid_t = int8_t;
 
     static constexpr grid_t TOKEN_COUNT = 15;
