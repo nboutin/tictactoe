@@ -1,6 +1,7 @@
 
 #include "view_ascii.h"
 
+#include <iomanip>
 #include <iostream>
 
 using namespace nim;
@@ -14,8 +15,8 @@ void View_ASCII::display(bool clear)
         if(std::system("clear") == -1)
             return;
 
-    for(auto i = 0; i < Board::TOKEN_COUNT; ++i)
-        cout << std::to_string(i);
+    for(auto i = 1; i < Board::TOKEN_COUNT + 1; ++i)
+        cout << setw(3) << std::to_string(i);
     cout << '\n';
 
     print_grid(grid);
@@ -47,6 +48,6 @@ void View_ASCII::print_history() const
 void View_ASCII::print_grid(const Board::grid_t& g) const
 {
     for(auto i = 0; i < g; ++i)
-        cout << "|";
+        cout << " | ";
     cout << '\n';
 }
