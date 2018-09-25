@@ -4,8 +4,8 @@
 #include "board.h"
 #include "player.h"
 
-#include <vector>
 #include <optional>
+#include <vector>
 
 namespace nim
 {
@@ -33,10 +33,10 @@ public:
     moves_t get_history() const { return moves; }
 
 private:
-    void compute_next_player();
+    void next_player();
     bool compute_ending();
 
-//    Board::cell_t is_winner_vertical(const Board::grid_t& b) const;
+    //    Board::cell_t is_winner_vertical(const Board::grid_t& b) const;
 
     Player p1;
     Player p2;

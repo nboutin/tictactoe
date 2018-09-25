@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
         view.display();
 
         // Input
-        Board::move_t m = 0;
+        int m = 0;
         //        if(game.get_current_player().is_ai())
         //            y = minmax.compute(game, Minmax::algo::minmax_parallel, chrono::seconds(5));
         //        else
@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
             view.message("Input is invalid");
     }
     view.message("Game is finished");
+    view.message("Winner is " + game.get_winner_player()->get_name());
     view.set_history(game.get_history());
     view.display();
 }

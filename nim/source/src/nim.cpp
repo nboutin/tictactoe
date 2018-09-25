@@ -22,7 +22,7 @@ bool Nim::play(const Board::move_t m)
 
     moves.push_back({m});
     compute_ending();
-    compute_next_player();
+    next_player();
 
     return true;
 }
@@ -35,7 +35,7 @@ void Nim::undo()
     if(last_move)
     {
         board.unplay(last_move.value());
-        compute_next_player();
+        next_player();
     }
     finished = false;
 }
@@ -44,10 +44,15 @@ bool Nim::compute_ending()
 {
     // The player who takes the last token loose
     finished = (board.get_tokens() == Board::TOKEN_MIN);
+    if(finished)
+    {
+        next_player();
+        winner_player = current_player;
+    }
     return finished;
 }
 
-void Nim::compute_next_player()
+void Nim::next_player()
 {
     if(*current_player == p1)
         current_player = &p2;

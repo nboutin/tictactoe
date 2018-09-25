@@ -11,9 +11,8 @@ View_ASCII::View_ASCII(const Board::grid_t& g) : grid(g), current_player("") {}
 
 void View_ASCII::display(bool clear)
 {
-    if(clear)
-        if(std::system("clear") == -1)
-            return;
+    if(clear && std::system("clear") == -1)
+        return;
 
     for(auto i = 1; i < Board::TOKEN_COUNT + 1; ++i)
         cout << setw(3) << std::to_string(i);
