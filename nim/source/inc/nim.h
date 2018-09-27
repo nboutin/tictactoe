@@ -36,8 +36,6 @@ private:
     void next_player();
     bool compute_ending();
 
-    //    Board::cell_t is_winner_vertical(const Board::grid_t& b) const;
-
     Player p1;
     Player p2;
     Player* current_player = nullptr;

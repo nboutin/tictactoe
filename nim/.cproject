@@ -54,7 +54,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="source" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="ai" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="source"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="source"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -103,7 +103,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="source" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="ai" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="source"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="source"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

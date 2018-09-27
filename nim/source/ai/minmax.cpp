@@ -1,7 +1,6 @@
 
 #include "minmax.h"
 #include "evaluate.h"
-#include "helper_ostream.h"
 
 #include <algorithm>
 #include <future>
@@ -10,24 +9,23 @@
 #include <utility>
 
 using namespace ai;
-using namespace connect4;
+using namespace nim;
 using namespace std;
 
-Minmax::Minmax(const connect4::Player& p, const depth_t depth) : depth(depth), player(p) {}
+Minmax::Minmax(const Player& p, const depth_t depth) : depth(depth), player(p) {}
 
-Connect4::move_t
-Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _duration_min) const
+Board::move_t Minmax::compute(Nim game, algo algo, const std::chrono::seconds _duration_min) const
 {
-    Connect4::move_t best_move = 0;
-    auto max                   = std::numeric_limits<int16_t>::min();
-    start                      = chrono::high_resolution_clock::now();
-    duration_min               = _duration_min;
+    Board::move_t best_move = 0;
+    auto max                = std::numeric_limits<int16_t>::min();
+    start                   = chrono::high_resolution_clock::now();
+    duration_min            = _duration_min;
 
     switch(algo)
     {
     case algo::minmax:
     {
-        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
             {
@@ -44,10 +42,10 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
     }
     case algo::minmax_parallel:
     {
-        using f_min = std::pair<Connect4::move_t, std::future<int16_t>>;
+        using f_min = std::pair<Board::move_t, std::future<int16_t>>;
         std::vector<f_min> vf_mins;
 
-        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
             {
@@ -72,7 +70,7 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
     }
     case algo::negamax:
     {
-        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
             {
@@ -92,7 +90,7 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
         auto beta  = std::numeric_limits<int16_t>::max();
         auto alpha = std::numeric_limits<int16_t>::min();
 
-        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
             {
@@ -131,18 +129,18 @@ Minmax::compute(connect4::Connect4 game, algo algo, const std::chrono::seconds _
     return best_move;
 }
 
-bool Minmax::is_leaf(const connect4::Connect4& game, depth_t _depth) const
+bool Minmax::is_leaf(const Nim& game, depth_t _depth) const
 {
     auto d = chrono::duration_cast<chrono::seconds>(chrono::high_resolution_clock::now() - start);
     return (game.is_finished() || (_depth <= 0 && d >= duration_min));
 }
 
-int16_t Minmax::minmax_copy(connect4::Connect4 game, depth_t _depth, bool is_max) const
+int16_t Minmax::minmax_copy(Nim game, depth_t _depth, bool is_max) const
 {
     return minmax(game, _depth, is_max);
 }
 
-int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_max) const
+int16_t Minmax::minmax(Nim& game, const int16_t _depth, bool is_max) const
 {
     if(is_leaf(game, _depth))
         return evaluate(game, player.get_color());
@@ -150,7 +148,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_m
     if(!is_max)    // min
     {
         int16_t min = std::numeric_limits<int16_t>::max();
-        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
                 min = std::min(min, static_cast<int16_t>(minmax(game, _depth - 1, true) - _depth));
@@ -161,7 +159,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_m
     else
     {
         int16_t max = std::numeric_limits<int16_t>::min();
-        for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+        for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
         {
             if(game.play(m))
                 max = std::max(max, static_cast<int16_t>(minmax(game, _depth - 1, false) + _depth));
@@ -170,7 +168,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_m
         return max;
     }
 }
-
+#if 0
 // function alphabeta(node, depth, α, β, maximizingPlayer) is
 //    if depth = 0 or node is a terminal node then
 //        return the heuristic value of node
@@ -193,7 +191,7 @@ int16_t Minmax::minmax(connect4::Connect4& game, const int16_t _depth, bool is_m
 //
 //(* Initial call *)
 // alphabeta(origin, depth, −∞, +∞, TRUE)
-int16_t Minmax::alphabeta(connect4::Connect4& game,
+int16_t Minmax::alphabeta(Nim& game,
                           const depth_t _depth,
                           const int16_t _alpha,
                           const int16_t _beta,
@@ -252,17 +250,14 @@ int16_t Minmax::alphabeta(connect4::Connect4& game,
 //            if val > α
 //                α := val
 //		return α
-int16_t Minmax::negascout(connect4::Connect4& game,
-                          int16_t alpha,
-                          const int16_t beta,
-                          const depth_t _depth) const
+int16_t Minmax::negascout(Nim& game, int16_t alpha, const int16_t beta, const depth_t _depth) const
 {
     auto local_alpha = alpha;
 
     if(is_leaf(game, _depth))
         return evaluate(game, player.get_color());
 
-    for(Connect4::move_t m = 0; m < Board::N_COLUMN; ++m)
+    for(Board::move_t m = 0; m < Board::N_COLUMN; ++m)
     {
         if(game.play(m))
         {
@@ -276,4 +271,4 @@ int16_t Minmax::negascout(connect4::Connect4& game,
     }
     return alpha;
 }
-
+#endif
