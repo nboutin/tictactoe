@@ -1,2 +1,2 @@
-# p4
-Connect Four game in C++
+# TicTacToe
+TicTacToe game in C++
